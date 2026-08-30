@@ -6606,6 +6606,11 @@ runtime-litert = [
 runtime-mnn = [
     { name = "mnn" },
 ]
+runtime-onnx = [
+    { name = "onnxruntime", version = "1.20.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
+    { name = "onnxruntime", version = "1.24.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
+    { name = "onnxruntime", version = "1.29.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+]
 runtime-openvino = [
     { name = "openvino", version = "2025.3.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "openvino", version = "2026.3.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
@@ -6624,6 +6629,7 @@ requires-dist = [
     { name = "ncnn", marker = "extra == 'edge'", specifier = "==1.0.20260526" },
     { name = "onnx", marker = "extra == 'export'", specifier = ">=1.12,<2" },
     { name = "onnxruntime", marker = "extra == 'export'", specifier = ">=1.20" },
+    { name = "onnxruntime", marker = "extra == 'runtime-onnx'", specifier = ">=1.20" },
     { name = "onnxslim", marker = "extra == 'export'", specifier = ">=0.1.82" },
     { name = "openvino", marker = "extra == 'runtime-openvino'", specifier = ">=2024.0.0" },
     { name = "pillow", marker = "extra == 'audit'", specifier = ">=10.0" },
@@ -6633,7 +6639,7 @@ requires-dist = [
     { name = "ultralytics", marker = "extra == 'pi'", specifier = ">=8.4.0" },
     { name = "ultralytics", marker = "extra == 'vision'", specifier = ">=8.4.0" },
 ]
-provides-extras = ["vision", "edge", "export", "dev", "notebook", "audit", "pi", "runtime-openvino", "runtime-mnn", "runtime-litert"]
+provides-extras = ["vision", "edge", "export", "dev", "notebook", "audit", "pi", "runtime-openvino", "runtime-onnx", "runtime-mnn", "runtime-litert"]
 
 [[package]]
 name = "zipp"

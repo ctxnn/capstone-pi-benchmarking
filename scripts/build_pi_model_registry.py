@@ -25,6 +25,55 @@ def relative(path: Path, root: Path) -> str:
         return str(path.resolve())
 
 
+def artifact_files(path: Path) -> list[Path]:
+    return [path] if path.is_file() else sorted(
+        item
+        for item in path.rglob("*")
+        if item.is_file()
+        and "__pycache__" not in item.parts
+        and item.suffix != ".pyc"
+        and item.name != ".DS_Store"
+    )
+
+
+def tree_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    root = path if path.is_dir() else path.parent
+    for item in artifact_files(path):
+        digest.update(item.relative_to(root).as_posix().encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(sha256(item).encode("ascii"))
+        digest.update(b"\n")
+    return digest.hexdigest()
+
+
+def resolve_export_path(entry: Dict[str, Any], artifact_root: Path) -> Path:
+    """Resolve a manifest artifact after transfer from a different host root."""
+
+    recorded = Path(str(entry["path"]))
+    candidates = [recorded]
+    if not recorded.is_absolute():
+        candidates.append(artifact_root / recorded)
+    candidates.append(artifact_root / recorded.name)
+    seen = set()
+    for candidate in candidates:
+        resolved = candidate.resolve()
+        if resolved in seen:
+            continue
+        seen.add(resolved)
+        if resolved.exists():
+            expected = entry.get("tree_sha256")
+            actual = tree_sha256(resolved)
+            if expected and actual != expected:
+                raise ValueError(
+                    f"transferred export tree checksum mismatch: {resolved}"
+                )
+            return resolved
+    raise FileNotFoundError(
+        f"export artifact is missing locally; recorded path was {recorded}"
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--training-summary", type=Path, required=True)
@@ -74,7 +123,7 @@ def main() -> None:
         entry = exports["exports"][format_name]
         if entry["status"] != "complete":
             raise ValueError(f"required export is incomplete: {format_name}")
-        path = Path(entry["path"])
+        path = resolve_export_path(entry, artifact_root)
         return {
             "path": relative(path, root),
             "tree_sha256": entry["tree_sha256"],

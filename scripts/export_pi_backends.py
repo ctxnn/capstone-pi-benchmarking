@@ -178,6 +178,57 @@ def main() -> int:
         (args.output / "export-manifest.json").write_text(
             json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
+
+    # Some converters reuse and overwrite an earlier intermediate such as
+    # best.onnx. Reconcile any changed artifact only after every conversion has
+    # finished, then bind smoke evidence to the bytes that will be transferred.
+    for export_format, entry in manifest["exports"].items():
+        exported_path = Path(entry.get("path", ""))
+        if not exported_path.exists():
+            continue
+        current_tree = tree_sha256(exported_path)
+        if current_tree == entry.get("tree_sha256"):
+            continue
+        files = artifact_files(exported_path)
+        entry["tree_sha256"] = current_tree
+        entry["files"] = [
+            {
+                "path": str(item),
+                "bytes": item.stat().st_size,
+                "sha256": sha256(item),
+            }
+            for item in files
+        ]
+        try:
+            smoke = UltralyticsDetector(
+                exported_path,
+                imgsz=args.imgsz,
+                confidence=0.25,
+                device="cpu",
+                runtime_threads=4,
+                runtime_precision="FP32",
+            ).detect(str(args.sample), frame_id=0, source="final-export-functional-smoke")
+            entry["status"] = "complete"
+            entry["smoke"] = {
+                "status": "complete",
+                "sample": str(args.sample),
+                "detections": len(smoke.detections),
+                "backend": smoke.backend,
+                "runtime_threads": 4,
+                "runtime_precision": "FP32",
+                "speed_ms": smoke.stage_ms,
+            }
+        except Exception as exc:
+            failures.append(export_format)
+            entry["status"] = "smoke_failed"
+            entry["smoke"] = {
+                "status": "failed",
+                "error_type": type(exc).__name__,
+                "error": str(exc),
+            }
+    (args.output / "export-manifest.json").write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     print(json.dumps(manifest, indent=2, sort_keys=True))
     return 1 if failures else 0
 

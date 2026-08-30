@@ -1,5 +1,9 @@
 # Reproducible Raspberry Pi benchmark runner
 
+For first-time Pi provisioning and the exact terminal-only execution sequence,
+start with `docs/pi-terminal-setup-and-run.md`. This file remains the metric and
+runner design reference.
+
 The runner saves raw observations first and derives both requested tables from
 those saved files. It refuses to label a run as Raspberry Pi evidence unless
 `/proc/device-tree/model` identifies Raspberry Pi hardware. The escape hatch

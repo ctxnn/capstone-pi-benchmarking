@@ -85,3 +85,16 @@ def test_validate_import_rejects_changed_model(tmp_path):
     (imported / "best.pt").write_bytes(b"changed")
     with pytest.raises(ValueError, match="best.pt checksum changed"):
         finalizer.validate_import(archive, imported)
+
+
+def test_history_checkpoint_paths_include_every_vm_boundary(tmp_path):
+    imported = tmp_path / "lightning-final"
+
+    paths = finalizer.history_checkpoint_paths(tmp_path, imported)
+
+    assert [path.name for path in paths] == [
+        "cane-v1-best-epoch6.pt",
+        "last-epoch-015-cfeb7c9a252b.pt",
+        "last-epoch-022-0da75726f7a0.pt",
+        "latest-resumable.pt",
+    ]

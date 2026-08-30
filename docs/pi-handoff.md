@@ -1,5 +1,10 @@
 # Raspberry Pi 5 benchmark handoff
 
+Use `docs/pi-terminal-setup-and-run.md` for the exact Raspberry Pi Connect
+Remote Shell installation,
+camera, execution, recovery, and result-return commands. This file defines the
+physical evidence and safety boundary.
+
 This is the boundary between verified laptop preparation and physical-device
 evidence. Do not populate paper performance tables until these steps run on the
 actual Raspberry Pi 5 2 GB.

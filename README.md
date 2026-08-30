@@ -70,24 +70,27 @@ See `changes.md` for the evidence log, `docs/pi-handoff.md` for the physical
 handoff, and `docs/pi-benchmarking.md` for the resumable runner and the exact
 saved architecture/runtime table outputs.
 
+For the actual Raspberry Pi session, use
+`docs/pi-terminal-setup-and-run.md`. It is the standalone terminal-only runbook
+for Raspberry Pi Connect Remote Shell, LAN rsync transfer, Raspberry Pi OS
+packages, uv/Picamera2 setup, checksum and
+OpenVINO gates, production registry creation, `tmux`, fixed-image runs, IMX219
+camera runs, power input, resume/retry, result inspection, evidence return, and
+common mistakes.
+
 `docs/completion-readiness.md` is the requirement-by-requirement audit. It
-separates completed software, pending Lightning artifacts, and measurements that
+separates completed model/software evidence from measurements that
 must come from the physical Pi/IMX219 rather than a laptop or cloud GPU.
 
 Team members should start with `docs/data-preprocessing.md` for the singular,
 current explanation of raw sources, class mappings, split/decontamination rules,
 resize policy, final counts, limitations, and reproduction commands.
 
-The active GPU handoff is `docs/lightning-ai-training.md`. Upload only the
-prepared `lightning-ai-upload/` folder; its runner resumes the protected
-epoch-22 checkpoint, saves a validated recovery snapshot after every new epoch,
-atomically refreshes a download-ready latest-recovery ZIP, and creates one final
-download ZIP. If the ignored large files need to be
-reconstructed after a fresh clone, first restore the exact source archive and
-checkpoint at the documented local artifact paths, then run
-`.venv/bin/python scripts/prepare_lightning_handoff.py`; use `--check` to verify
-an existing folder without changing it. `docs/colab-workflow.md` remains the
-audit record for the earlier Colab epochs, checkpoint guard, and recovery process.
-After the ZIP is returned, `scripts/finalize_lightning_return.py` runs the
-resumable import, history, export, held-out comparison, and production-registry
-pipeline without requiring teammates to select model files manually.
+The completed GPU handoff and recovery design remain documented in
+`docs/lightning-ai-training.md`. The returned epoch-30 package has been accepted;
+`artifacts/training/lightning-final/best.pt` is the deployment selection and
+`latest-resumable.pt` is the optimizer-bearing recovery model.
+`scripts/finalize_lightning_return.py` has completed import, contiguous history,
+five exports, and the complete held-out comparison. Its only pending state is a
+Linux/ARM OpenVINO functional smoke, which the terminal Pi runbook performs
+before it generates `configs/pi-model-registry.json` and starts formal timing.

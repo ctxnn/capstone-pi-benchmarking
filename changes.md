@@ -1254,3 +1254,101 @@ repository and a reproducible experiment record.
 Complete the Lightning return, final exports, production registry, and physical
 handoff audit. Then review the exact first-commit file set and push only with
 explicit user authorization.
+
+## 2026-08-30 — Final model acceptance and terminal-only Pi runbook
+
+### What changed
+
+- Accepted `cane-v1-lightning-deliverable.zip` through the safe local importer.
+  The archive SHA-256 is
+  `41554034f10711607377b64141500e0827416dc3040da85064708d0979e1e826`.
+  It contains epoch-30 `best.pt`, stripped `last.pt`, an optimizer-bearing
+  `latest-resumable.pt`, training history, arguments, metrics, and atomic
+  recovery evidence with the exact 15-class taxonomy.
+- Reconciled `/Users/chiragtaneja/Downloads/last-epoch-030.pt` instead of treating
+  it as a separate final selection. Its SHA-256 exactly matches the imported
+  recovery checkpoint
+  `e9f3548158be346d7e037416ef7b8f3160efea6d3bba13f170c1498d7c6b0b2c`.
+  Deployment uses the distinct validation-selected `best.pt`, SHA-256
+  `85168a2bc2f8a87c6b4361f16e3e7ec7394312341ee99a766f368be6e28e0dca`.
+- Fixed the resumable finalizer's history boundary list. It had omitted the
+  protected epoch-22 checkpoint, which made epochs 16 through 22 appear
+  missing. The pipeline now requires all four immutable boundaries: epochs 6,
+  15, 22, and 30. A regression test locks that contract.
+- Consolidated and hash-bound a contiguous 30-epoch trajectory. Exported final
+  FP32 artifacts for ONNX, OpenVINO, MNN, NCNN, and LiteRT at 640.
+  ONNX/MNN/NCNN/LiteRT passed functional smoke. OpenVINO conversion and tree
+  hashes passed, but its macOS runtime smoke failed, so the pipeline correctly
+  remains `awaiting_linux_export_smoke` instead of fabricating completion.
+- Fixed export finalization so converters that reuse and overwrite an earlier
+  intermediate such as `best.onnx` cannot leave stale checksum evidence. After
+  every conversion finishes, changed artifacts are re-hashed and functionally
+  smoked again against the exact final bytes that will be transferred to the
+  Pi. The regenerated manifest now matches every on-disk export.
+- Evaluated pretrained YOLO26n and the final Cane V1 model on all 1,515 held-out
+  test images at 640. The fine-tuned model improved normalized mAP50 from
+  0.24132 to 0.52724, mAP50-95 from 0.17491 to 0.36322, and recall from 0.23324
+  to 0.50999 under the shared comparison protocol.
+- Added the `runtime-onnx` optional dependency and refreshed `uv.lock`, so the
+  Pi can install ONNX Runtime without pulling export-only tools such as PNNX.
+- Made `build_pi_model_registry.py` portable across host roots. Export manifests
+  retain the conversion host's absolute paths for audit, but the Pi registry
+  builder now rebases a missing recorded path by artifact name under the
+  transferred export directory and recomputes its deterministic tree hash
+  before accepting it. Tests cover successful rebasing and checksum rejection.
+- Added `docs/pi-terminal-setup-and-run.md` as a standalone remote-shell
+  runbook. It covers terminal-only SSH/rsync transfer, Raspberry Pi identity,
+  OS packages, uv with system Picamera2 visibility, all runtime imports,
+  30-image checksum validation, headless IMX219 checks, Pi-side OpenVINO smoke,
+  production registry generation, thermal/throttling controls, `tmux`, formal
+  image and camera matrices, power JSONL, resume/retry, table inspection,
+  evidence return, and a detailed common-mistakes table.
+- Kept the physical-Pi path lean: the transfer no longer includes the test
+  suite, the Pi environment no longer installs development-only dependencies,
+  and the runbook does not run repository tests before benchmarking. It keeps
+  only the artifact, camera, mount, OpenVINO, registry, and hardware checks that
+  protect the measurement itself.
+- Updated the singular preprocessing document with the final Lightning
+  environment, accepted model/recovery hashes, native 416 metrics, and the full
+  640 comparison. It explicitly separates preprocessing, quality evidence, and
+  future physical Pi timing.
+
+### Engineering rationale
+
+The recovery checkpoint and deployment model have different purposes. The
+optimizer-bearing epoch-30 file is the right artifact for future training
+recovery, while `best.pt` is the validated deployment/quality selection. Hash
+reconciliation prevents a Downloads copy from silently changing that decision.
+
+OpenVINO must execute on Linux/ARM before it can be marked usable in R3. The Pi
+runbook therefore performs a checksum-bound smoke on the actual Pi, merges that
+evidence through `merge_export_smoke.py`, and only then permits production
+registry generation. This makes the final setup step both a dependency check
+and the missing cross-platform proof.
+
+The Pi instructions avoid GUI assumptions because the device will be operated
+over a remote shell. `tmux`, immediate per-row JSON writes, saved run-directory
+pointers, and resumable row selection protect evidence across SSH disconnects
+without restarting completed measurements.
+
+### Verification evidence
+
+- Local import accepted epoch 30, exact taxonomy, complete val/test metrics,
+  and optimizer state in `latest-resumable.pt`.
+- Consolidated history begins at epoch 1, ends at epoch 30, contains 30 rows,
+  and has SHA-256
+  `86f7a66d50bb5def0fa989bf40ae2ec023a2dbf426d1a31a568f461507877b59`.
+- The held-out comparison records `fraction=1.0`, `imgsz=640`, and exactly 1,515
+  evaluated images, bound to both checkpoint hashes.
+- Export manifest records complete smoke for ONNX, MNN high precision, NCNN,
+  and LiteRT against their final on-disk bytes, and an honest `smoke_failed`
+  state for OpenVINO on macOS. All five current tree hashes match the manifest.
+- The full automated suite passes 75/75; the executed notebook remains valid
+  with seven code cells and zero error outputs.
+
+### Next gate
+
+Follow `docs/pi-terminal-setup-and-run.md` over SSH. Run the checksum-bound
+OpenVINO smoke and registry build first, then collect the fixed-image matrix and
+the separate IMX219 camera matrix. Return the complete timestamped directories,
+updated export manifest, Pi smoke evidence, and production registry.

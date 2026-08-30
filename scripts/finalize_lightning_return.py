@@ -176,6 +176,19 @@ def all_complete(values: Iterable[str]) -> bool:
     return all(value == "complete" for value in values)
 
 
+def history_checkpoint_paths(root: Path, imported: Path) -> list[Path]:
+    """Return every immutable VM boundary needed for epochs 1 through 30."""
+
+    return [
+        root / "artifacts/training/checkpoints/cane-v1-best-epoch6.pt",
+        root
+        / "artifacts/training/checkpoint-guard/checkpoints/snapshots/last-epoch-015-cfeb7c9a252b.pt",
+        root
+        / "artifacts/training/checkpoint-guard/checkpoints/snapshots/last-epoch-022-0da75726f7a0.pt",
+        imported / "latest-resumable.pt",
+    ]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -250,24 +263,22 @@ def main() -> int:
     history_manifest = imported.parent / "cane-v1-training-history.json"
     if not history_manifest.is_file():
         update_stage(state_path, state, "history", status="running")
-        result = run_logged(
+        history_command = [
+            sys.executable,
+            str(root / "scripts" / "consolidate_training_history.py"),
+        ]
+        for checkpoint in history_checkpoint_paths(root, imported):
+            history_command.extend(["--checkpoint", str(checkpoint)])
+        history_command.extend(
             [
-                sys.executable,
-                str(root / "scripts" / "consolidate_training_history.py"),
-                "--checkpoint",
-                str(root / "artifacts/training/checkpoints/cane-v1-best-epoch6.pt"),
-                "--checkpoint",
-                str(
-                    root
-                    / "artifacts/training/checkpoint-guard/checkpoints/snapshots/last-epoch-015-cfeb7c9a252b.pt"
-                ),
-                "--checkpoint",
-                str(imported / "latest-resumable.pt"),
                 "--output",
                 str(history_csv),
                 "--manifest",
                 str(history_manifest),
-            ],
+            ]
+        )
+        result = run_logged(
+            history_command,
             state_path.with_name("finalization-history.log"),
         )
         if result != 0:
@@ -280,6 +291,7 @@ def main() -> int:
         state,
         "history",
         status="complete",
+        exit_code=0,
         accepted_epoch_end=history["accepted_epoch_end"],
         manifest=str(history_manifest),
     )

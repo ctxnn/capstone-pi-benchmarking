@@ -23,14 +23,15 @@ The current training authority is:
 data/processed/cane-v1-training-640/data.yaml
 ```
 
-The first 22 epochs ran across guarded Colab T4 sessions. The current
-**fine-tune host** is one persistent Lightning AI Studio, resuming the same run
-from the protected epoch-22 checkpoint. This is a host change only: model,
-dataset, split membership, target 30 epochs, optimizer state, and training
-arguments remain one experiment. A Kaggle failover was attempted on
-2026-08-29/30 and rejected before any epoch ran because its extracted dataset
-did not match this contract. Follow `docs/lightning-ai-training.md` for the
-active handoff and `docs/kaggle-resume.md` only for the failed-attempt record.
+The first 22 epochs ran across guarded Colab T4 sessions and epochs 23 through
+30 completed in one persistent Lightning AI Studio on a Tesla T4. The accepted
+history is contiguous from epoch 1 through 30 and retains optimizer-bearing
+checkpoints at every provider boundary. Provider changes did not change the
+model, dataset, split membership, target epochs, or training arguments. A
+Kaggle failover was attempted on 2026-08-29/30 and rejected before any epoch ran
+because its extracted dataset did not match this contract. Follow
+`docs/lightning-ai-training.md` for the completed handoff evidence and
+`docs/kaggle-resume.md` only for the failed-attempt record.
 
 The higher-resolution archival authority is:
 
@@ -373,10 +374,9 @@ source splits: preserved train/val/test
 ```
 
 The accepted first-22-epoch trainer reported Ultralytics 8.4.132, Python
-3.13.15, PyTorch 2.11.0+cu128, and a Tesla T4. The Lightning continuation pins
-Ultralytics 8.4.132 and records its actual Python, PyTorch, CUDA, and GPU values
-in the final validation summary. The checkpoint's on-the-fly training
-transforms are:
+3.13.15, PyTorch 2.11.0+cu128, and a Tesla T4. The final Lightning continuation
+used Ultralytics 8.4.132, Python 3.12.11, PyTorch 2.8.0+cu128, and a Tesla T4.
+The checkpoint's on-the-fly training transforms are:
 
 | Operation | Setting |
 |---|---:|
@@ -400,8 +400,7 @@ ignored the generic `lr0=0.01` and `momentum=0.937` defaults and selected
 appropriate parameter group. The final learning-rate factor remains 0.01, with
 three warmup epochs and nominal batch size 64 for loss scaling. These transforms
 operate only on training batches; they never modify validation or test files on
-disk. The downloaded final `args.yaml` remains the immutable authority and will
-be checked against this section after the run completes.
+disk. The accepted final `args.yaml` remains the immutable argument authority.
 
 Training durability does not change any dataset or augmentation setting. The
 Lightning runner validates and snapshots the newest optimizer-bearing
@@ -415,6 +414,40 @@ held-out validation/test completion gate documented in
 but may be classification-only rather than executed detection transforms. They
 are recorded for completeness and must not be claimed as applied to Cane V1
 without confirming the 8.4.132 detection augmentation call path.
+
+### Final accepted model and quality evidence
+
+Training completed all 30 requested epochs. The accepted artifacts are:
+
+| Role | SHA-256 | Meaning |
+|---|---|---|
+| `best.pt` | `85168a2bc2f8a87c6b4361f16e3e7ec7394312341ee99a766f368be6e28e0dca` | deployment and M2 quality candidate |
+| stripped `last.pt` | `9569496d6d948535a35e98df9b1e84d78c1035ef7cc367a20215497bd7f8949e` | final-epoch inference weights |
+| `latest-resumable.pt` | `e9f3548158be346d7e037416ef7b8f3160efea6d3bba13f170c1498d7c6b0b2c` | epoch-30 optimizer-bearing recovery checkpoint |
+
+The separately downloaded `last-epoch-030.pt` has the same SHA-256 as
+`latest-resumable.pt`; it is recovery evidence, not a replacement for the
+selected `best.pt`.
+
+Lightning's native fine-tuned evaluation at training image size 416 reported:
+
+| Split | Precision | Recall | mAP50 | mAP50-95 |
+|---|---:|---:|---:|---:|
+| validation | 0.66943 | 0.57418 | 0.60707 | 0.44735 |
+| held-out test | 0.68668 | 0.56012 | 0.60790 | 0.43934 |
+
+The separate Pi-matrix quality comparison evaluated all 1,515 held-out test
+images at 640. It applies the documented COCO-name-to-Cane mapping to the stock
+baseline and keeps unsupported hazards as false negatives:
+
+| Model | Precision | Recall | mAP50 | mAP50-95 |
+|---|---:|---:|---:|---:|
+| pretrained YOLO26n | 0.29333 | 0.23324 | 0.24132 | 0.17491 |
+| YOLO26n-Cane V1 `best.pt` | 0.59910 | 0.50999 | 0.52724 | 0.36322 |
+
+The 416 and 640 values answer different protocol questions and must not be
+mixed. Neither table contains Raspberry Pi latency; Pi performance is collected
+only through `docs/pi-terminal-setup-and-run.md`.
 
 ## 13. Reproduction commands
 

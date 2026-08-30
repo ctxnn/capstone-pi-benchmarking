@@ -1,5 +1,9 @@
 # Lightning AI training handoff: Cane V1 YOLO26n
 
+> Status on 2026-08-30: training completed epoch 30 and the returned package was
+> accepted locally. This file remains the reproducible training/recovery record;
+> the active device procedure is `docs/pi-terminal-setup-and-run.md`.
+
 ## Short answer
 
 Upload the prepared `lightning-ai-upload` folder, **not the entire repository**.
