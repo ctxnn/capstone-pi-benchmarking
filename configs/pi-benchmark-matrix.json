@@ -1,0 +1,47 @@
+{
+  "schema_version": 2,
+  "camera_mount_profile": "configs/camera-mount-top-handle.json",
+  "fixed_inputs_manifest": "artifacts/benchmarks/pi-runtime-inputs/manifest.json",
+  "warmup_runs": 20,
+  "repetitions": 100,
+  "threads": 4,
+  "source_defaults": {
+    "type": "images",
+    "camera": {
+      "width": 640,
+      "height": 480,
+      "fps": 30.0,
+      "camera_num": 0,
+      "pixel_format": "RGB888"
+    }
+  },
+  "cooldown_target_c": 55.0,
+  "cooldown_timeout_seconds": 600,
+  "architecture_experiments": [
+    {"id": "M1", "model": "YOLO26n pretrained", "model_key": "v0-pytorch-fp32", "runtime": "PyTorch", "imgsz": 640, "precision": "FP32"},
+    {"id": "M2", "model": "YOLO26n-Cane V1 fine-tuned", "model_key": "cane-v1-pytorch-fp32", "runtime": "PyTorch", "imgsz": 640, "precision": "FP32"}
+  ],
+  "runtime_experiments": [
+    {"id": "R1", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-pytorch-fp32", "runtime": "PyTorch", "imgsz": 640, "precision": "FP32"},
+    {"id": "R2", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-onnx-fp32", "runtime": "ONNX Runtime", "imgsz": 640, "precision": "FP32"},
+    {"id": "R3", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-openvino-fp32", "runtime": "OpenVINO", "imgsz": 640, "precision": "FP32"},
+    {"id": "R4", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-mnn-fp32", "runtime": "MNN", "imgsz": 640, "precision": "FP32"},
+    {"id": "R5", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-ncnn-fp32", "runtime": "NCNN", "imgsz": 640, "precision": "FP32"},
+    {"id": "R6", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-litert-fp32", "runtime": "LiteRT", "imgsz": 640, "precision": "FP32"}
+  ],
+  "optimization_experiments": [
+    {"id": "A4", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-ncnn-fp16", "runtime": "NCNN", "imgsz": 640, "precision": "FP16"},
+    {"id": "A5", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-ncnn-fp16", "runtime": "NCNN", "imgsz": 512, "precision": "FP16"},
+    {"id": "A6", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-ncnn-fp16", "runtime": "NCNN", "imgsz": 416, "precision": "FP16"},
+    {"id": "A7", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-ncnn-fp16", "runtime": "NCNN", "imgsz": 320, "precision": "FP16"}
+  ],
+  "measurement_protocol": {
+    "execution_host": "Raspberry Pi only",
+    "input_order": "fixed manifest order repeated cyclically",
+    "warmups_excluded": true,
+    "thermal_control": "cool to target before every row",
+    "power": "external timestamped meter JSONL; never estimate",
+    "total_pipeline_definition": "wall-clock detector call including preprocess, inference, postprocess, and adapter overhead",
+    "quality_metrics_definition": "complete Cane V1 held-out test split evaluated at 640 for both architectures; stock COCO predictions are explicitly name-mapped into the target taxonomy while unsupported target annotations remain false negatives; not remeasured per runtime"
+  }
+}

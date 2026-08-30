@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yolo-pi"
+version = "0.1.0"
+description = "Laptop-first perception and sensor-fusion toolkit for a Raspberry Pi haptic cane"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Chirag Taneja"}]
+dependencies = []
+
+[project.optional-dependencies]
+vision = [
+  "ultralytics>=8.4.0",
+]
+edge = [
+  "ncnn==1.0.20260526",
+]
+export = [
+  "onnx>=1.12,<2",
+  "onnxruntime>=1.20",
+  "onnxslim>=0.1.82",
+  "pnnx==20260526",
+  "litert-torch>=0.9.0; python_version >= '3.10'",
+]
+dev = [
+  "pytest>=8.0",
+]
+notebook = [
+  "nbclient>=0.10",
+  "nbformat>=5.10",
+]
+audit = [
+  "Pillow>=10.0",
+]
+pi = [
+  "psutil>=5.9",
+  "ultralytics>=8.4.0",
+]
+runtime-openvino = [
+  "openvino>=2024.0.0",
+]
+runtime-mnn = [
+  "MNN",
+]
+runtime-litert = [
+  "ai-edge-litert>=2.1.4",
+]
+
+[project.scripts]
+yolo-pi = "yolo_pi.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+pythonpath = ["src"]

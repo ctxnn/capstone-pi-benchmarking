@@ -1,0 +1,9 @@
+{
+  "model": "yolo26n.pt",
+  "backend": "ultralytics",
+  "imgsz": 416,
+  "confidence": 0.35,
+  "center_fraction": 0.3333333333333333,
+  "class_ids": null,
+  "purpose": "Functional correctness only; never cite this as Pi performance"
+}

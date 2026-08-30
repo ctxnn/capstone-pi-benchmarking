@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "audit_report": "reports/dataset-audit-clean.json",
+  "reviewed_candidate_count": 1,
+  "accepted_false_positive_count": 1,
+  "decisions": [
+    {
+      "left_path": "images/train/sod-v1__0524172_jpg.rf.c0bd7c93d72e428a3fd23cb873853aeb__703e67e273.jpg",
+      "right_path": "images/test/mendeley-vi-navigation-v1__frame_9s_jpg.rf.1f1c09d1340c3f6de09a758ffece9f08__438c89f08d.jpg",
+      "decision": "retain_both_false_positive",
+      "evidence": "Visual review shows unrelated scenes: an isolated yellow-black bollard at night versus a person outside a university department entrance."
+    }
+  ],
+  "final_disposition": "accepted_for_training_and_evaluation",
+  "warning": "The audit controls exact and strong dHash similarity only; it cannot prove the absence of every temporally adjacent frame."
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "dataset_archive": {
+    "path": "cane-v1-training-640.tar",
+    "bytes": 2013204992,
+    "sha256": "f469a971a1c0e167b01661f4d2296e4b5e38501f0d6c88fa26f72e34842f8b91"
+  },
+  "resume_checkpoint": {
+    "path": "resume-last-epoch22.pt",
+    "completed_epoch": 22,
+    "sha256": "0da75726f7a058e63d7b030601447ddeb4bd98b420d1387482761aa5799a0eea"
+  },
+  "target": {
+    "epochs": 30,
+    "imgsz": 416,
+    "batch": 32,
+    "workers": 4,
+    "classes": 15
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "target_names": [
+    "person",
+    "vehicle",
+    "bicycle_motorcycle",
+    "pole",
+    "tree",
+    "stairs",
+    "curb",
+    "barrier",
+    "cone",
+    "dog",
+    "signboard",
+    "door",
+    "slope",
+    "overhead_obstacle",
+    "generic_obstacle"
+  ],
+  "sources": [
+    {
+      "name": "mendeley-vi-navigation-v1",
+      "root": "data/raw/mendeley-vi-navigation-v1/Object Detection Dataset  Navigation Assistance for the Visually Impaired People using YOLOv11",
+      "license": "CC BY 4.0",
+      "source_url": "https://doi.org/10.17632/m68g3h7p87.1",
+      "names": [
+        "Bin", "Building Pillar", "Bus", "CNG", "Car", "Cycle",
+        "Electric Pole", "Food Van", "Food cart", "Footpath", "Leguna",
+        "Motorcycle", "Obstacle", "Parking Cone", "Person", "Pickup",
+        "Rickshaw", "Stairs", "Tree", "Truck", "Van", "Van gari"
+      ],
+      "class_map": {
+        "Bin": "generic_obstacle",
+        "Building Pillar": "pole",
+        "Bus": "vehicle",
+        "CNG": "vehicle",
+        "Car": "vehicle",
+        "Cycle": "bicycle_motorcycle",
+        "Electric Pole": "pole",
+        "Food Van": "vehicle",
+        "Food cart": "generic_obstacle",
+        "Footpath": null,
+        "Leguna": "vehicle",
+        "Motorcycle": "bicycle_motorcycle",
+        "Obstacle": "generic_obstacle",
+        "Parking Cone": "cone",
+        "Person": "person",
+        "Pickup": "vehicle",
+        "Rickshaw": "vehicle",
+        "Stairs": "stairs",
+        "Tree": "tree",
+        "Truck": "vehicle",
+        "Van": "vehicle",
+        "Van gari": "vehicle"
+      }
+    },
+    {
+      "name": "sod-v1",
+      "root": "data/raw/sod-v1",
+      "license": "CC BY 4.0",
+      "source_url": "https://universe.roboflow.com/yunuss-workspace-kkn8c/sod-enect-gyoww/dataset/1",
+      "names": [
+        "bench", "bicycle", "bus", "bus_stop", "cane", "car", "curb",
+        "dog", "fire_hydrant", "motorcycle", "person", "pole",
+        "spherical_roadblock", "stairs", "stop_sign", "street_light",
+        "traffic_light", "train", "tree", "truck", "warning_column",
+        "waste_container"
+      ],
+      "class_map": {
+        "bench": "generic_obstacle",
+        "bicycle": "bicycle_motorcycle",
+        "bus": "vehicle",
+        "bus_stop": "generic_obstacle",
+        "cane": null,
+        "car": "vehicle",
+        "curb": "curb",
+        "dog": "dog",
+        "fire_hydrant": "generic_obstacle",
+        "motorcycle": "bicycle_motorcycle",
+        "person": "person",
+        "pole": "pole",
+        "spherical_roadblock": "barrier",
+        "stairs": "stairs",
+        "stop_sign": "signboard",
+        "street_light": "pole",
+        "traffic_light": "signboard",
+        "train": "vehicle",
+        "tree": "tree",
+        "truck": "vehicle",
+        "warning_column": "barrier",
+        "waste_container": "generic_obstacle"
+      }
+    },
+    {
+      "name": "indian-unstructured-road-v10",
+      "root": "data/raw/indian-unstructured-road-v10",
+      "license": "CC BY 4.0",
+      "source_url": "https://universe.roboflow.com/mtechcv/unstructured-road-obstacle-detection/dataset/10",
+      "names": [
+        "dog", "pole", "signboard", "stairs", "tree", "two-wheeler",
+        "vehicle"
+      ],
+      "class_map": {
+        "dog": "dog",
+        "pole": "pole",
+        "signboard": "signboard",
+        "stairs": "stairs",
+        "tree": "tree",
+        "two-wheeler": "bicycle_motorcycle",
+        "vehicle": "vehicle"
+      }
+    }
+  ]
+}

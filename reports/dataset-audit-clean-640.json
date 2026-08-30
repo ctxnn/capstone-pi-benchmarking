@@ -1,0 +1,94 @@
+{
+  "annotation_counts_by_class": {
+    "barrier": 3984,
+    "bicycle_motorcycle": 4842,
+    "cone": 220,
+    "curb": 986,
+    "dog": 1366,
+    "door": 0,
+    "generic_obstacle": 5460,
+    "overhead_obstacle": 0,
+    "person": 16597,
+    "pole": 6518,
+    "signboard": 3183,
+    "slope": 0,
+    "stairs": 1907,
+    "tree": 3928,
+    "vehicle": 19914
+  },
+  "audit_scope": "read-only structural, exact-hash, and dHash candidate audit",
+  "class_names": [
+    "person",
+    "vehicle",
+    "bicycle_motorcycle",
+    "pole",
+    "tree",
+    "stairs",
+    "curb",
+    "barrier",
+    "cone",
+    "dog",
+    "signboard",
+    "door",
+    "slope",
+    "overhead_obstacle",
+    "generic_obstacle"
+  ],
+  "dataset_root": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/data/processed/cane-v1-clean-640",
+  "duration_seconds": 29.955,
+  "exact_duplicates": {
+    "cross_split_group_count": 0,
+    "cross_split_groups": [],
+    "group_count": 0
+  },
+  "image_counts_by_source": {
+    "indian-unstructured-road-v10": 7856,
+    "mendeley-vi-navigation-v1": 7864,
+    "sod-v1": 9833
+  },
+  "image_counts_by_split": {
+    "test": 1515,
+    "train": 21270,
+    "val": 2768
+  },
+  "perceptual_candidates": {
+    "cross_split_candidate_count": 2,
+    "hamming_threshold": 4,
+    "interpretation": "Candidates require visual review; dHash similarity is not proof of shared lineage.",
+    "method": "64-bit difference hash (dHash)",
+    "pairs": [
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/indian-unstructured-road-v10__VID_20230525_185800_mp4-3_jpg.rf.dd068e3bd94e14ff9e344a57efe8f320__32f0ef541e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/indian-unstructured-road-v10__VID_20230525_185800_mp4-2_jpg.rf.141bab75e111511ed30d47ee21b4251c__1c88210d43.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/sod-v1__0524172_jpg.rf.c0bd7c93d72e428a3fd23cb873853aeb__703e67e273.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_9s_jpg.rf.1f1c09d1340c3f6de09a758ffece9f08__438c89f08d.jpg",
+        "right_split": "test"
+      }
+    ],
+    "reported_count": 2,
+    "truncated": false
+  },
+  "quality_gate": {
+    "hard_error_count": 0,
+    "structural_and_exact_gate_passed": true,
+    "visual_review_required": true
+  },
+  "schema_version": 1,
+  "structural": {
+    "invalid_label_file_count": 0,
+    "invalid_label_files": [],
+    "missing_label_count": 0,
+    "missing_labels": [],
+    "orphan_label_count": 0,
+    "orphan_labels": [],
+    "unreadable_image_count": 0,
+    "unreadable_images": []
+  }
+}

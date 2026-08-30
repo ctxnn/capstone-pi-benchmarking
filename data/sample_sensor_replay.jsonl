@@ -1,0 +1,4 @@
+{"sensor_id":"tof-left","kind":"tof","timestamp_ns":100000000,"sector":"left","distance_m":2.0,"valid":true}
+{"sensor_id":"tof-center","kind":"tof","timestamp_ns":110000000,"sector":"center","distance_m":1.5,"valid":true}
+{"sensor_id":"ultrasonic-right","kind":"ultrasonic","timestamp_ns":120000000,"sector":"right","distance_m":0.9,"valid":true}
+{"sensor_id":"tof-center","kind":"tof","timestamp_ns":130000000,"sector":"center","distance_m":0.4,"valid":true}

@@ -1,0 +1,11 @@
+{
+  "architecture_rows": 2,
+  "generated_at_epoch_ns": 1787993122699150000,
+  "matrix": "configs/pi-benchmark-matrix.json",
+  "missing_values_render_as": "NA",
+  "registry": "configs/pi-model-registry.example.json",
+  "run_dir": "artifacts/pi-benchmarks/pending",
+  "runtime_rows": 6,
+  "schema_version": 1,
+  "warning": "NA is never replaced with estimates. Performance values are valid Pi evidence only when row scope is Raspberry Pi measurement."
+}

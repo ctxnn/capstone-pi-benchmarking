@@ -1,0 +1,33 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+dist/
+build/
+*.egg-info/
+
+# Model artifacts and downloaded datasets are reproducible but large.
+artifacts/models/**
+data/raw/**
+data/processed/**
+!artifacts/models/.gitkeep
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Generated benchmark and training outputs.
+artifacts/benchmarks/**
+artifacts/pi-benchmarks/**
+artifacts/training/**
+!artifacts/benchmarks/.gitkeep
+!artifacts/pi-benchmarks/.gitkeep
+!artifacts/training/.gitkeep
+
+# Prepared cloud handoff contains hard-linked copies of ignored large inputs.
+lightning-ai-upload/cane-v1-training-640.tar
+lightning-ai-upload/resume-last-epoch22.pt
+lightning-ai-upload/lightning-output/
+lightning-ai-upload/PACKAGE-RECEIPT.json
+
+*_output.ipynb
+.DS_Store
+:memory:.ses

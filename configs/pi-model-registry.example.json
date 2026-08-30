@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "artifacts": {
+    "v0-pytorch-fp32": {
+      "path": "artifacts/models/yolo26n.pt",
+      "sha256": "REPLACE_WITH_SHA256",
+      "quality_metrics": {"split": "test", "imgsz": 640, "fraction": 1.0, "map50": null, "map50_95": null, "recall": null}
+    },
+    "cane-v1-pytorch-fp32": {
+      "path": "artifacts/models/cane-v1/best.pt",
+      "sha256": "REPLACE_WITH_SHA256",
+      "quality_metrics": {"split": "test", "imgsz": 640, "fraction": 1.0, "map50": null, "map50_95": null, "recall": null}
+    },
+    "cane-v1-onnx-fp32": {"path": "artifacts/models/cane-v1/best.onnx", "tree_sha256": "REPLACE_WITH_TREE_SHA256"},
+    "cane-v1-openvino-fp32": {"path": "artifacts/models/cane-v1/best_openvino_model", "tree_sha256": "REPLACE_WITH_TREE_SHA256"},
+    "cane-v1-mnn-fp32": {"path": "artifacts/models/cane-v1/best.mnn", "tree_sha256": "REPLACE_WITH_TREE_SHA256"},
+    "cane-v1-ncnn-fp32": {"path": "artifacts/models/cane-v1/best_ncnn_model", "tree_sha256": "REPLACE_WITH_TREE_SHA256"},
+    "cane-v1-litert-fp32": {"path": "artifacts/models/cane-v1/best.tflite", "tree_sha256": "REPLACE_WITH_TREE_SHA256"},
+    "cane-v1-ncnn-fp16": {"path": "artifacts/models/cane-v1/best_ncnn_model", "tree_sha256": "REPLACE_WITH_TREE_SHA256"}
+  }
+}

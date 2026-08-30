@@ -1,0 +1,2859 @@
+{
+  "annotation_counts_by_class": {
+    "barrier": 4005,
+    "bicycle_motorcycle": 4906,
+    "cone": 229,
+    "curb": 991,
+    "dog": 1374,
+    "door": 0,
+    "generic_obstacle": 5520,
+    "overhead_obstacle": 0,
+    "person": 16792,
+    "pole": 6666,
+    "signboard": 3195,
+    "slope": 0,
+    "stairs": 1916,
+    "tree": 3968,
+    "vehicle": 20286
+  },
+  "audit_scope": "read-only structural, exact-hash, and dHash candidate audit",
+  "class_names": [
+    "person",
+    "vehicle",
+    "bicycle_motorcycle",
+    "pole",
+    "tree",
+    "stairs",
+    "curb",
+    "barrier",
+    "cone",
+    "dog",
+    "signboard",
+    "door",
+    "slope",
+    "overhead_obstacle",
+    "generic_obstacle"
+  ],
+  "dataset_root": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/data/processed/cane-v1",
+  "duration_seconds": 64.241,
+  "exact_duplicates": {
+    "cross_split_group_count": 0,
+    "cross_split_groups": [],
+    "group_count": 0
+  },
+  "image_counts_by_source": {
+    "indian-unstructured-road-v10": 7862,
+    "mendeley-vi-navigation-v1": 8034,
+    "sod-v1": 9920
+  },
+  "image_counts_by_split": {
+    "test": 1515,
+    "train": 21482,
+    "val": 2819
+  },
+  "perceptual_candidates": {
+    "cross_split_candidate_count": 397,
+    "hamming_threshold": 4,
+    "interpretation": "Candidates require visual review; dHash similarity is not proof of shared lineage.",
+    "method": "64-bit difference hash (dHash)",
+    "pairs": [
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/indian-unstructured-road-v10__20230712_131444_out0001_jpg.rf.3cfad60e8f047a6ce5fe2f5c40c9fd6a__ee6ba213c7.jpg",
+        "left_split": "train",
+        "right_path": "images/val/indian-unstructured-road-v10__20230712_131444_out0002_jpg.rf.ec87fb0c00ce59b20aacff66a20dcca9__7b22524985.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000016249_jpg.rf.a1602aed86ad5c7f5b3786d5c854e357__0ac09b7288.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000016249_jpg.rf.d774fd6405818ca73e64a34c3b2872b0__fcb747bbeb.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000018519_jpg.rf.161c8be52a8e9571b11403287c45f3f0__0e0256259c.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000018519_jpg.rf.77aa4589cf639177fd58f47f11bb2ed3__3a9b97bb2d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000033109_jpg.rf.7e9be3432b0787b08d6e5218b51d650c__b3013d0eff.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000033109_jpg.rf.b7e360b8e3f63b76d6b6b08fb9c983fa__4e3369f7a5.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000042070_jpg.rf.e95042818763cc9a3125b8fe3d3599ae__96a9db256f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000042070_jpg.rf.248615ed720f3846e85eb6662038d5b3__269f9a7879.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000122606_jpg.rf.2e2ca26a723ee6207e86e0834839d9bc__40db6c324d.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000122606_jpg.rf.4f7ca62bc92012ca2a6faddb241b1bb0__5399fadea5.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000135670_jpg.rf.b0e10edf90aea7b54bec2f51fd0c1a24__4e63f74518.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000135670_jpg.rf.0ff238eba57b0eab7cdcab7bced58b62__50e0cfe300.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000135902_jpg.rf.049df77a789db24502ab740653b4a790__0a8f4299f2.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000135902_jpg.rf.e159579047977789bc5817f280ef1106__4eb85c6af5.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000147725_jpg.rf.ba6363ab4740143683050a624f41cb98__3d90611703.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__000000147725_jpg.rf.055b2d87d41c5502d8b01a625b18766b__a6d6568a6b.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000181542_jpg.rf.db8b3e914140c507d65cbb79b0731c79__7dd445c8c5.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__000000181542_jpg.rf.1d610c4296b730b673f5064a009cec09__6c45debe8c.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000198928_jpg.rf.b062786830db8d22c5cffb83ba56a761__4655b2761a.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__000000198928_jpg.rf.42b69b1118b8ae3299efd7b9aa626116__442ec400c7.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000289343_jpg.rf.4443afa12e68b2fb48cb81cc19ffb111__72f08adb23.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000289343_jpg.rf.0e735f8c341b0c6c63c47a312eb4462b__ce379f47de.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000311909_jpg.rf.d2d8db81a2f1c45e334c71d7fe12f756__f7c718b114.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000311909_jpg.rf.6b48d315383df9f409522232f5f4c214__9065e993db.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000331075_jpg.rf.6e281f96ab2f65953bea7a47458201da__5b28987fc9.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000331075_jpg.rf.7b4be2bc30ccf9014889401318dc03c8__1fd3149a1b.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000341921_jpg.rf.87edf7a7cdf9d8743bd21add12cda777__e144857529.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000341921_jpg.rf.395a139c1d0b3f8a8e9062c0d1fa49ac__b766e6721e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000388258_jpg.rf.b78a75f397af422730af7089d6e378b9__e390258aef.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000388258_jpg.rf.b926385358183f2cdc1b7cacf4056dfe__273d7a63f0.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000407868_jpg.rf.429b3ca0bc6d93045be1575c8ce11695__7ea5ee48cd.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000407868_jpg.rf.1ce499973d1028b02503a64e88dcdf45__6f7eec676b.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000437514_jpg.rf.53fddf9b1c2c7f4584854c50f4f8e415__963051f582.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000437514_jpg.rf.53ff66436ee66dff51ab3e01d8f9d52c__b188f9e231.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000452321_jpg.rf.1704fdfeab884f35f4caa4658212022a__5633fb54bb.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000452321_jpg.rf.f7db09c0b9ec914e69c2108fd11beb43__581385b3c9.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000454661_jpg.rf.a8233b5a682405d445d5ae59068e33f9__1464db788f.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__000000454661_jpg.rf.8473fc7f06e735e3139f49cc62db4ccd__dac113f927.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000459153_jpg.rf.c4589245536ee0ecba486ff12a9fafc3__f65cd45b4a.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000459153_jpg.rf.4943f822f520e66883ba5e049f20ff72__23da03d1d7.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000460347_jpg.rf.0cdf46f26bb9875e4bb26c49b52f61d4__f1d5ac0909.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000460347_jpg.rf.a15f843bcbe2a438664b1810416f1e99__9450e288fc.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000469246_jpg.rf.2116a0100dd059c921193447ee23dfa1__da73389a73.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__000000469246_jpg.rf.5b4b3e3fe21d8c2ef56f1de3514c427b__fa52f34fbe.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000505666_jpg.rf.41fd671afb5165c642fa9f41dd59adb7__4ff95e028c.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__5805573444cb07e8_jpg.rf.c95f3b79ff216bb42986815a5b369138__cf5a37ee1a.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000514376_jpg.rf.f1eac6a05678e14e41e9dc10d2a773b0__3f44049339.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000514376_jpg.rf.9314fb224cc757206a7487957054cfdc__527f6e139a.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000532575_jpg.rf.14ec67b5ea58c5733156ecb2bf05d5c8__c94f97b18d.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000532575_jpg.rf.a0228a8b3237bf955a396b526465050f__a22f6ea9dd.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000550691_jpg.rf.856898b9386c52d2bf404a2df3d40e51__79e20a6854.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__000000550691_jpg.rf.32e77a17fefd1541e1fe5fa308cdf4c7__9d869801e1.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__000000566436_jpg.rf.1931cb1f8b59baa824e23ee39932f733__5d954bc2d9.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000566436_jpg.rf.2e2c42ad9d4b63daf4a4a9745b3e44c4__eddee1a0f3.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__023-12-04-at-11-15-45_jpeg_jpg.rf.4f1085da93339431c96d7e3b4954f1a2__6abdc0878a.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__023-12-04-at-11-15-45_jpeg_jpg.rf.d08e090823bc687f4aded2b69a016abd__234cf7b9c4.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__04-at-11-15-46-4-_jpeg_jpg.rf.652495431ed71d27692a852b96c687de__7da2a9f0fb.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__04-at-11-15-46-4-_jpeg_jpg.rf.afbb558ebe66a6cb31af5d42ccf296c8__a4c9e0c746.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__0524549_jpg.rf.d0723b47fab5c0a7231bbb3eba103252__7d0c66b5be.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__0524625_jpg.rf.e696bb97d1cf8a0260d112b72e144a1d__f11a70d5d8.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__0524927_jpg.rf.524a36bd1a279409140aaddd29584910__a80cfa0dfd.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__0524324_jpg.rf.785bff7e9b9f0a9649b18bede859fa22__bb52665b56.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__07b70919566d00b6_jpg.rf.e8d48279ff4f975e4f5f89bc2366be2f__0b32062b4f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__0f3ce6b2f67874f5_jpg.rf.eb589717e709213bd64f2a0b1666447a__1ad78eaf53.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__0ae57e3881cb1cf8_jpg.rf.340f1649694fe2599ee671c7cd51fcf4__05a8c2737a.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000341921_jpg.rf.395a139c1d0b3f8a8e9062c0d1fa49ac__b766e6721e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__11-15-474_jpeg_jpg.rf.8acfdea6c99abc3a6ccbcb3ffb595ebf__d03960b3f2.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__11-15-474_jpeg_jpg.rf.ff6361e6dfdc81dd25ffe87f668ee899__5070bd8816.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__11-15-4775_jpeg_jpg.rf.d3908f1e3ac9ba033198120e167c8d5e__0e02c06207.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__11-15-4775_jpeg_jpg.rf.dae0f067fc812212b7134b78f2293938__f62950a9c4.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__11-15-47_jpeg_jpg.rf.c15d6a893f2ae299873619a88742ab84__3f2ffb057e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__11-15-47_jpeg_jpg.rf.ed62141263a839db69d0f3bbaa7420e7__af465c8ec8.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__19b3v5oi0Q_jpg.rf.be624f29ce5cfd33b4a62064d3f981b3__6cc756545f.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__19b3v5oi0Q_jpg.rf.969095d036865d7fc0daece169426b25__701808b4cf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__21-15-47_jpeg_jpg.rf.cb7179325b81559dbc0373272dc21b9c__98f3bf264a.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__21-15-47_jpeg_jpg.rf.f8705cf4081cc3f4bdc17141fe625f90__7a37ab2dac.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__3d5233fde57b6b83_jpg.rf.50a5549bfb50f7dcc365bb1d609f86e9__eb868d7d06.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__000000161930_jpg.rf.a9e30db2ce4355d97aa796ffd79c1cf4__baba0dbbf0.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__56_FyV2YGk_jpg.rf.c9252c4ba31744c84196633dbd69baed__a96ab2bf33.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__56_FyV2YGk_jpg.rf.6cc614d398e8e6d39dcec51361d28166__66b61c1bf4.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__59GvR0kxD_jpg.rf.2823f39e5bfbb4ea90c56db44ad3bdc5__f3189ac341.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__59GvR0kxD_jpg.rf.222a653b6005881ffd0cb442b58441e0__1cf3b64cdb.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__6Py0gBJzzZU_jpg.rf.f0e2604a0a3f6300ddda94d1c040d81a__9d59d59e88.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__6Py0gBJzzZU_jpg.rf.20d54b90d9d7a0af869f0afaaf4c4052__f1ef46923b.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__6Qx2nRuKw1w_jpg.rf.e48a84797e8eb3b9aad01b22626f9292__301652e799.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__6Qx2nRuKw1w_jpg.rf.21f786a299140d5e2fc6577c3cca4ba8__a7e36e5ffd.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__7BiePc8-unsplash_jpg.rf.7388970de9f49ca09839306b4e1c7ed3__4635027d1a.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__BiePc8-unsplash_jpg.rf.c0408b17dc69cd7fa15d76c9db2706c2__7d70a5388e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__8KV7CGfF8E_jpg.rf.119a1bb51e045efd295eec4a3451ccd1__28d7e936c9.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__8KV7CGfF8E_jpg.rf.71ed4e9669156b29d907c910dbcb46e8__b881f76df6.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__92324000_jpg.rf.5ea0afaf2869c85656215c8122b1004d__08d27caab5.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__24818_jpg.rf.7421df67077deb199231171893913a1b__3ef521dae7.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__92324000_jpg.rf.5ea0afaf2869c85656215c8122b1004d__08d27caab5.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__chimney-industry_592324-19747_jpg.rf.20216f43328a18aa9ccfef4d03f75408__0cc17726d6.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__IMG00860_jpg.rf.c3d23853415e19744d2facfdbb9c404f__d93f1b37e1.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__IMG00808_jpg.rf.dd20a9639d5e80b6feb2b3911897647c__c73f0762a2.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__MlBsV7k-unsplash_jpg.rf.0ad1b92033e3860bdad272c7542fca51__ea1a3a13c3.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__sV7k-unsplash_jpg.rf.0629f666919bfb9fa808816ee8b3f293__ed4bd32fdc.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__aac42a8ec84cc786_jpg.rf.62dd08c55edf1133d7ee2a873877a265__c0ebf8b24a.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__aac42a8ec84cc786_jpg.rf.dbc8bc6bc545c1b7dd29a6fe867eabd6__d4202f05c5.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__aae01792d0f533b5_jpg.rf.32f4b7f88ce80b13e3fac7d7a3105040__8335d70337.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__aae01792d0f533b5_jpg.rf.81c0fe2fdab6be5ec553bc05ece40268__93421a4d50.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__ad9f2548dc1c924a_jpg.rf.740d443e50b122f6e30c8ead4f593c64__f97f347113.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__ad9f2548dc1c924a_jpg.rf.b53a8ccaa7612a87e69e976eeaaae720__f3157fbb67.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__af67e1c176174f98_jpg.rf.73450d419b0fa7845ddbbaa984aa8dbb__3475d5fc73.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__af67e1c176174f98_jpg.rf.95b98f9c77058fc8ba4c923bea7abe39__f7f88f65fb.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__b2cc4a5a8b061541_jpg.rf.4f999b7f44d0a7e95e91086cea0ef8a9__1821c4eaa4.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__b2cc4a5a8b061541_jpg.rf.d8fd6b5c8a461077586cd63003148962__5caa132d3f.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__b2d10060596bf6fc_jpg.rf.a1ca0e804c156de189101e1bca32adb8__d80445bc5c.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__b2d10060596bf6fc_jpg.rf.1cc7879be23933c6ec08c6dbbadbf4f1__03ccaef94f.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__ca6d873d454f4cc3_jpg.rf.9efaff64bc4dfe1e164e19438276113a__964f5b4df9.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__ca6d873d454f4cc3_jpg.rf.2212764d71fb92b961726bb5c1dc02e1__bb1f2d7f53.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__ca97eb73ea335f42_jpg.rf.26cf063ae8c6c5e5b43c626369398dfd__891069bfca.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__ca97eb73ea335f42_jpg.rf.a9915cbe2c2656d6510c04726588b43e__361cf1604f.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__cc6257e4ce145d44_jpg.rf.f98fa468e0c1427bc0548820ea0be8a0__a7295387d4.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__cc6257e4ce145d44_jpg.rf.b316445e76d37c300e894ddbdfff074c__83048d6ada.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__chimney-industry-three-dimensional_592324-19284_jpg.rf.6aeca9d4be475512654f2bf395780d70__72b0f2ed1b.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__24818_jpg.rf.7421df67077deb199231171893913a1b__3ef521dae7.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__chimney-industry-three-dimensional_592324-19284_jpg.rf.6aeca9d4be475512654f2bf395780d70__72b0f2ed1b.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__chimney-industry_592324-19747_jpg.rf.20216f43328a18aa9ccfef4d03f75408__0cc17726d6.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__d8c43d79637366c9_jpg.rf.e71e31ab0ae4534f18374c6008e65f7f__ddc4384da9.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__d8c43d79637366c9_jpg.rf.1b54467a9e0eb25b9c352baed1461841__211b3f525d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__pexels-7150_jpg.rf.5273ce677fff469bba3025f2934e7ba4__9389c4a714.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__pexels-72500_jpg.rf.200419e386b21d4f2602a7601ea20527__d64188e61d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/train/sod-v1__pexels-72010_mp4-1_jpg.rf.da28c402cad6ea57e41533860f76da33__42c7541cbc.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__pexels-72010_mp4-0_jpg.rf.6309a35bff7e28dfc89af0f30802c27b__f13860be11.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/val/sod-v1__000000161609_jpg.rf.436c2cc353472d5d5a1195c49066467c__f0913c376b.jpg",
+        "left_split": "val",
+        "right_path": "images/test/sod-v1__000000161609_jpg.rf.cafe8a1a2e1d1db9879030af6aee43e0__f84edd6be9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/val/sod-v1__000000190923_jpg.rf.cf4fc1c202bc022aa73304515ad5ea58__1f4d52d912.jpg",
+        "left_split": "val",
+        "right_path": "images/test/sod-v1__000000190923_jpg.rf.81eefe678ab0721b56a982f94ab616f1__811c7f289c.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/val/sod-v1__000000195045_jpg.rf.a819820fe6143f516acd01c4495e150c__176eea2138.jpg",
+        "left_split": "val",
+        "right_path": "images/test/sod-v1__000000195045_jpg.rf.b6f13f8026fb72f15ad05d23579bb344__a4e17cfcda.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/val/sod-v1__000000269113_jpg.rf.d401f06a525014eb7996674bd562bfba__baa12cbf67.jpg",
+        "left_split": "val",
+        "right_path": "images/test/sod-v1__000000269113_jpg.rf.1b0387fa3e64341367d125b0d7fc5626__88064ece20.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/val/sod-v1__000000351589_jpg.rf.b734b4c87f4b39a02823dca9fc08d1a0__954dd41b89.jpg",
+        "left_split": "val",
+        "right_path": "images/test/sod-v1__000000351589_jpg.rf.77f07de28507414fb75d40b67c6dbf49__c0ab536828.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/val/sod-v1__000000431896_jpg.rf.b0a9e4f5a9a2847b0c9d7b42e6a5941d__91c1d643f8.jpg",
+        "left_split": "val",
+        "right_path": "images/test/sod-v1__000000431896_jpg.rf.ca49b66cfa5f72ee996042471bb15104__0a3da847f1.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 0,
+        "left_path": "images/val/sod-v1__c8421a82bf228ddf_jpg.rf.6a936adc33c01da084cc4cd267ecfb56__388c62ee0a.jpg",
+        "left_split": "val",
+        "right_path": "images/test/sod-v1__c8421a82bf228ddf_jpg.rf.085ffe9b7fde252613711908b36e8a8e__d1f0be1d92.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_159s_jpg.rf.58bafa86fc32c56f208566fc00a3ee77__4c2af5ca87.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_171s_jpg.rf.7a3d9d7fe013d76130f30496f29e4427__57beffa251.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_590s_jpg.rf.76d3145626d254c6da55ae9e44954739__a4945935a1.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_589s_jpg.rf.ef9c6d4f9054af7801897adb172bcf13__f326a0b518.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_623s_jpg.rf.7360938ce8d6dabd70180ff1b67137b2__24d402cbdc.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_589s_jpg.rf.ef9c6d4f9054af7801897adb172bcf13__f326a0b518.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_624s_jpg.rf.07d7b14a61cf3dd470e3fdd5eba534c8__e0e231fd5e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_642s_jpg.rf.26fc826c6a26e0fede3eaec246e26580__405e6c483e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_641s_jpg.rf.6c4806b82d780a8839a31dce5ed13976__22114714d4.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_707s_jpg.rf.1bde9786b0acaa07fcbda3f1e31de73b__7c527095e1.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_710s_jpg.rf.f4c183d3b31d9973d3808c8f2d233e99__4a381250d3.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_713s_jpg.rf.5a16c2cdf2e77e3633ae0fb7fc3da487__a9c7559cab.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_714s_jpg.rf.16254f601e8119411860ae019b70f988__d212a82073.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_94s_jpg.rf.ce7150215ee18a079d54659248a05e42__2600641d6d.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_95s_jpg.rf.4d90fac94b79710050685fc00139ef93__fda656d57c.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/sod-v1__000000015338_jpg.rf.d1f02fd6fe081c5214dbcb0a18fb6809__4c80997dfd.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__000000015338_jpg.rf.bfbbc443bb4cdd73627930c0f684f816__516372b052.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/sod-v1__000000016249_jpg.rf.e5790d3d587063831dd3490ee4642ef2__269e27bfe7.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000016249_jpg.rf.d774fd6405818ca73e64a34c3b2872b0__fcb747bbeb.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/sod-v1__000000423617_jpg.rf.420410a1a5115304f1e9eeece9da8649__60f05ad257.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__000000423617_jpg.rf.6fe02085e9a800207943b1372ffcf636__6dc9bccbbb.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/sod-v1__0000356_jpg.rf.e7a78b4e3ee283f0d562b0197d12896d__3e73bcc423.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__0000355_jpg.rf.0fa3072e84742691d945361b372e2582__baa0130b3f.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/sod-v1__9232909_jpg.rf.22d2066ba4365c3e1087a845c91e8500__83b70e0c1c.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__9232967_jpg.rf.b0ca68c241059e781f6e80c7de89594e__b525ced177.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/sod-v1__pexels-615882_mp4-0_jpg.rf.9b0f844378d32fb0fb12e962a51d12a8__546746661e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__pexels-615882_mp4-2_jpg.rf.b2cb31e683d683eeeb7f2a87132dd0fa__60b60005e0.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/train/sod-v1__pexels-7253204_mp4-2_jpg.rf.2ca5a5a22820956a2693a1cf3b9563b9__1717ed9986.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__pexels-7253204_mp4-3_jpg.rf.2b714cdccb9a06d42e7c145186c1cde7__df1179fa2d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_40s_jpg.rf.7f6ac1abce250dcec61b4852c6f6584c__9fbcd5d372.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_31s_jpg.rf.f063702c65c9c05e234f02121d9e248d__dcfcdb8b2c.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_4s_jpg.rf.4b5210bb53cc5d64778046b4114c67c2__ef85d432e5.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_3s_jpg.rf.e3b6f6a3b792ab575a7669092598e034__c44c7c1bb3.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 1,
+        "left_path": "images/val/sod-v1__0524984_jpg.rf.118d2b3449478f1e5495b2b31e4d0144__d5d878f4cf.jpg",
+        "left_split": "val",
+        "right_path": "images/test/sod-v1__0524515_jpg.rf.4cacb260639189a8d62e7100e5d15221__e390604583.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_163s_jpg.rf.26f2a89350ba2ced2a6264aa5a46acc9__3e95334891.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_164s_jpg.rf.47c6bdf7437f53e888033f2f6ebe0415__ceed360f37.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_166s_jpg.rf.7340a884270f6d76d980326bff710431__ae51ec6e9b.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_132s_jpg.rf.99b3377a83d4624066ba50bc692d203a__246214bad9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_166s_jpg.rf.7340a884270f6d76d980326bff710431__ae51ec6e9b.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_171s_jpg.rf.7a3d9d7fe013d76130f30496f29e4427__57beffa251.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_20s_jpg.rf.50ddcdaa02e5498a8db80ab4b9804912__2116306f0e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_22s_jpg.rf.7cb19d7f3958c28a8c19892561d992aa__ad82ee23a8.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_218s_jpg.rf.1f281f1d65f6bfbe9c3d2b2c20a1a5b3__346026787f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_217s_jpg.rf.d63ec4a8509c87f28b7d42f10658f8d8__57f7d04d0d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_242s_jpg.rf.b58a451d0bc287e261d61641f3ffbf9a__7a68867493.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_241s_jpg.rf.1d4156d3e7ba47c89d5dbc0f3445518f__0dbdb7013d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_251s_jpg.rf.899dd9da7b525390e35670bfbc0c1a47__85aa98c7c7.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_252s_jpg.rf.e324def9b0ae0677b5cfc39799eaa6a5__2dd4e5b148.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_25s_jpg.rf.4751285287eabced8021f49328afb9af__0a6ad92745.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_26s_jpg.rf.b752b0775566c1561284ff83f7fb9b18__936f5403cc.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_38s_jpg.rf.b0d3ed6eee58704e4c74d63237d73f0c__afd9be9ba1.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_37s_jpg.rf.8f170bfee6545a465ea0764f6ceb8ae4__e7ae7bc81e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_590s_jpg.rf.76d3145626d254c6da55ae9e44954739__a4945935a1.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_590s_jpg.rf.76d3145626d254c6da55ae9e44954739__a4945935a1.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_597s_jpg.rf.fb16ee7ae8e34ad28eb4e8b0d5dc16c9__a6edfe2844.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_598s_jpg.rf.9a55ca7c4d9822ca45dc202ccbdf5926__fadef5506a.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_59s_jpg.rf.95367a65a95c641e09050b1fee1bcab6__7b991a7fd9.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_60s_jpg.rf.918f86a1df2ae6c4f3defe530ed8084a__f31cfc8b40.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_603s_jpg.rf.0b6c3cb9c3dee537516e96afd3c59edf__e2a1fdc47a.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_602s_jpg.rf.e358b48ee4a35ef310eaaf5626e640ab__b1e42b4b5e.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_623s_jpg.rf.7360938ce8d6dabd70180ff1b67137b2__24d402cbdc.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_623s_jpg.rf.7360938ce8d6dabd70180ff1b67137b2__24d402cbdc.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_624s_jpg.rf.07d7b14a61cf3dd470e3fdd5eba534c8__e0e231fd5e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_589s_jpg.rf.ef9c6d4f9054af7801897adb172bcf13__f326a0b518.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_626s_jpg.rf.86ff73b3b69b651c67874f511f8d3fa4__bd222f26d9.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_628s_jpg.rf.ec0dccaf18ac6612be59d1e59ccd0c45__7326145b84.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_628s_jpg.rf.ec0dccaf18ac6612be59d1e59ccd0c45__7326145b84.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_645s_jpg.rf.4ce421e2e74e13ce5553c95283e8b879__b13b6bf96c.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_643s_jpg.rf.b8b3a9165963c3fb1f0c4fd3386b60f8__a1e837b7cd.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_65s_jpg.rf.0a1c556ce899b511707f8ea6ac15b52e__8c3eb29e08.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_66s_jpg.rf.6ccbe2069c04fa3fffbaf89c5423310d__3549aa05d6.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_716s_jpg.rf.f9f1394442367a16e65619f0411f8439__6907bbd1c2.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_714s_jpg.rf.16254f601e8119411860ae019b70f988__d212a82073.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_733s_jpg.rf.48c89a737beffe7cdadb9cd0ac777f0f__a09d9ae01b.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_697s_jpg.rf.2cdb3b8df8aadcbecc93ed7aa5190aad__39a7b65718.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_807s_jpg.rf.8cad411d65ab142410c85aaf1be72bb8__df0d16956f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_806s_jpg.rf.fed865d878df7fd20d08d432e1ffdad8__a984263ae3.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_810s_jpg.rf.46f834b33d3c74b164e18ebccad1aac2__393bb908fb.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_802s_jpg.rf.e2bd5f52898a14f38079664a6df45160__fb2faf587a.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_823s_jpg.rf.1396bcacfd37de98e7575620c317dc48__e0ad7a025f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_822s_jpg.rf.96e25e3aee62beab27b917eb82734694__7aa3253153.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_839s_jpg.rf.05f4d264503481f58ca8dfc0478ecfbd__d408643785.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_838s_jpg.rf.4b9f83a0d8d88045b70cb064eb715be9__8127a2d64d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/sod-v1__0000481_jpg.rf.40e321acf7b33fbe8772b1bcfbcea29f__f703ed184b.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__0000480_jpg.rf.03d943356ad6ad84a750a8f5ed396138__ecfb36abf7.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/sod-v1__92324000_jpg.rf.5ea0afaf2869c85656215c8122b1004d__08d27caab5.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__9232967_jpg.rf.b0ca68c241059e781f6e80c7de89594e__b525ced177.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/sod-v1__FS4-unsplash_jpg.rf.4f1053d1d8b649d23f5452ce680aa8a3__acaa93b82d.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__ae5c9ea__jpg.rf.61316f977a0ba4edd6acd2e9fb837b4b__e21a933eff.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/sod-v1__chimney-industry-three-dimensional_592324-19284_jpg.rf.6aeca9d4be475512654f2bf395780d70__72b0f2ed1b.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__9232967_jpg.rf.b0ca68c241059e781f6e80c7de89594e__b525ced177.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/train/sod-v1__pexels-145848_mp4-1_jpg.rf.bd97239e71a46fc412a4f0634b84683c__59b362ad7e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__pexels-145848_mp4-0_jpg.rf.d6bfcb303574f26805b6733444806f89__b443424f29.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_253s_jpg.rf.2f25dc44e5b8dd0baaecb9440a2e4cc5__6354e2782d.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_252s_jpg.rf.e324def9b0ae0677b5cfc39799eaa6a5__2dd4e5b148.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_37s_jpg.rf.381fbfba1487fce334c6b57f558ad290__107e452e18.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_30s_jpg.rf.32265751d3aa82eafd36400d0fe30067__b9d753777c.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_39s_jpg.rf.a1fd25b9bac66fb33f2a455e8f031e91__53c1c516d2.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_33s_jpg.rf.79f52f32c040909b46d6c2471be1d044__fb56543198.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_53s_jpg.rf.3ad5831bfd8011d56ebd25ebb251c676__381f158269.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_55s_jpg.rf.26630d5625c93a239f87174ce439517b__e6564214a0.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_54s_jpg.rf.e4d06a0fc3d08ce778ba02a19faa3935__ddd57eb7f1.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_55s_jpg.rf.26630d5625c93a239f87174ce439517b__e6564214a0.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_581s_jpg.rf.d5960acc3d16dfcc9798f5fa0b21a442__7034f7e469.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_582s_jpg.rf.403347d27a2116d3db025d365aedff56__8c7c9042ff.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_58s_jpg.rf.dbc012aedffbb986d2027fa5a28eed2e__f13a0e3f20.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_57s_jpg.rf.a0e6fbb318f5ee7228e8620776ec09b7__0b368bb49a.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_5s_jpg.rf.dae2a98bc534fd23b28e788be12baf30__1a70bb394e.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_4s_jpg.rf.e71a118265d357120c889204ab569e71__535dedcb6d.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_620s_jpg.rf.1397221363378b47a452ca823a4fc2d8__044724274a.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_630s_jpg.rf.70b32d28858ef02936da3f829424badb__e73c410fa6.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_822s_jpg.rf.96e25e3aee62beab27b917eb82734694__7aa3253153.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_820s_jpg.rf.dc7725a129392a5d37faee0e2f019692__3c27bb769a.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/sod-v1__9232967_jpg.rf.b0ca68c241059e781f6e80c7de89594e__b525ced177.jpg",
+        "left_split": "val",
+        "right_path": "images/test/sod-v1__24818_jpg.rf.7421df67077deb199231171893913a1b__3ef521dae7.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 2,
+        "left_path": "images/val/sod-v1__9232967_jpg.rf.b0ca68c241059e781f6e80c7de89594e__b525ced177.jpg",
+        "left_split": "val",
+        "right_path": "images/test/sod-v1__chimney-industry_592324-19747_jpg.rf.20216f43328a18aa9ccfef4d03f75408__0cc17726d6.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/indian-unstructured-road-v10__VID_20230525_181352_mp4-11_jpg.rf.f8e5f2dc5801418995fbe9255cce4469__55fc8d0cfb.jpg",
+        "left_split": "train",
+        "right_path": "images/val/indian-unstructured-road-v10__VID_20230525_181352_mp4-10_jpg.rf.db6c1ae4165d2e31270b1d5c181136b4__61b1b282f4.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_11s_jpg.rf.6eac80cc3579150d7814897b0fb62124__4167fd0537.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_10s_jpg.rf.e1ff931a81a48967fa4fd69a181ee3c4__05dd44565f.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_154s_jpg.rf.0a5ae18c8386a5996e13c31942b19cad__455af7198b.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_153s_jpg.rf.c3cda7808515cf2dcc158800e47e79f4__f92694a926.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_162s_jpg.rf.6aeed70d5fb6325fd1cc06bbafdfa5a5__079338e518.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_132s_jpg.rf.99b3377a83d4624066ba50bc692d203a__246214bad9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_162s_jpg.rf.6aeed70d5fb6325fd1cc06bbafdfa5a5__079338e518.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_171s_jpg.rf.7a3d9d7fe013d76130f30496f29e4427__57beffa251.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_163s_jpg.rf.26f2a89350ba2ced2a6264aa5a46acc9__3e95334891.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_171s_jpg.rf.7a3d9d7fe013d76130f30496f29e4427__57beffa251.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_174s_jpg.rf.ae10dd1b5fed14f28c032c4809d271b8__2386730597.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_164s_jpg.rf.47c6bdf7437f53e888033f2f6ebe0415__ceed360f37.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_181s_jpg.rf.7ab6cb6cbc1dd1c2829649b33696a9d8__c4bbeda27f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_172s_jpg.rf.2f8125550d4199252969dabfdaa8d425__5a9ce30b8f.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_1s_jpg.rf.785b84b238564424b1946abd36be69bf__e456e01ede.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_2s_jpg.rf.c5a97198b3fa78a54e9fa340c99e5b74__61e9b35322.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_204s_jpg.rf.16f59c520c31c5238a8bdc70f7a57fb4__0b41d79ee5.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_205s_jpg.rf.197782d9163b2c1922cde165ca475a1a__ee98ce158b.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_240s_jpg.rf.c492631426e1ab09035db46a4d82fc25__27ee65b6b9.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_241s_jpg.rf.1d4156d3e7ba47c89d5dbc0f3445518f__0dbdb7013d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_251s_jpg.rf.b879d65a5b1299779c01a4897c8569c8__aa9c073ccf.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_274s_jpg.rf.28864153d0dee5108ffb4f3bc9c8c941__75df210df9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_255s_jpg.rf.55a9bccab847c5f1a4176e5dd7412e65__a747f4045c.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_252s_jpg.rf.e324def9b0ae0677b5cfc39799eaa6a5__2dd4e5b148.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_29s_jpg.rf.02dbed4f2073ebc525d5fe5f4a012212__7ef427fbc8.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_26s_jpg.rf.b752b0775566c1561284ff83f7fb9b18__936f5403cc.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_54s_jpg.rf.e4f3cde370435440711eaf690af2cb72__1de6fc89d0.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_56s_jpg.rf.b973ebf0c45e7f9c5011ada944d90823__b356ce439d.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_57s_jpg.rf.6b09aa196802602aee377db927cd7a8e__1b7b5142df.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_56s_jpg.rf.b973ebf0c45e7f9c5011ada944d90823__b356ce439d.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_584s_jpg.rf.bf855c48b50bbc1aa67450f5bb55f22e__b0fa0a4437.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_589s_jpg.rf.ef9c6d4f9054af7801897adb172bcf13__f326a0b518.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_585s_jpg.rf.ceb05be713276135c5a4f1dd8efde5cf__5fc68b22fa.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_633s_jpg.rf.0c64293c24b3791be26ab610cb3a0128__4fa945c4c9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_590s_jpg.rf.76d3145626d254c6da55ae9e44954739__a4945935a1.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_627s_jpg.rf.b3d4e5eb6e79f90b9de9c34ce394c33b__2da7c8550d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_59s_jpg.rf.12efdf74f64e9633fa91a9eb8791197c__8ced19e227.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_60s_jpg.rf.8c93715d4fbab414e81b7555fa3cf6ef__627c3e279b.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_604s_jpg.rf.b55009287973a1fa914f3e832025c524__ad61214dfd.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_602s_jpg.rf.e358b48ee4a35ef310eaaf5626e640ab__b1e42b4b5e.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_605s_jpg.rf.24b0884dce6b36127538cf9a81225e01__55ea3ef970.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_602s_jpg.rf.e358b48ee4a35ef310eaaf5626e640ab__b1e42b4b5e.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_617s_jpg.rf.d9111ab44be521e6d1c7d67a58c2c2c6__8c70ca5977.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_620s_jpg.rf.1397221363378b47a452ca823a4fc2d8__044724274a.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_619s_jpg.rf.3fc3153d5d8d901e6ff7ab44cd5e8beb__a5e16438b7.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_623s_jpg.rf.7360938ce8d6dabd70180ff1b67137b2__24d402cbdc.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_627s_jpg.rf.b3d4e5eb6e79f90b9de9c34ce394c33b__2da7c8550d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_624s_jpg.rf.07d7b14a61cf3dd470e3fdd5eba534c8__e0e231fd5e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_626s_jpg.rf.86ff73b3b69b651c67874f511f8d3fa4__bd222f26d9.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_589s_jpg.rf.ef9c6d4f9054af7801897adb172bcf13__f326a0b518.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_626s_jpg.rf.86ff73b3b69b651c67874f511f8d3fa4__bd222f26d9.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_627s_jpg.rf.b3d4e5eb6e79f90b9de9c34ce394c33b__2da7c8550d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_628s_jpg.rf.ec0dccaf18ac6612be59d1e59ccd0c45__7326145b84.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_589s_jpg.rf.ef9c6d4f9054af7801897adb172bcf13__f326a0b518.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_628s_jpg.rf.ec0dccaf18ac6612be59d1e59ccd0c45__7326145b84.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_627s_jpg.rf.b3d4e5eb6e79f90b9de9c34ce394c33b__2da7c8550d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_629s_jpg.rf.9d465e94d1ff33b3979dbe067e2d9322__bf573afaf8.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_629s_jpg.rf.cac2d1b5d2a673a2a646d709ed9ca145__181c54ed82.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_627s_jpg.rf.b3d4e5eb6e79f90b9de9c34ce394c33b__2da7c8550d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_634s_jpg.rf.f567b527f528bd5e71c809908200a559__bd91ee5014.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_635s_jpg.rf.982bbf1b7d2b9f843d1a10b58884255f__5661de577e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_633s_jpg.rf.0c64293c24b3791be26ab610cb3a0128__4fa945c4c9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_636s_jpg.rf.082fc7f25fa9d48008ff92b592647767__a6b2475756.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_633s_jpg.rf.0c64293c24b3791be26ab610cb3a0128__4fa945c4c9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_636s_jpg.rf.98b8233d5bd2065def5f7b217de31362__d22fbb028a.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_633s_jpg.rf.0c64293c24b3791be26ab610cb3a0128__4fa945c4c9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_636s_jpg.rf.cb23ffcd274a98a04d4bf549337efe26__6a35b5f684.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_633s_jpg.rf.0c64293c24b3791be26ab610cb3a0128__4fa945c4c9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_640s_jpg.rf.7869fa163c66ee7748d0cdb82eb639ed__b1cd224b41.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_641s_jpg.rf.6c4806b82d780a8839a31dce5ed13976__22114714d4.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_642s_jpg.rf.26fc826c6a26e0fede3eaec246e26580__405e6c483e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_643s_jpg.rf.b8b3a9165963c3fb1f0c4fd3386b60f8__a1e837b7cd.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_646s_jpg.rf.71546ad25441c83a4aa3065dacea2980__124575af11.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_646s_jpg.rf.71546ad25441c83a4aa3065dacea2980__124575af11.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_652s_jpg.rf.584e7009e86b9c584f0fe9e90ba0d38a__794efa20ea.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_646s_jpg.rf.c859eb201f1c1465e675cd66c645a33b__5de0f6355a.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_646s_jpg.rf.c859eb201f1c1465e675cd66c645a33b__5de0f6355a.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_652s_jpg.rf.584e7009e86b9c584f0fe9e90ba0d38a__794efa20ea.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_648s_jpg.rf.21671f8f0cf1710907a8ad6452f226f9__011599f370.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_641s_jpg.rf.6c4806b82d780a8839a31dce5ed13976__22114714d4.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_651s_jpg.rf.e793ecc9ebcdee364c692a5953b4dba5__873abe9ff4.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_643s_jpg.rf.b8b3a9165963c3fb1f0c4fd3386b60f8__a1e837b7cd.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_68s_jpg.rf.75069ab9c540861ec2534def9ff47f71__50813bbc72.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_70s_jpg.rf.9b412a360af8a60e0220e87980ca1319__a9c7afff8b.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_68s_jpg.rf.8b0192ada9e65336054143422778c2dd__6b19104029.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_70s_jpg.rf.9b412a360af8a60e0220e87980ca1319__a9c7afff8b.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_69s_jpg.rf.0e7c94a155c921b44c35e8bcc3acbcd7__ec6ba00b0f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_70s_jpg.rf.9b412a360af8a60e0220e87980ca1319__a9c7afff8b.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_707s_jpg.rf.1bde9786b0acaa07fcbda3f1e31de73b__7c527095e1.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_714s_jpg.rf.16254f601e8119411860ae019b70f988__d212a82073.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_712s_jpg.rf.1226090042cec5539037662f9aabd409__937b7e3810.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_709s_jpg.rf.429daaa80f834f31881a0398d952dab9__9176272879.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_713s_jpg.rf.5a16c2cdf2e77e3633ae0fb7fc3da487__a9c7559cab.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_710s_jpg.rf.f4c183d3b31d9973d3808c8f2d233e99__4a381250d3.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_725s_jpg.rf.442d2cfc85eab5b33c0f986ba2d72182__d66474793f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_697s_jpg.rf.2cdb3b8df8aadcbecc93ed7aa5190aad__39a7b65718.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_725s_jpg.rf.442d2cfc85eab5b33c0f986ba2d72182__d66474793f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_726s_jpg.rf.e19e2a2a507f9ee384b0b03412a92c5f__98f5262cf2.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_770s_jpg.rf.7b2b686655c3b8ecf881671b6f15edcf__c782692e50.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_773s_jpg.rf.d49d01dd99f737cd38c3f1b22c9831e0__25afda4d97.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_807s_jpg.rf.6d8319ede535e065125a66c805ac6bed__69da5823bc.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_806s_jpg.rf.fed865d878df7fd20d08d432e1ffdad8__a984263ae3.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_826s_jpg.rf.ba887e8eb7ac8dbf2528729cdab04980__fecc8ece98.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_828s_jpg.rf.b0a1ff3823c1df6a107bcf4bdeca8b55__5458cef93c.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_829s_jpg.rf.291eb0b1956e68ac4f816be412b306f9__7bf3e23d53.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_836s_jpg.rf.6ff0901be7c73fb6c5d7a812771270fb__6616486849.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_837s_jpg.rf.507c2ad0a088a1cb568e179868d99b38__abc98c2e27.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_836s_jpg.rf.6ff0901be7c73fb6c5d7a812771270fb__6616486849.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_837s_jpg.rf.507c2ad0a088a1cb568e179868d99b38__abc98c2e27.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_840s_jpg.rf.85450482572e140b2646ab229e7eee61__2911bdc62d.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_841s_jpg.rf.f1dadfc89e8a5183d27361ee3fb9d3fc__7ac49d1494.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_836s_jpg.rf.6ff0901be7c73fb6c5d7a812771270fb__6616486849.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_841s_jpg.rf.f1dadfc89e8a5183d27361ee3fb9d3fc__7ac49d1494.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_840s_jpg.rf.85450482572e140b2646ab229e7eee61__2911bdc62d.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/sod-v1__0524467_jpg.rf.adb233beceeee7abec2739e7446f113d__50f4332382.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__0524236_jpg.rf.36458e62c380ae29784c82dd44cbda6b__ab0a944ed3.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/sod-v1__9232909_jpg.rf.22d2066ba4365c3e1087a845c91e8500__83b70e0c1c.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__24818_jpg.rf.7421df67077deb199231171893913a1b__3ef521dae7.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/sod-v1__9232909_jpg.rf.22d2066ba4365c3e1087a845c91e8500__83b70e0c1c.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__chimney-industry_592324-19747_jpg.rf.20216f43328a18aa9ccfef4d03f75408__0cc17726d6.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/sod-v1__pexels-145848_mp4-1_jpg.rf.bd97239e71a46fc412a4f0634b84683c__59b362ad7e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__pexels-145848_mp4-2_jpg.rf.302d50139a67071f34e2090dee338a48__7bd39b9b0e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/sod-v1__pexels-145848_mp4-3_jpg.rf.39deb800a1437bb04bb9f7504feb7af2__fcb722e5b1.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__pexels-145848_mp4-0_jpg.rf.d6bfcb303574f26805b6733444806f89__b443424f29.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/train/sod-v1__pexels-503055_mp4-2_jpg.rf.61ffb8388a6ebe6d8b48e6aa9e569a62__25d72244ac.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__pexels-503055_mp4-3_jpg.rf.41c28dc1e882de446d9dd85568375fd2__c50928aba9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_12s_jpg.rf.bf63bf7ab107149a82bc5c14463f281d__d81991d1e7.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_1s_jpg.rf.634070ea252713cd864755c9acbee4be__b3bb17a82b.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_12s_jpg.rf.bf63bf7ab107149a82bc5c14463f281d__d81991d1e7.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_3s_jpg.rf.e3b6f6a3b792ab575a7669092598e034__c44c7c1bb3.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_17s_jpg.rf.9e5187abded4e38a85f8eb13e096d9ca__fd0bef233b.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_14s_jpg.rf.85cb0c80e753c959d044129a1e64fa15__93e39d524b.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_17s_jpg.rf.9e5187abded4e38a85f8eb13e096d9ca__fd0bef233b.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_16s_jpg.rf.df4cc0f5501792e6303e741f7fda5348__50ffa28d1a.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_19s_jpg.rf.fa311ca43343785e25a964d02439d9dc__ccb7028f22.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_16s_jpg.rf.df4cc0f5501792e6303e741f7fda5348__50ffa28d1a.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_19s_jpg.rf.fa311ca43343785e25a964d02439d9dc__ccb7028f22.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_1s_jpg.rf.634070ea252713cd864755c9acbee4be__b3bb17a82b.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_2s_jpg.rf.bf6d4aed658b9e61454dfcd6d2d16a63__2a8b54097c.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_3s_jpg.rf.e3b6f6a3b792ab575a7669092598e034__c44c7c1bb3.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_36s_jpg.rf.b402844fa256bc42bb1697d43617e0c5__a025645062.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_26s_jpg.rf.559091ee7bec24ebdb06a3828299c39e__d29f31d207.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_36s_jpg.rf.b402844fa256bc42bb1697d43617e0c5__a025645062.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_27s_jpg.rf.f3dbea1a8eb51e837970eddfb54bc2c1__1a14d02497.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_37s_jpg.rf.381fbfba1487fce334c6b57f558ad290__107e452e18.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_26s_jpg.rf.559091ee7bec24ebdb06a3828299c39e__d29f31d207.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_37s_jpg.rf.381fbfba1487fce334c6b57f558ad290__107e452e18.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_27s_jpg.rf.f3dbea1a8eb51e837970eddfb54bc2c1__1a14d02497.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_38s_jpg.rf.5c3afaa5bbaa79268661a61c29811bf9__85d1c58536.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_28s_jpg.rf.79d44a63d0cd50648457a56f473c3b81__4ecf70f1b5.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_38s_jpg.rf.5c3afaa5bbaa79268661a61c29811bf9__85d1c58536.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_30s_jpg.rf.32265751d3aa82eafd36400d0fe30067__b9d753777c.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_39s_jpg.rf.a1fd25b9bac66fb33f2a455e8f031e91__53c1c516d2.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_24s_jpg.rf.b2fe93f26f2c3a5650c1467a735f6a46__5fc51c9eb9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_39s_jpg.rf.a1fd25b9bac66fb33f2a455e8f031e91__53c1c516d2.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_30s_jpg.rf.32265751d3aa82eafd36400d0fe30067__b9d753777c.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_40s_jpg.rf.7f6ac1abce250dcec61b4852c6f6584c__9fbcd5d372.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_28s_jpg.rf.79d44a63d0cd50648457a56f473c3b81__4ecf70f1b5.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_4s_jpg.rf.4b5210bb53cc5d64778046b4114c67c2__ef85d432e5.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_1s_jpg.rf.634070ea252713cd864755c9acbee4be__b3bb17a82b.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_56s_jpg.rf.fee40c30de94b0cb35aa946cdb3aa372__dec46755f1.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_55s_jpg.rf.26630d5625c93a239f87174ce439517b__e6564214a0.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_589s_jpg.rf.ef9c6d4f9054af7801897adb172bcf13__f326a0b518.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_633s_jpg.rf.0c64293c24b3791be26ab610cb3a0128__4fa945c4c9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_7s_jpg.rf.183b12bc3145f3fa0ceb0eb7cdd9b2ce__6135837b1d.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_16s_jpg.rf.df4cc0f5501792e6303e741f7fda5348__50ffa28d1a.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_819s_jpg.rf.239912de092cc056ecbfdd7d643b9899__8212b29554.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_820s_jpg.rf.dc7725a129392a5d37faee0e2f019692__3c27bb769a.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_832s_jpg.rf.3c2840d4195a9f2a4265e6fb884a2aef__7924f7b228.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_836s_jpg.rf.6ff0901be7c73fb6c5d7a812771270fb__6616486849.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 3,
+        "left_path": "images/val/sod-v1__3185036b47b8da4c_jpg.rf.06e3504ec5b64394534f16dc6edd0f40__ff5e715cd3.jpg",
+        "left_split": "val",
+        "right_path": "images/test/sod-v1__000000398350_jpg.rf.723dfd8d6da1e59493577fd636fe18c8__ebb6f4e836.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/indian-unstructured-road-v10__VID_20230525_181352_mp4-11_jpg.rf.cda203d23f9cce75ec7e06b6f683944d__75149b88a9.jpg",
+        "left_split": "train",
+        "right_path": "images/val/indian-unstructured-road-v10__VID_20230525_181352_mp4-10_jpg.rf.db6c1ae4165d2e31270b1d5c181136b4__61b1b282f4.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/indian-unstructured-road-v10__VID_20230710_192428_mp4-2_jpg.rf.b1b65ee4e673d0582064c7215f524192__383fee8267.jpg",
+        "left_split": "train",
+        "right_path": "images/val/indian-unstructured-road-v10__VID_20230710_192428_mp4-1_jpg.rf.af76e2b28b4612c4f9aced720186786d__8f2ed1b22a.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/indian-unstructured-road-v10__VID_20230710_192428_mp4-2_jpg.rf.cc4a8331bec4ef2348b8c03ef75349bf__3eaa9d129a.jpg",
+        "left_split": "train",
+        "right_path": "images/val/indian-unstructured-road-v10__VID_20230710_192428_mp4-1_jpg.rf.af76e2b28b4612c4f9aced720186786d__8f2ed1b22a.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/indian-unstructured-road-v10__VID_20230718_191619_mp4-0_jpg.rf.c336536f26c94b0092c6dd1c620f092b__47e82f54dc.jpg",
+        "left_split": "train",
+        "right_path": "images/val/indian-unstructured-road-v10__VID_20230718_191619_mp4-1_jpg.rf.e6936136ab70f42813db3b7470b98b6f__7afc19cccf.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_131s_jpg.rf.6fc5725f7a6ee5afbb086efe7d1d9fd5__4cce08be9c.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_745s_jpg.rf.7c41a8c2891fabc83190326d378242b7__30442152c5.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_134s_jpg.rf.2fa24dfc292cad78609ad56e4282a87a__4d13788051.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_132s_jpg.rf.99b3377a83d4624066ba50bc692d203a__246214bad9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_134s_jpg.rf.2fa24dfc292cad78609ad56e4282a87a__4d13788051.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_171s_jpg.rf.7a3d9d7fe013d76130f30496f29e4427__57beffa251.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_134s_jpg.rf.2fa24dfc292cad78609ad56e4282a87a__4d13788051.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_133s_jpg.rf.369007a936b3413080e4c83433a9613c__e0a9932938.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_137s_jpg.rf.e1f57e7fa74423882beab02165f9ebd9__ee5b9a824f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_136s_jpg.rf.0ac6a2c205fd046d441afddd35f93d31__1971075638.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_158s_jpg.rf.d9c1e1c5bd8767a96359a1d2ce26dea4__540445a470.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_221s_jpg.rf.81e6b8d38c27ad0cc3e7040628717923__4e9c705f07.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_160s_jpg.rf.88f14a4c8bfa7711eee2037dac97389c__2bb196ce37.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_164s_jpg.rf.47c6bdf7437f53e888033f2f6ebe0415__ceed360f37.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_160s_jpg.rf.88f14a4c8bfa7711eee2037dac97389c__2bb196ce37.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_168s_jpg.rf.dfb0e517772efaff24596643ba8369f7__2260f8ccde.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_160s_jpg.rf.88f14a4c8bfa7711eee2037dac97389c__2bb196ce37.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_172s_jpg.rf.2f8125550d4199252969dabfdaa8d425__5a9ce30b8f.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_162s_jpg.rf.6aeed70d5fb6325fd1cc06bbafdfa5a5__079338e518.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_164s_jpg.rf.47c6bdf7437f53e888033f2f6ebe0415__ceed360f37.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_162s_jpg.rf.6aeed70d5fb6325fd1cc06bbafdfa5a5__079338e518.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_161s_jpg.rf.1372595e539905fb46a8308ecc794996__4dcc6dd7fe.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_162s_jpg.rf.6aeed70d5fb6325fd1cc06bbafdfa5a5__079338e518.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_173s_jpg.rf.ac5c636236ca14a4e34c4c68c840b924__52a3ccc9c8.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_162s_jpg.rf.6aeed70d5fb6325fd1cc06bbafdfa5a5__079338e518.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_175s_jpg.rf.97a83429017a75809f705aa9c79f1745__647ff09718.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_163s_jpg.rf.26f2a89350ba2ced2a6264aa5a46acc9__3e95334891.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_175s_jpg.rf.97a83429017a75809f705aa9c79f1745__647ff09718.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_165s_jpg.rf.77aafebe6922d4d5dc2a47b7db4e9695__b2ddbf45a4.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_180s_jpg.rf.915b3278a8d09aabc6b4dd21009f1f82__afbcc31bd2.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_167s_jpg.rf.1d81c0bdfb1a0e058288221df8890efd__7b3a71c54f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_161s_jpg.rf.1372595e539905fb46a8308ecc794996__4dcc6dd7fe.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_167s_jpg.rf.1d81c0bdfb1a0e058288221df8890efd__7b3a71c54f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_175s_jpg.rf.97a83429017a75809f705aa9c79f1745__647ff09718.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_16s_jpg.rf.b91018fc3d02817929cffee7dc26c207__90266602f4.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_35s_jpg.rf.b811b1025926988521abaa47b61a3d46__03c38cf65b.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_170s_jpg.rf.0a3a05a5146c0b055963990be166466b__31676026b7.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_180s_jpg.rf.915b3278a8d09aabc6b4dd21009f1f82__afbcc31bd2.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_174s_jpg.rf.ae10dd1b5fed14f28c032c4809d271b8__2386730597.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_180s_jpg.rf.915b3278a8d09aabc6b4dd21009f1f82__afbcc31bd2.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_177s_jpg.rf.7b84a6f5560394a5679fa32438de2854__92c0b16b1f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_133s_jpg.rf.369007a936b3413080e4c83433a9613c__e0a9932938.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_177s_jpg.rf.a37d375e1f5e4b6ef80fa7b83285ebf3__d84c6d0feb.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_164s_jpg.rf.47c6bdf7437f53e888033f2f6ebe0415__ceed360f37.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_177s_jpg.rf.a37d375e1f5e4b6ef80fa7b83285ebf3__d84c6d0feb.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_175s_jpg.rf.97a83429017a75809f705aa9c79f1745__647ff09718.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_179s_jpg.rf.0772017b798b74abfce5b2b9a6ddef80__5e98e966b3.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_171s_jpg.rf.7a3d9d7fe013d76130f30496f29e4427__57beffa251.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_194s_jpg.rf.f8859cb21ad8bbbab286538e4937f103__604c1a8841.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_217s_jpg.rf.d63ec4a8509c87f28b7d42f10658f8d8__57f7d04d0d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_196s_jpg.rf.7c33b400fd5995203a058dcbb3edd712__8223b600d7.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_198s_jpg.rf.72cde18fdc15a82513fc505482ffa904__1906358d90.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_202s_jpg.rf.8c7b9f9d9d5aea58daa700195d071d68__e9f5213a20.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_200s_jpg.rf.4faf40beff7ddb2141e0b1b6144b43be__55397b0602.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_202s_jpg.rf.8c7b9f9d9d5aea58daa700195d071d68__e9f5213a20.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_198s_jpg.rf.72cde18fdc15a82513fc505482ffa904__1906358d90.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_203s_jpg.rf.4df10fc1de63f6e20e6be792f3562d31__8cf11a8d5e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_200s_jpg.rf.4faf40beff7ddb2141e0b1b6144b43be__55397b0602.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_20s_jpg.rf.50ddcdaa02e5498a8db80ab4b9804912__2116306f0e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_21s_jpg.rf.c0e3993cd1b0ee5b48083af3feb40696__f8273d1d30.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_20s_jpg.rf.9977f445dd877044864dcf1522d5e88c__890c32c019.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_22s_jpg.rf.f61a5ed5b4d73b0867e03e6650911414__72310e6f95.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_210s_jpg.rf.0a092c0011abfd72eff5afdacd3339b0__b69ac833b4.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_215s_jpg.rf.619dd1dd70b31c1d7546d9e7c1b57f72__ade8e4336c.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_229s_jpg.rf.05af6defb77fde851ed18a1b69b0a771__2719762c3b.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_269s_jpg.rf.57c788fe5c9bd8f47ac7a28f885861eb__d8b92f1e07.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_23s_jpg.rf.637127b0b2ff885f568c1911455d490f__8b568fab86.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_86s_jpg.rf.91ef0a866f1f1ca44bdec22621ceb86c__4de3a06d35.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_242s_jpg.rf.b58a451d0bc287e261d61641f3ffbf9a__7a68867493.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_239s_jpg.rf.bd455b5b1d76a49784c5cc2eabaa103c__6ac0d10aa6.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_246s_jpg.rf.560937542a4ce9efc50b9ec441408cfb__28db784de8.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_241s_jpg.rf.1d4156d3e7ba47c89d5dbc0f3445518f__0dbdb7013d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_251s_jpg.rf.899dd9da7b525390e35670bfbc0c1a47__85aa98c7c7.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_253s_jpg.rf.2f25dc44e5b8dd0baaecb9440a2e4cc5__6354e2782d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_251s_jpg.rf.a688e1daa8b35b2e225a839ce2dc1a53__49bae65a5e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_252s_jpg.rf.e324def9b0ae0677b5cfc39799eaa6a5__2dd4e5b148.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_253s_jpg.rf.2c765213b374ffa3910ae18b0fc1089e__7f08362fd4.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_272s_jpg.rf.53917c1e77f6b52ebec90b98eef6f7ec__ad8d73e6af.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_273s_jpg.rf.679b7ced0604d6ec41c33568d6f4ebb3__563d757c0e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_274s_jpg.rf.28864153d0dee5108ffb4f3bc9c8c941__75df210df9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_273s_jpg.rf.e7a0d6ecf09c8854c716217e45e5539b__226a1e3f6c.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_272s_jpg.rf.53917c1e77f6b52ebec90b98eef6f7ec__ad8d73e6af.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_27s_jpg.rf.70003da5906d0eab658fa17d12529624__6d33481513.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_10s_jpg.rf.04ddb67abbc0fc0ae4addad46fba8c1d__68318109d9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_285s_jpg.rf.8fded71eead4692dcf377908008f981b__4158093af2.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_286s_jpg.rf.a05419f60cb88df4a5584bd10096fea8__64cc6b3808.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_36s_jpg.rf.148c34732d589f7eda2da8f716802eba__888b7df8a2.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_34s_jpg.rf.0e327c0a7648572e5ea4b430ce5d1313__7fc3787129.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_3s_jpg.rf.9048708e1f85c34a4ef482af36f0820f__05c7be4b85.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_2s_jpg.rf.c5a97198b3fa78a54e9fa340c99e5b74__61e9b35322.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_3s_jpg.rf.9048708e1f85c34a4ef482af36f0820f__05c7be4b85.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_4s_jpg.rf.e99bd93702b8b41f1ed91aaab0217911__554631e21e.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_52s_jpg.rf.f74e23d9542192017d8c7178f7696860__e936569b11.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_56s_jpg.rf.c814f1b64927ae4149d1f602f2031570__3e28783d9d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_579s_jpg.rf.83a20981b106884c5594b4f619e52e77__89168034cf.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_582s_jpg.rf.403347d27a2116d3db025d365aedff56__8c7c9042ff.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_580s_jpg.rf.2b1d25bdb7b4174ca1b52dec4d64e8e9__e72a223cc8.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_582s_jpg.rf.403347d27a2116d3db025d365aedff56__8c7c9042ff.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_580s_jpg.rf.2b1d25bdb7b4174ca1b52dec4d64e8e9__e72a223cc8.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_581s_jpg.rf.d5960acc3d16dfcc9798f5fa0b21a442__7034f7e469.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_588s_jpg.rf.e2232d85005ef3c3221a75f9e08f5295__2383b1ff04.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_589s_jpg.rf.ef9c6d4f9054af7801897adb172bcf13__f326a0b518.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_58s_jpg.rf.1387a91397a1fc7cc52f75057fc552c1__936352dd3b.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_61s_jpg.rf.ba003eff727e1e8ba797a8319f56c14d__eae09d039a.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_590s_jpg.rf.76d3145626d254c6da55ae9e44954739__a4945935a1.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_652s_jpg.rf.584e7009e86b9c584f0fe9e90ba0d38a__794efa20ea.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_590s_jpg.rf.76d3145626d254c6da55ae9e44954739__a4945935a1.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_593s_jpg.rf.240b80c3c4cf63cf1a2e80ffff5a8213__4dd4e91ffa.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_638s_jpg.rf.5fd7c654f7ba8f572709aa2895a58953__626e946ef4.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_593s_jpg.rf.eac5b503ded992981e9681b39b37bc1d__a7e6dc227e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_638s_jpg.rf.5fd7c654f7ba8f572709aa2895a58953__626e946ef4.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_596s_jpg.rf.6ccc482a8e644d588dd83981fc9db4a9__a8b9853dbe.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_598s_jpg.rf.9a55ca7c4d9822ca45dc202ccbdf5926__fadef5506a.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_604s_jpg.rf.234b8e4ad68b07dc173132f8d9987ffd__dadb2bd7c8.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_602s_jpg.rf.e358b48ee4a35ef310eaaf5626e640ab__b1e42b4b5e.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_606s_jpg.rf.9b8b9dfc058076264439f5e297263ce4__1e3d515529.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_602s_jpg.rf.e358b48ee4a35ef310eaaf5626e640ab__b1e42b4b5e.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_615s_jpg.rf.9b57d0bb9a4a9690760bc141683f89ec__0502a105ea.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_619s_jpg.rf.3fc3153d5d8d901e6ff7ab44cd5e8beb__a5e16438b7.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_633s_jpg.rf.0c64293c24b3791be26ab610cb3a0128__4fa945c4c9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_619s_jpg.rf.3fc3153d5d8d901e6ff7ab44cd5e8beb__a5e16438b7.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_589s_jpg.rf.ef9c6d4f9054af7801897adb172bcf13__f326a0b518.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_619s_jpg.rf.4d9f0b2237bbe52677c0ac9fe27622b0__53848f3e17.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_623s_jpg.rf.7360938ce8d6dabd70180ff1b67137b2__24d402cbdc.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_652s_jpg.rf.584e7009e86b9c584f0fe9e90ba0d38a__794efa20ea.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_623s_jpg.rf.7360938ce8d6dabd70180ff1b67137b2__24d402cbdc.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_624s_jpg.rf.07d7b14a61cf3dd470e3fdd5eba534c8__e0e231fd5e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_633s_jpg.rf.0c64293c24b3791be26ab610cb3a0128__4fa945c4c9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_624s_jpg.rf.07d7b14a61cf3dd470e3fdd5eba534c8__e0e231fd5e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_627s_jpg.rf.b3d4e5eb6e79f90b9de9c34ce394c33b__2da7c8550d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_626s_jpg.rf.86ff73b3b69b651c67874f511f8d3fa4__bd222f26d9.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_628s_jpg.rf.ec0dccaf18ac6612be59d1e59ccd0c45__7326145b84.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_652s_jpg.rf.584e7009e86b9c584f0fe9e90ba0d38a__794efa20ea.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_628s_jpg.rf.ec0dccaf18ac6612be59d1e59ccd0c45__7326145b84.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_629s_jpg.rf.9d465e94d1ff33b3979dbe067e2d9322__bf573afaf8.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_627s_jpg.rf.b3d4e5eb6e79f90b9de9c34ce394c33b__2da7c8550d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_629s_jpg.rf.cac2d1b5d2a673a2a646d709ed9ca145__181c54ed82.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_629s_jpg.rf.cac2d1b5d2a673a2a646d709ed9ca145__181c54ed82.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_634s_jpg.rf.f567b527f528bd5e71c809908200a559__bd91ee5014.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_633s_jpg.rf.0c64293c24b3791be26ab610cb3a0128__4fa945c4c9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_635s_jpg.rf.982bbf1b7d2b9f843d1a10b58884255f__5661de577e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_636s_jpg.rf.082fc7f25fa9d48008ff92b592647767__a6b2475756.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_636s_jpg.rf.082fc7f25fa9d48008ff92b592647767__a6b2475756.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_636s_jpg.rf.98b8233d5bd2065def5f7b217de31362__d22fbb028a.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_636s_jpg.rf.98b8233d5bd2065def5f7b217de31362__d22fbb028a.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_636s_jpg.rf.cb23ffcd274a98a04d4bf549337efe26__6a35b5f684.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_636s_jpg.rf.cb23ffcd274a98a04d4bf549337efe26__6a35b5f684.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_640s_jpg.rf.7869fa163c66ee7748d0cdb82eb639ed__b1cd224b41.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_644s_jpg.rf.a72121b1d58734a24e845bf96763fba9__f1e8392259.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_641s_jpg.rf.6c4806b82d780a8839a31dce5ed13976__22114714d4.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_644s_jpg.rf.a72121b1d58734a24e845bf96763fba9__f1e8392259.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_643s_jpg.rf.b8b3a9165963c3fb1f0c4fd3386b60f8__a1e837b7cd.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_645s_jpg.rf.4ce421e2e74e13ce5553c95283e8b879__b13b6bf96c.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_641s_jpg.rf.6c4806b82d780a8839a31dce5ed13976__22114714d4.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_645s_jpg.rf.4ce421e2e74e13ce5553c95283e8b879__b13b6bf96c.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_589s_jpg.rf.ef9c6d4f9054af7801897adb172bcf13__f326a0b518.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_646s_jpg.rf.71546ad25441c83a4aa3065dacea2980__124575af11.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_643s_jpg.rf.b8b3a9165963c3fb1f0c4fd3386b60f8__a1e837b7cd.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_646s_jpg.rf.c859eb201f1c1465e675cd66c645a33b__5de0f6355a.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_643s_jpg.rf.b8b3a9165963c3fb1f0c4fd3386b60f8__a1e837b7cd.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_651s_jpg.rf.34076df22d4b278588d0dd3dd42ddc22__aa3cbf0f58.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_652s_jpg.rf.584e7009e86b9c584f0fe9e90ba0d38a__794efa20ea.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_651s_jpg.rf.e793ecc9ebcdee364c692a5953b4dba5__873abe9ff4.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_651s_jpg.rf.e793ecc9ebcdee364c692a5953b4dba5__873abe9ff4.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_652s_jpg.rf.584e7009e86b9c584f0fe9e90ba0d38a__794efa20ea.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_651s_jpg.rf.e793ecc9ebcdee364c692a5953b4dba5__873abe9ff4.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_65s_jpg.rf.0a1c556ce899b511707f8ea6ac15b52e__8c3eb29e08.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_56s_jpg.rf.c814f1b64927ae4149d1f602f2031570__3e28783d9d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_67s_jpg.rf.807e6e860ff61423a19d0ee38ded4366__ea5e816c7a.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_19s_jpg.rf.b07319509593ff38e54d9b80d5f78477__9842464d7f.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_682s_jpg.rf.b173f8d53227fdcace6a8ca6179ac39f__a73618a26d.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_679s_jpg.rf.c77f44b1af0b049cfc18a64224cdd30f__903c6e2c4d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_707s_jpg.rf.1bde9786b0acaa07fcbda3f1e31de73b__7c527095e1.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_709s_jpg.rf.429daaa80f834f31881a0398d952dab9__9176272879.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_708s_jpg.rf.b4a15d9a2dbc7e17a1f06a9b9ffdf3da__0859f7b9c4.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_709s_jpg.rf.429daaa80f834f31881a0398d952dab9__9176272879.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_712s_jpg.rf.1226090042cec5539037662f9aabd409__937b7e3810.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_714s_jpg.rf.16254f601e8119411860ae019b70f988__d212a82073.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_715s_jpg.rf.1903732b25a8b33997c8983614f996da__1b99099b67.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_714s_jpg.rf.16254f601e8119411860ae019b70f988__d212a82073.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_716s_jpg.rf.9474c06cfc166b2e764540a20bd8dce6__891cd64d9d.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_710s_jpg.rf.f4c183d3b31d9973d3808c8f2d233e99__4a381250d3.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_716s_jpg.rf.9474c06cfc166b2e764540a20bd8dce6__891cd64d9d.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_714s_jpg.rf.16254f601e8119411860ae019b70f988__d212a82073.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_716s_jpg.rf.f9f1394442367a16e65619f0411f8439__6907bbd1c2.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_710s_jpg.rf.f4c183d3b31d9973d3808c8f2d233e99__4a381250d3.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_725s_jpg.rf.442d2cfc85eab5b33c0f986ba2d72182__d66474793f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_745s_jpg.rf.7c41a8c2891fabc83190326d378242b7__30442152c5.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_725s_jpg.rf.442d2cfc85eab5b33c0f986ba2d72182__d66474793f.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_773s_jpg.rf.d49d01dd99f737cd38c3f1b22c9831e0__25afda4d97.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_734s_jpg.rf.814c0a73cb1fd6a484a643f749bb57be__232bfeabe3.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_726s_jpg.rf.e19e2a2a507f9ee384b0b03412a92c5f__98f5262cf2.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_751s_jpg.rf.14c90c9b90596084c5a01dbcead8954a__12b09f19cf.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_749s_jpg.rf.2d246d4e1742f4ca076fc89b595c9a27__58dbce3bb1.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_771s_jpg.rf.f36e1f97f1412c16d162de9bbbc0e91b__49986911d0.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_773s_jpg.rf.d49d01dd99f737cd38c3f1b22c9831e0__25afda4d97.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_803s_jpg.rf.b9d1bb181a5dcc09bef70a2c6071bfd0__aa24fdd83b.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_805s_jpg.rf.7cc20cb513811bf9144d3506ef24f6fa__b66cc06f16.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_816s_jpg.rf.106ebd7eca673ddb8da68e93587b8f39__d708f3416d.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_815s_jpg.rf.a7e49fe2f5b74bac822503eb5be00000__0ae1751f7e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_823s_jpg.rf.1396bcacfd37de98e7575620c317dc48__e0ad7a025f.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_820s_jpg.rf.dc7725a129392a5d37faee0e2f019692__3c27bb769a.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_829s_jpg.rf.291eb0b1956e68ac4f816be412b306f9__7bf3e23d53.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_832s_jpg.rf.3c2840d4195a9f2a4265e6fb884a2aef__7924f7b228.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_831s_jpg.rf.b93f0d1d1072a94e2fc65d03489dcd5d__a85983387e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_836s_jpg.rf.6ff0901be7c73fb6c5d7a812771270fb__6616486849.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_831s_jpg.rf.b93f0d1d1072a94e2fc65d03489dcd5d__a85983387e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_840s_jpg.rf.85450482572e140b2646ab229e7eee61__2911bdc62d.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_833s_jpg.rf.6abb4bb83e0febd919a3fb7626cf9120__8dd483754a.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_838s_jpg.rf.4b9f83a0d8d88045b70cb064eb715be9__8127a2d64d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_837s_jpg.rf.507c2ad0a088a1cb568e179868d99b38__abc98c2e27.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_832s_jpg.rf.3c2840d4195a9f2a4265e6fb884a2aef__7924f7b228.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_837s_jpg.rf.507c2ad0a088a1cb568e179868d99b38__abc98c2e27.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_838s_jpg.rf.4b9f83a0d8d88045b70cb064eb715be9__8127a2d64d.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_839s_jpg.rf.05f4d264503481f58ca8dfc0478ecfbd__d408643785.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_832s_jpg.rf.3c2840d4195a9f2a4265e6fb884a2aef__7924f7b228.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_843s_jpg.rf.1afa76ea8b298494d7feb8f6756e4982__d706f33071.jpg",
+        "left_split": "train",
+        "right_path": "images/val/mendeley-vi-navigation-v1__frame_745s_jpg.rf.7c41a8c2891fabc83190326d378242b7__30442152c5.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/mendeley-vi-navigation-v1__frame_843s_jpg.rf.9cad2dc5bb802689a9c37de3a52eb31e__a91cb0d74e.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_840s_jpg.rf.85450482572e140b2646ab229e7eee61__2911bdc62d.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/sod-v1__000000494404_jpg.rf.def0e62d0b9451b13be3aaac0fdade1c__9b22e280fc.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__24818_jpg.rf.7421df67077deb199231171893913a1b__3ef521dae7.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/sod-v1__000000494404_jpg.rf.def0e62d0b9451b13be3aaac0fdade1c__9b22e280fc.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__chimney-industry_592324-19747_jpg.rf.20216f43328a18aa9ccfef4d03f75408__0cc17726d6.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/sod-v1__01bd468079f3e139_jpg.rf.19a5c374189f9757f39e61cb9291ae93__409b57e36b.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__24818_jpg.rf.7421df67077deb199231171893913a1b__3ef521dae7.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/sod-v1__01bd468079f3e139_jpg.rf.19a5c374189f9757f39e61cb9291ae93__409b57e36b.jpg",
+        "left_split": "train",
+        "right_path": "images/test/sod-v1__chimney-industry_592324-19747_jpg.rf.20216f43328a18aa9ccfef4d03f75408__0cc17726d6.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/sod-v1__0524172_jpg.rf.c0bd7c93d72e428a3fd23cb873853aeb__703e67e273.jpg",
+        "left_split": "train",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_9s_jpg.rf.1f1c09d1340c3f6de09a758ffece9f08__438c89f08d.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/sod-v1__pexels-145848_mp4-3_jpg.rf.39deb800a1437bb04bb9f7504feb7af2__fcb722e5b1.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__pexels-145848_mp4-2_jpg.rf.302d50139a67071f34e2090dee338a48__7bd39b9b0e.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/train/sod-v1__pexels-5030851_mp4-1_jpg.rf.eb0d38b591ae53e5a60e7d24b3bdab1c__a5f2b2f03e.jpg",
+        "left_split": "train",
+        "right_path": "images/val/sod-v1__pexels-5030851_mp4-4_jpg.rf.43e432b5cbc5c7d145b8482ef25af78d__66dfa6ebcd.jpg",
+        "right_split": "val"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_133s_jpg.rf.369007a936b3413080e4c83433a9613c__e0a9932938.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_132s_jpg.rf.99b3377a83d4624066ba50bc692d203a__246214bad9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_172s_jpg.rf.2f8125550d4199252969dabfdaa8d425__5a9ce30b8f.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_164s_jpg.rf.47c6bdf7437f53e888033f2f6ebe0415__ceed360f37.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_18s_jpg.rf.e286ecfa34434cd4897d6a540a60f9e4__c74635298f.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_14s_jpg.rf.85cb0c80e753c959d044129a1e64fa15__93e39d524b.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_18s_jpg.rf.e286ecfa34434cd4897d6a540a60f9e4__c74635298f.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_16s_jpg.rf.df4cc0f5501792e6303e741f7fda5348__50ffa28d1a.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_18s_jpg.rf.e286ecfa34434cd4897d6a540a60f9e4__c74635298f.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_1s_jpg.rf.634070ea252713cd864755c9acbee4be__b3bb17a82b.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_217s_jpg.rf.d63ec4a8509c87f28b7d42f10658f8d8__57f7d04d0d.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_216s_jpg.rf.2cdbbb309cb2e86f203c75256cd02672__1512ccb78e.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_237s_jpg.rf.025815f7b8c2df98907d9017ee53895b__628d3514c5.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_238s_jpg.rf.00208672e0d2c40fe4d57209e8a240b8__72144006d0.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_241s_jpg.rf.1d4156d3e7ba47c89d5dbc0f3445518f__0dbdb7013d.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_239s_jpg.rf.bd455b5b1d76a49784c5cc2eabaa103c__6ac0d10aa6.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_267s_jpg.rf.68511cde683007dcc90b478d87c7645d__daa1a27f53.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_238s_jpg.rf.00208672e0d2c40fe4d57209e8a240b8__72144006d0.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_30s_jpg.rf.157d3dd9e165cb9ed5d7c458e63cddd5__f39cc43c72.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_29s_jpg.rf.9a67249518c0454ca7ae1e913049ed9b__d6b63007e6.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_36s_jpg.rf.b402844fa256bc42bb1697d43617e0c5__a025645062.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_10s_jpg.rf.e53e9ba074be860b914ca63a77e3b9a3__d3568caf11.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_36s_jpg.rf.b402844fa256bc42bb1697d43617e0c5__a025645062.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_23s_jpg.rf.0b5ed85ebfc3b02b9d83e11e30b82d45__9fc14d8c1f.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_36s_jpg.rf.b402844fa256bc42bb1697d43617e0c5__a025645062.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_24s_jpg.rf.b2fe93f26f2c3a5650c1467a735f6a46__5fc51c9eb9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_36s_jpg.rf.b402844fa256bc42bb1697d43617e0c5__a025645062.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_28s_jpg.rf.79d44a63d0cd50648457a56f473c3b81__4ecf70f1b5.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_36s_jpg.rf.b402844fa256bc42bb1697d43617e0c5__a025645062.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_30s_jpg.rf.32265751d3aa82eafd36400d0fe30067__b9d753777c.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_37s_jpg.rf.381fbfba1487fce334c6b57f558ad290__107e452e18.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_23s_jpg.rf.0b5ed85ebfc3b02b9d83e11e30b82d45__9fc14d8c1f.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_37s_jpg.rf.381fbfba1487fce334c6b57f558ad290__107e452e18.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_24s_jpg.rf.b2fe93f26f2c3a5650c1467a735f6a46__5fc51c9eb9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_37s_jpg.rf.381fbfba1487fce334c6b57f558ad290__107e452e18.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_28s_jpg.rf.79d44a63d0cd50648457a56f473c3b81__4ecf70f1b5.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_38s_jpg.rf.5c3afaa5bbaa79268661a61c29811bf9__85d1c58536.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_26s_jpg.rf.559091ee7bec24ebdb06a3828299c39e__d29f31d207.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_38s_jpg.rf.5c3afaa5bbaa79268661a61c29811bf9__85d1c58536.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_27s_jpg.rf.f3dbea1a8eb51e837970eddfb54bc2c1__1a14d02497.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_39s_jpg.rf.a1fd25b9bac66fb33f2a455e8f031e91__53c1c516d2.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_26s_jpg.rf.559091ee7bec24ebdb06a3828299c39e__d29f31d207.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_39s_jpg.rf.a1fd25b9bac66fb33f2a455e8f031e91__53c1c516d2.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_27s_jpg.rf.f3dbea1a8eb51e837970eddfb54bc2c1__1a14d02497.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_39s_jpg.rf.a1fd25b9bac66fb33f2a455e8f031e91__53c1c516d2.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_32s_jpg.rf.7c2830bc96ecf8ad8ecbfb017a9bb75b__e3227ed1ac.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_3s_jpg.rf.79c51a6aada4bf460cf0620f7d58c97c__90cb1b79e1.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_2s_jpg.rf.341f6cddd04c8a98d691ce58e8d3c695__6973ac70d9.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_40s_jpg.rf.7f6ac1abce250dcec61b4852c6f6584c__9fbcd5d372.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_26s_jpg.rf.559091ee7bec24ebdb06a3828299c39e__d29f31d207.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_40s_jpg.rf.7f6ac1abce250dcec61b4852c6f6584c__9fbcd5d372.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_27s_jpg.rf.f3dbea1a8eb51e837970eddfb54bc2c1__1a14d02497.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_40s_jpg.rf.7f6ac1abce250dcec61b4852c6f6584c__9fbcd5d372.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_29s_jpg.rf.5a02e7c86763d75693dc6b405521fc0a__b37da28503.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_40s_jpg.rf.7f6ac1abce250dcec61b4852c6f6584c__9fbcd5d372.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_33s_jpg.rf.79f52f32c040909b46d6c2471be1d044__fb56543198.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_40s_jpg.rf.7f6ac1abce250dcec61b4852c6f6584c__9fbcd5d372.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_9s_jpg.rf.c0b79a6a5ceccff6718a724a33cfea32__b6036d2106.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_46s_jpg.rf.7f06e8bb768344dfc43dfd1f77497abb__9a132f8d58.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_30s_jpg.rf.32265751d3aa82eafd36400d0fe30067__b9d753777c.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_52s_jpg.rf.62831e8e0e282eb4a5829f4f3a363d46__3aa5a826bb.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_55s_jpg.rf.26630d5625c93a239f87174ce439517b__e6564214a0.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_56s_jpg.rf.c814f1b64927ae4149d1f602f2031570__3e28783d9d.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_64s_jpg.rf.c1bd31fd8ae59ed03a54a4062729ae08__56de10e11d.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_591s_jpg.rf.d196959198201c4429c3765f072ffaac__e44848956d.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_652s_jpg.rf.584e7009e86b9c584f0fe9e90ba0d38a__794efa20ea.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_5s_jpg.rf.241f78b4f1ff427b4dcdfb5c5e6efac3__150a44f459.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_1s_jpg.rf.634070ea252713cd864755c9acbee4be__b3bb17a82b.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_5s_jpg.rf.241f78b4f1ff427b4dcdfb5c5e6efac3__150a44f459.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_3s_jpg.rf.e3b6f6a3b792ab575a7669092598e034__c44c7c1bb3.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_625s_jpg.rf.19e614b17eaecd14a8c14552ddecce8c__ff72f9201e.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_587s_jpg.rf.ddaf8e06e3eeb727326ddb819bf27e39__34deaaadaf.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_6s_jpg.rf.122dff6a9a1a52179b4f0986d53ff275__4d45e27f3b.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_13s_jpg.rf.a74de2c373c34f9548d5e6032fdda5dd__5299870f94.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_6s_jpg.rf.122dff6a9a1a52179b4f0986d53ff275__4d45e27f3b.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_1s_jpg.rf.634070ea252713cd864755c9acbee4be__b3bb17a82b.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_6s_jpg.rf.122dff6a9a1a52179b4f0986d53ff275__4d45e27f3b.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_3s_jpg.rf.e3b6f6a3b792ab575a7669092598e034__c44c7c1bb3.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_726s_jpg.rf.e19e2a2a507f9ee384b0b03412a92c5f__98f5262cf2.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_704s_jpg.rf.c713904383391cd810554636dd42bc3b__8b5d49f637.jpg",
+        "right_split": "test"
+      },
+      {
+        "hamming_distance": 4,
+        "left_path": "images/val/mendeley-vi-navigation-v1__frame_8s_jpg.rf.ad0a72163f6d94f385f29f26e373bb72__4b53c7a699.jpg",
+        "left_split": "val",
+        "right_path": "images/test/mendeley-vi-navigation-v1__frame_9s_jpg.rf.206a79f6a1c1c3a43c739a5d022e3f78__a461dd7a88.jpg",
+        "right_split": "test"
+      }
+    ],
+    "reported_count": 397,
+    "truncated": false
+  },
+  "quality_gate": {
+    "hard_error_count": 0,
+    "structural_and_exact_gate_passed": true,
+    "visual_review_required": true
+  },
+  "schema_version": 1,
+  "structural": {
+    "invalid_label_file_count": 0,
+    "invalid_label_files": [],
+    "missing_label_count": 0,
+    "missing_labels": [],
+    "orphan_label_count": 0,
+    "orphan_labels": [],
+    "unreadable_image_count": 0,
+    "unreadable_images": []
+  }
+}
