@@ -72,7 +72,8 @@ saved architecture/runtime table outputs.
 
 For the actual Raspberry Pi session, use
 `docs/pi-terminal-setup-and-run.md`. It is the standalone terminal-only runbook
-for Raspberry Pi Connect Remote Shell, LAN rsync transfer, Raspberry Pi OS
+for Raspberry Pi Connect Remote Shell, Tailscale rsync when Wi-Fi blocks local
+SSH, Raspberry Pi OS
 packages, uv/Picamera2 setup, checksum and
 OpenVINO gates, production registry creation, `tmux`, fixed-image runs, IMX219
 camera runs, power input, resume/retry, result inspection, evidence return, and

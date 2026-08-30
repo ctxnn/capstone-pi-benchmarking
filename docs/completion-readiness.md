@@ -27,7 +27,7 @@ Last audited: 2026-08-30.
 | Camera near/on top handle | Complete provisional contract | `configs/camera-mount-top-handle.json`: `near_top_handle`, 40 mm below grip, forward, 12-degree downward pitch | Measure mount; set `hardware_verified=true` only after physical checks |
 | Detailed singular data-preprocessing document | Complete | `docs/data-preprocessing.md` contains sources, hashes, mappings, counts, split protection, decontamination, resize, transforms, final environment, artifact hashes, and both quality protocols | Update only if dataset/model protocol changes |
 | Final backend export/quality/registry pipeline | Awaiting one Pi functional gate | Import/history/exports/full comparison complete; state is `awaiting_linux_export_smoke` | Run OpenVINO smoke and registry commands in terminal runbook on Pi |
-| Terminal-only Pi setup and run instructions | Complete | `docs/pi-terminal-setup-and-run.md` covers Raspberry Pi Connect Remote Shell, LAN rsync transfer, OS/uv/Picamera2 setup, artifact checks, OpenVINO/registry gate, tmux, images, camera, power, resume, outputs, return, and common mistakes | Execute on physical Pi |
+| Terminal-only Pi setup and run instructions | Complete | `docs/pi-terminal-setup-and-run.md` covers an already-open Raspberry Pi Connect shell, Tailscale rsync for client-isolated Wi-Fi, OS/uv/Picamera2 setup, artifact checks, OpenVINO/registry gate, tmux, images, camera, power, resume, outputs, return, and common mistakes | Execute on physical Pi |
 | Automated verification | Complete at current state | 75/75 tests; executed notebook validates with 7 code cells and 0 error outputs | Repeat after Pi evidence returns |
 
 ## Reproducible audit commands

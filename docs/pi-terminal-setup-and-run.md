@@ -3,10 +3,11 @@
 This is the standalone remote-shell procedure for the formal Raspberry Pi 5
 benchmark. Use Raspberry Pi Connect Remote Shell for every command run on the
 Pi. It works from a browser without finding the Pi's IP address, opening router
-ports, or exposing SSH to the internet. Use SSH only as a local-network file
-transport for the two `rsync` steps, because the browser shell is not a direct
-replacement for `rsync` or `scp`. Use `tmux` so a Connect session closing does
-not stop a benchmark. Do not use laptop timings as Pi evidence and do not add
+ports, or exposing SSH to the internet. If the Wi-Fi blocks device-to-device
+connections, use Tailscale only as the private `rsync` transport for the ignored
+artifacts and returned evidence. The browser shell itself cannot receive files
+with `rsync` or `scp`. Use `tmux` so a Connect session closing does not stop a
+benchmark. Do not use laptop timings as Pi evidence and do not add
 `--allow-non-pi` to a formal run.
 
 The fixed saved-image matrix must run first. The IMX219 camera matrix must use a
@@ -15,14 +16,12 @@ in addition to model execution.
 
 ## Remote-access choice and first-time Connect setup
 
-For this project, Raspberry Pi Connect is the recommended control path. SSH is
-slightly simpler for automation and bulk file copy, but Connect is easier when
-the Pi is on a different network or behind NAT. The guide therefore uses:
+For this project, Raspberry Pi Connect is the control path. The guide uses:
 
 - **Raspberry Pi Connect Remote Shell:** installation, camera checks, registry
   creation, benchmarks, troubleshooting, and monitoring;
-- **LAN SSH/rsync:** one payload upload before the run and one evidence download
-  afterward. SSH does not need to be exposed through the router.
+- **Tailscale SSH/rsync:** one payload upload before the run and one evidence
+  download afterward when the Wi-Fi blocks local SSH. No router port is opened.
 
 Raspberry Pi Connect requires Raspberry Pi OS Bookworm or later. On the first
 boot, either link Connect in Raspberry Pi Imager or run the following once from
@@ -48,6 +47,30 @@ For every later Pi terminal session:
 2. Select the Pi under **Devices**.
 3. Select **Connect via → Remote shell**.
 4. Start or reattach `tmux` before a long-running benchmark.
+
+### If the Connect Remote Shell is already open
+
+Do not reinstall or sign in to Connect again. Remote access is solved, but the
+Pi still needs the repository, ignored artifacts, runtime environment, camera
+gate, OpenVINO smoke, and production registry before formal timing.
+
+If this command prints `READY_FOR_PRE_RUN`, the setup was already completed and
+you may skip directly to section 10, then run the image and camera matrices:
+
+```bash
+cd ~/capstone-pi-benchmarking
+
+test -x .venv/bin/python && \
+test -f configs/pi-model-registry.json && \
+test -f artifacts/models/cane-v1/best.pt && \
+test -f artifacts/benchmarks/pi-runtime-inputs/manifest.json && \
+rpicam-hello --list-cameras 2>&1 | grep -qi imx219 && \
+echo READY_FOR_PRE_RUN
+```
+
+If it does not print the marker, continue from section 1 if the camera still
+needs fitting, or section 2 if it is already connected. Having a remote shell
+does not by itself mean the benchmark dependencies and model artifacts exist.
 
 ## 0. What “ready” means
 
@@ -96,16 +119,34 @@ and generated evidence. A clone alone is therefore not enough. From a terminal
 on the source Mac, after local finalization has produced
 `artifacts/models/cane-v1/model-comparison-640.json`, run:
 
-First, in the Connect Remote Shell, create the destination and obtain the Pi's
-LAN address:
+First, in the Connect Remote Shell, clone or update the tracked repository:
 
 ```bash
-mkdir -p ~/capstone-pi-benchmarking
-hostname -I
+cd ~
+sudo apt update
+sudo apt install -y git curl
+
+if test -d capstone-pi-benchmarking/.git; then
+  git -C capstone-pi-benchmarking pull --ff-only
+elif ! test -d capstone-pi-benchmarking; then
+  git clone https://github.com/ctxnn/capstone-pi-benchmarking.git
+fi
 ```
 
-For this transfer only, ensure SSH is enabled on the Pi with `sudo raspi-config`
-under **Interface Options → SSH**. Then, from the source Mac terminal:
+The model weights, exports, comparison report, fixed inputs, and training summary
+are intentionally ignored by Git. If LAN SSH does not work, create a private
+Tailscale transport from the same Connect shell:
+
+```bash
+command -v tailscale || curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up
+sudo systemctl enable --now ssh
+tailscale ip -4
+```
+
+Open the authentication URL printed by `tailscale up`. Install Tailscale on the
+source Mac, sign in to the same tailnet, and replace `TAILSCALE_IP` below with
+the Pi's `100.x.y.z` address. Then run from the source Mac terminal:
 
 ```bash
 cd /Users/chiragtaneja/Codes/capstone-everything/yolo-pi
@@ -123,20 +164,21 @@ rsync -a --info=progress2 --relative \
   ./artifacts/models/cane-v1 \
   ./artifacts/benchmarks/pi-runtime-inputs \
   ./artifacts/training/lightning-final/training-summary.json \
-  PI_USER@PI_HOST:~/capstone-pi-benchmarking/
+  PI_USER@TAILSCALE_IP:~/capstone-pi-benchmarking/
 ```
 
-Here `PI_HOST` is the LAN address printed by `hostname -I`; it is not a public
-internet address. After transfer, return to the Connect Remote Shell for all
-remaining commands.
+After transfer, return to Raspberry Pi Connect Remote Shell for every setup and
+benchmark command. Tailscale is only the file-transfer path. Do not configure
+router port forwarding or expose port 22 publicly.
 
 Do not transfer `.venv`, raw datasets, processed training datasets, provider
 checkpoints, or old benchmark runs. Python environments are platform-specific;
 the Mac `.venv` cannot run on ARM Linux.
 
-If the repository has already been cloned on the Pi, the same `rsync` command is
-still required for the ignored artifacts. It safely updates the required files
-without copying the multi-gigabyte training tree.
+If these ignored artifacts are already present and section 6 succeeds, skip the
+transfer. Otherwise the `rsync` step is required even after cloning GitHub. If
+Tailscale cannot be used, copy the same paths with a USB drive; the browser
+Remote Shell has no direct file-upload channel.
 
 ## 3. Record the Pi and OS identity
 
@@ -602,7 +644,7 @@ Each directory retains raw observations, failures, environment identity, model
 hashes, cooldown state, throttling state, CSV tables, Markdown tables, and the
 table manifest.
 
-## 17. Copy the complete evidence back with LAN rsync
+## 17. Copy the complete evidence back with Tailscale rsync
 
 From the source Mac terminal:
 
@@ -610,19 +652,19 @@ From the source Mac terminal:
 cd /Users/chiragtaneja/Codes/capstone-everything/yolo-pi
 
 rsync -a --info=progress2 \
-  PI_USER@PI_HOST:~/capstone-pi-benchmarking/artifacts/pi-benchmarks/ \
+  PI_USER@TAILSCALE_IP:~/capstone-pi-benchmarking/artifacts/pi-benchmarks/ \
   artifacts/pi-benchmarks/
 
 rsync -a --info=progress2 \
-  PI_USER@PI_HOST:~/capstone-pi-benchmarking/artifacts/models/cane-v1/openvino-pi-smoke.json \
+  PI_USER@TAILSCALE_IP:~/capstone-pi-benchmarking/artifacts/models/cane-v1/openvino-pi-smoke.json \
   artifacts/models/cane-v1/
 
 rsync -a --info=progress2 \
-  PI_USER@PI_HOST:~/capstone-pi-benchmarking/artifacts/models/cane-v1/export-manifest.json \
+  PI_USER@TAILSCALE_IP:~/capstone-pi-benchmarking/artifacts/models/cane-v1/export-manifest.json \
   artifacts/models/cane-v1/export-manifest.json
 
 rsync -a --info=progress2 \
-  PI_USER@PI_HOST:~/capstone-pi-benchmarking/configs/pi-model-registry.json \
+  PI_USER@TAILSCALE_IP:~/capstone-pi-benchmarking/configs/pi-model-registry.json \
   configs/pi-model-registry.json
 ```
 
@@ -645,6 +687,8 @@ files are required to audit the tables.
 | R4 reports low precision | Native MNN did not use the guarded FP32 path | Discard R4, fix the MNN install/adapter, and rerun only R4 with `--force` |
 | OpenVINO registry build refuses | Linux smoke was not merged or tree hash differs | Rerun the Pi smoke against the transferred directory and merge with `merge_export_smoke.py` |
 | Connect device stays offline after reboot | Connect is a user-level service and no user session is active | Run `loginctl enable-linger` as the signed-in Pi user, then check `rpi-connect status` |
+| Connect shell works but LAN SSH/rsync fails | The Wi-Fi isolates clients or blocks port 22 | Keep using Connect for commands; install Tailscale on the Pi and Mac and use the Pi's `100.x.y.z` address only for `rsync` |
+| Git clone succeeded but model files are missing | Large artifacts are intentionally ignored by Git | Run the Tailscale `rsync` payload step or copy the same artifact paths from USB |
 | `Killed` or Connect session disconnect | 2 GB memory pressure or browser/session loss | Use `tmux`; keep swap policy fixed; stop unrelated workloads; resume the same run directory |
 | Old rows are unexpectedly skipped | Output directory already contains complete row IDs | Use the saved run directory only for resuming; use a new timestamped directory for a new series |
 | Camera run shows image-source rows | Image and camera runs used the same directory | Create a new camera directory; never mix source types |
@@ -675,7 +719,7 @@ power become valid only after this terminal procedure runs on the physical Pi.
 ## Official command references
 
 - [Raspberry Pi Connect and Remote Shell](https://www.raspberrypi.com/documentation/services/connect.html)
-- [Raspberry Pi remote access and LAN file transfer](https://www.raspberrypi.com/documentation/computers/remote-access.html)
+- [Tailscale installation on Raspberry Pi](https://tailscale.com/kb/1076/dogcam)
 - [Raspberry Pi camera software and `rpicam-*`](https://www.raspberrypi.com/documentation/computers/camera_software.html)
 - [uv installation](https://docs.astral.sh/uv/getting-started/installation/)
 - [uv project synchronization](https://docs.astral.sh/uv/concepts/projects/sync/)

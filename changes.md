@@ -1348,7 +1348,29 @@ without restarting completed measurements.
 
 ### Next gate
 
-Follow `docs/pi-terminal-setup-and-run.md` over SSH. Run the checksum-bound
+Follow `docs/pi-terminal-setup-and-run.md` in Raspberry Pi Connect Remote Shell. Run the checksum-bound
 OpenVINO smoke and registry build first, then collect the fixed-image matrix and
 the separate IMX219 camera matrix. Return the complete timestamped directories,
 updated export manifest, Pi smoke evidence, and production registry.
+
+## 2026-08-31 — Connect-first setup for client-isolated Wi-Fi
+
+### What changed
+
+- Added a short readiness marker for users who already have Raspberry Pi
+  Connect Remote Shell open. A working remote terminal skips Connect setup, but
+  does not skip the runtime, artifacts, camera, OpenVINO, or registry gates.
+- Replaced the LAN-only transfer assumption with a Tailscale `rsync` path. The
+  Pi remains controlled through Connect; Tailscale only transports the ignored
+  model artifacts to the Pi and returns benchmark evidence to the Mac.
+- Added exact clone/update, Tailscale setup, private-IP substitution, and USB
+  fallback instructions plus common-mistake entries for isolated Wi-Fi and a
+  clone that lacks ignored model files.
+
+### Engineering rationale
+
+Raspberry Pi Connect solves terminal access through outbound internet, but its
+browser terminal is not a direct `rsync` or `scp` upload channel. A private
+Tailscale address preserves the existing checksum-bound transfer workflow even
+when the access point blocks local clients from reaching each other. No router
+port forwarding or public SSH endpoint is required.
