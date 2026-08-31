@@ -1,0 +1,1913 @@
+{
+  "model": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best.pt",
+  "model_sha256": "85168a2bc2f8a87c6b4361f16e3e7ec7394312341ee99a766f368be6e28e0dca",
+  "protocol": {
+    "split": "held-out-test",
+    "imgsz": 640,
+    "conf": 0.25,
+    "iou": 0.7
+  },
+  "image_count": 30,
+  "records": [
+    {
+      "id": "fixture-000",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-000.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-000.jpg",
+      "expected_visible_classes": [
+        "person",
+        "vehicle",
+        "pole",
+        "tree",
+        "signboard",
+        "generic_obstacle"
+      ],
+      "detected_classes": [
+        "curb"
+      ],
+      "detection_count": 1,
+      "mean_confidence": 0.36188,
+      "detections": [
+        {
+          "class_id": 6,
+          "class_name": "curb",
+          "confidence": 0.36188,
+          "xyxy": [
+            270.63,
+            299.13,
+            313.16,
+            318.17
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-001",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-001.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-001.jpg",
+      "expected_visible_classes": [
+        "person",
+        "vehicle",
+        "pole",
+        "stairs",
+        "generic_obstacle"
+      ],
+      "detected_classes": [
+        "cone",
+        "person",
+        "pole",
+        "vehicle"
+      ],
+      "detection_count": 6,
+      "mean_confidence": 0.71275,
+      "detections": [
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.97257,
+          "xyxy": [
+            536.63,
+            252.53,
+            640.0,
+            357.9
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.95562,
+          "xyxy": [
+            245.38,
+            242.62,
+            289.12,
+            316.39
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.85825,
+          "xyxy": [
+            301.23,
+            247.63,
+            328.42,
+            307.5
+          ]
+        },
+        {
+          "class_id": 8,
+          "class_name": "cone",
+          "confidence": 0.57241,
+          "xyxy": [
+            387.36,
+            290.05,
+            414.72,
+            323.91
+          ]
+        },
+        {
+          "class_id": 3,
+          "class_name": "pole",
+          "confidence": 0.47482,
+          "xyxy": [
+            421.49,
+            1.85,
+            483.86,
+            391.89
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.44281,
+          "xyxy": [
+            478.52,
+            267.08,
+            523.86,
+            319.64
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-002",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-002.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-002.jpg",
+      "expected_visible_classes": [
+        "person",
+        "vehicle",
+        "bicycle_motorcycle",
+        "pole",
+        "generic_obstacle"
+      ],
+      "detected_classes": [
+        "person",
+        "vehicle"
+      ],
+      "detection_count": 4,
+      "mean_confidence": 0.6251,
+      "detections": [
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.94722,
+          "xyxy": [
+            553.93,
+            207.54,
+            606.43,
+            255.51
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.73608,
+          "xyxy": [
+            607.95,
+            210.22,
+            639.78,
+            253.87
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.46734,
+          "xyxy": [
+            250.32,
+            200.11,
+            278.07,
+            252.08
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.34976,
+          "xyxy": [
+            386.74,
+            205.29,
+            407.29,
+            237.59
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-003",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-003.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-003.jpg",
+      "expected_visible_classes": [
+        "person",
+        "vehicle",
+        "bicycle_motorcycle",
+        "pole",
+        "generic_obstacle"
+      ],
+      "detected_classes": [
+        "bicycle_motorcycle",
+        "generic_obstacle",
+        "person",
+        "pole",
+        "vehicle"
+      ],
+      "detection_count": 11,
+      "mean_confidence": 0.64728,
+      "detections": [
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.97233,
+          "xyxy": [
+            489.43,
+            92.46,
+            640.0,
+            270.48
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.92914,
+          "xyxy": [
+            131.07,
+            78.09,
+            176.36,
+            167.63
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.90792,
+          "xyxy": [
+            49.26,
+            78.29,
+            97.76,
+            163.55
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.88765,
+          "xyxy": [
+            0.0,
+            64.2,
+            49.37,
+            188.89
+          ]
+        },
+        {
+          "class_id": 14,
+          "class_name": "generic_obstacle",
+          "confidence": 0.8229,
+          "xyxy": [
+            378.61,
+            198.23,
+            397.41,
+            206.82
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.54663,
+          "xyxy": [
+            479.23,
+            83.05,
+            553.52,
+            151.28
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.53204,
+          "xyxy": [
+            103.72,
+            97.5,
+            128.82,
+            160.6
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.52223,
+          "xyxy": [
+            294.15,
+            99.69,
+            314.27,
+            136.21
+          ]
+        },
+        {
+          "class_id": 2,
+          "class_name": "bicycle_motorcycle",
+          "confidence": 0.38322,
+          "xyxy": [
+            346.25,
+            120.23,
+            454.14,
+            155.65
+          ]
+        },
+        {
+          "class_id": 3,
+          "class_name": "pole",
+          "confidence": 0.32192,
+          "xyxy": [
+            339.11,
+            0.05,
+            356.26,
+            121.7
+          ]
+        },
+        {
+          "class_id": 14,
+          "class_name": "generic_obstacle",
+          "confidence": 0.29414,
+          "xyxy": [
+            170.92,
+            216.59,
+            200.73,
+            223.7
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-004",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-004.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-004.jpg",
+      "expected_visible_classes": [
+        "pole",
+        "tree",
+        "curb",
+        "barrier",
+        "signboard"
+      ],
+      "detected_classes": [
+        "pole",
+        "signboard"
+      ],
+      "detection_count": 2,
+      "mean_confidence": 0.61411,
+      "detections": [
+        {
+          "class_id": 10,
+          "class_name": "signboard",
+          "confidence": 0.94093,
+          "xyxy": [
+            154.77,
+            149.83,
+            182.11,
+            197.91
+          ]
+        },
+        {
+          "class_id": 3,
+          "class_name": "pole",
+          "confidence": 0.28729,
+          "xyxy": [
+            156.79,
+            200.11,
+            172.22,
+            376.45
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-005",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-005.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-005.jpg",
+      "expected_visible_classes": [
+        "pole",
+        "tree",
+        "stairs",
+        "curb",
+        "barrier"
+      ],
+      "detected_classes": [
+        "pole"
+      ],
+      "detection_count": 2,
+      "mean_confidence": 0.33597,
+      "detections": [
+        {
+          "class_id": 3,
+          "class_name": "pole",
+          "confidence": 0.40076,
+          "xyxy": [
+            18.7,
+            0.0,
+            38.67,
+            242.31
+          ]
+        },
+        {
+          "class_id": 3,
+          "class_name": "pole",
+          "confidence": 0.27118,
+          "xyxy": [
+            170.66,
+            1.03,
+            201.42,
+            279.31
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-006",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-006.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-006.jpg",
+      "expected_visible_classes": [
+        "person",
+        "pole",
+        "curb",
+        "barrier",
+        "generic_obstacle"
+      ],
+      "detected_classes": [
+        "generic_obstacle"
+      ],
+      "detection_count": 2,
+      "mean_confidence": 0.6336,
+      "detections": [
+        {
+          "class_id": 14,
+          "class_name": "generic_obstacle",
+          "confidence": 0.95732,
+          "xyxy": [
+            118.29,
+            154.68,
+            266.98,
+            321.48
+          ]
+        },
+        {
+          "class_id": 14,
+          "class_name": "generic_obstacle",
+          "confidence": 0.30989,
+          "xyxy": [
+            279.79,
+            285.36,
+            327.55,
+            322.77
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-007",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-007.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-007.jpg",
+      "expected_visible_classes": [
+        "vehicle",
+        "pole",
+        "tree",
+        "barrier",
+        "signboard"
+      ],
+      "detected_classes": [
+        "signboard",
+        "tree",
+        "vehicle"
+      ],
+      "detection_count": 4,
+      "mean_confidence": 0.46303,
+      "detections": [
+        {
+          "class_id": 4,
+          "class_name": "tree",
+          "confidence": 0.55549,
+          "xyxy": [
+            55.86,
+            172.04,
+            153.79,
+            344.03
+          ]
+        },
+        {
+          "class_id": 10,
+          "class_name": "signboard",
+          "confidence": 0.54528,
+          "xyxy": [
+            160.98,
+            239.87,
+            170.92,
+            255.57
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.39703,
+          "xyxy": [
+            331.54,
+            284.53,
+            374.72,
+            344.45
+          ]
+        },
+        {
+          "class_id": 10,
+          "class_name": "signboard",
+          "confidence": 0.35432,
+          "xyxy": [
+            204.17,
+            128.25,
+            237.83,
+            149.03
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-008",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-008.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-008.jpg",
+      "expected_visible_classes": [
+        "person",
+        "vehicle",
+        "bicycle_motorcycle",
+        "cone"
+      ],
+      "detected_classes": [
+        "bicycle_motorcycle",
+        "person",
+        "vehicle"
+      ],
+      "detection_count": 13,
+      "mean_confidence": 0.65881,
+      "detections": [
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.94915,
+          "xyxy": [
+            142.14,
+            277.93,
+            243.96,
+            318.19
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.88983,
+          "xyxy": [
+            220.86,
+            270.03,
+            303.13,
+            310.46
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.8563,
+          "xyxy": [
+            521.02,
+            269.99,
+            640.0,
+            385.54
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.82822,
+          "xyxy": [
+            302.17,
+            275.34,
+            347.6,
+            308.37
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.76888,
+          "xyxy": [
+            0.06,
+            275.51,
+            154.42,
+            326.52
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.69972,
+          "xyxy": [
+            520.97,
+            272.3,
+            639.68,
+            385.5
+          ]
+        },
+        {
+          "class_id": 2,
+          "class_name": "bicycle_motorcycle",
+          "confidence": 0.65093,
+          "xyxy": [
+            427.82,
+            280.75,
+            445.14,
+            302.01
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.61203,
+          "xyxy": [
+            491.78,
+            274.34,
+            516.93,
+            313.48
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.60118,
+          "xyxy": [
+            492.34,
+            274.32,
+            516.53,
+            313.75
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.5797,
+          "xyxy": [
+            346.39,
+            281.35,
+            375.92,
+            304.06
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.43898,
+          "xyxy": [
+            517.96,
+            277.77,
+            536.33,
+            314.45
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.36057,
+          "xyxy": [
+            464.33,
+            280.02,
+            497.5,
+            310.5
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.32901,
+          "xyxy": [
+            552.51,
+            261.39,
+            625.2,
+            285.81
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-009",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-009.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-009.jpg",
+      "expected_visible_classes": [
+        "person",
+        "bicycle_motorcycle",
+        "dog",
+        "generic_obstacle"
+      ],
+      "detected_classes": [
+        "generic_obstacle"
+      ],
+      "detection_count": 1,
+      "mean_confidence": 0.29261,
+      "detections": [
+        {
+          "class_id": 14,
+          "class_name": "generic_obstacle",
+          "confidence": 0.29261,
+          "xyxy": [
+            351.39,
+            159.23,
+            367.62,
+            222.08
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-010",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-010.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-010.jpg",
+      "expected_visible_classes": [
+        "person",
+        "pole",
+        "tree",
+        "stairs",
+        "signboard"
+      ],
+      "detected_classes": [
+        "person",
+        "pole",
+        "tree"
+      ],
+      "detection_count": 6,
+      "mean_confidence": 0.37759,
+      "detections": [
+        {
+          "class_id": 3,
+          "class_name": "pole",
+          "confidence": 0.50246,
+          "xyxy": [
+            216.46,
+            197.67,
+            254.7,
+            383.14
+          ]
+        },
+        {
+          "class_id": 3,
+          "class_name": "pole",
+          "confidence": 0.46339,
+          "xyxy": [
+            216.58,
+            198.3,
+            254.81,
+            381.22
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.35968,
+          "xyxy": [
+            12.19,
+            315.21,
+            31.13,
+            371.04
+          ]
+        },
+        {
+          "class_id": 4,
+          "class_name": "tree",
+          "confidence": 0.35013,
+          "xyxy": [
+            74.26,
+            294.66,
+            111.9,
+            342.97
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.29499,
+          "xyxy": [
+            364.48,
+            320.96,
+            372.15,
+            344.64
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.29488,
+          "xyxy": [
+            371.99,
+            334.25,
+            384.0,
+            384.0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-011",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-011.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-011.jpg",
+      "expected_visible_classes": [
+        "person",
+        "vehicle",
+        "bicycle_motorcycle",
+        "pole",
+        "generic_obstacle"
+      ],
+      "detected_classes": [
+        "bicycle_motorcycle",
+        "generic_obstacle",
+        "person",
+        "pole",
+        "vehicle"
+      ],
+      "detection_count": 11,
+      "mean_confidence": 0.65556,
+      "detections": [
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.92211,
+          "xyxy": [
+            47.34,
+            198.03,
+            93.92,
+            260.47
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.92025,
+          "xyxy": [
+            0.06,
+            174.71,
+            45.19,
+            286.0
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.91624,
+          "xyxy": [
+            532.15,
+            198.19,
+            601.72,
+            258.78
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.82097,
+          "xyxy": [
+            533.7,
+            232.22,
+            639.83,
+            478.06
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.69042,
+          "xyxy": [
+            429.53,
+            205.93,
+            499.09,
+            253.88
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.578,
+          "xyxy": [
+            609.43,
+            192.53,
+            640.0,
+            246.56
+          ]
+        },
+        {
+          "class_id": 2,
+          "class_name": "bicycle_motorcycle",
+          "confidence": 0.54047,
+          "xyxy": [
+            486.26,
+            217.06,
+            527.8,
+            264.73
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.53346,
+          "xyxy": [
+            477.19,
+            203.72,
+            528.19,
+            264.33
+          ]
+        },
+        {
+          "class_id": 14,
+          "class_name": "generic_obstacle",
+          "confidence": 0.4763,
+          "xyxy": [
+            0.35,
+            380.0,
+            25.26,
+            398.8
+          ]
+        },
+        {
+          "class_id": 3,
+          "class_name": "pole",
+          "confidence": 0.44569,
+          "xyxy": [
+            207.15,
+            16.71,
+            244.44,
+            227.82
+          ]
+        },
+        {
+          "class_id": 2,
+          "class_name": "bicycle_motorcycle",
+          "confidence": 0.36728,
+          "xyxy": [
+            216.77,
+            231.84,
+            312.83,
+            275.77
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-012",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-012.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-012.jpg",
+      "expected_visible_classes": [],
+      "detected_classes": [
+        "pole",
+        "vehicle"
+      ],
+      "detection_count": 2,
+      "mean_confidence": 0.89298,
+      "detections": [
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.94597,
+          "xyxy": [
+            340.35,
+            241.08,
+            436.05,
+            304.05
+          ]
+        },
+        {
+          "class_id": 3,
+          "class_name": "pole",
+          "confidence": 0.83999,
+          "xyxy": [
+            579.35,
+            156.47,
+            602.9,
+            311.11
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-013",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-013.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-013.jpg",
+      "expected_visible_classes": [],
+      "detected_classes": [],
+      "detection_count": 0,
+      "mean_confidence": 0.0,
+      "detections": []
+    },
+    {
+      "id": "fixture-014",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-014.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-014.jpg",
+      "expected_visible_classes": [],
+      "detected_classes": [],
+      "detection_count": 0,
+      "mean_confidence": 0.0,
+      "detections": []
+    },
+    {
+      "id": "fixture-015",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-015.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-015.jpg",
+      "expected_visible_classes": [
+        "person",
+        "vehicle"
+      ],
+      "detected_classes": [
+        "person",
+        "vehicle"
+      ],
+      "detection_count": 6,
+      "mean_confidence": 0.60052,
+      "detections": [
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.96251,
+          "xyxy": [
+            542.6,
+            178.24,
+            590.63,
+            255.15
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.873,
+          "xyxy": [
+            357.95,
+            177.84,
+            390.78,
+            250.35
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.76739,
+          "xyxy": [
+            0.19,
+            4.7,
+            276.42,
+            469.66
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.40866,
+          "xyxy": [
+            284.68,
+            192.26,
+            317.91,
+            251.32
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.3287,
+          "xyxy": [
+            392.24,
+            178.61,
+            416.65,
+            223.2
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.26284,
+          "xyxy": [
+            296.2,
+            172.5,
+            339.54,
+            235.73
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-016",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-016.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-016.jpg",
+      "expected_visible_classes": [
+        "vehicle",
+        "pole",
+        "generic_obstacle"
+      ],
+      "detected_classes": [
+        "bicycle_motorcycle",
+        "vehicle"
+      ],
+      "detection_count": 4,
+      "mean_confidence": 0.62533,
+      "detections": [
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.95441,
+          "xyxy": [
+            145.88,
+            254.35,
+            270.78,
+            298.83
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.92932,
+          "xyxy": [
+            363.63,
+            283.65,
+            438.62,
+            329.2
+          ]
+        },
+        {
+          "class_id": 2,
+          "class_name": "bicycle_motorcycle",
+          "confidence": 0.31003,
+          "xyxy": [
+            304.17,
+            260.61,
+            324.56,
+            286.92
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.30758,
+          "xyxy": [
+            372.64,
+            262.68,
+            407.71,
+            278.86
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-017",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-017.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-017.jpg",
+      "expected_visible_classes": [
+        "person",
+        "pole"
+      ],
+      "detected_classes": [
+        "person",
+        "pole"
+      ],
+      "detection_count": 7,
+      "mean_confidence": 0.77234,
+      "detections": [
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.94388,
+          "xyxy": [
+            463.38,
+            280.08,
+            569.7,
+            428.88
+          ]
+        },
+        {
+          "class_id": 3,
+          "class_name": "pole",
+          "confidence": 0.90155,
+          "xyxy": [
+            58.46,
+            228.37,
+            123.56,
+            352.16
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.89224,
+          "xyxy": [
+            99.09,
+            273.36,
+            368.58,
+            634.63
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.86473,
+          "xyxy": [
+            304.14,
+            237.36,
+            515.6,
+            549.92
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.83207,
+          "xyxy": [
+            6.21,
+            295.5,
+            102.24,
+            463.08
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.68988,
+          "xyxy": [
+            615.53,
+            311.51,
+            639.97,
+            482.13
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.28205,
+          "xyxy": [
+            5.76,
+            296.31,
+            102.41,
+            461.9
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-018",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-018.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-018.jpg",
+      "expected_visible_classes": [
+        "person"
+      ],
+      "detected_classes": [
+        "person"
+      ],
+      "detection_count": 7,
+      "mean_confidence": 0.89009,
+      "detections": [
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.97175,
+          "xyxy": [
+            180.71,
+            288.43,
+            301.35,
+            498.13
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.96381,
+          "xyxy": [
+            112.61,
+            293.31,
+            177.12,
+            448.24
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.93698,
+          "xyxy": [
+            402.05,
+            312.68,
+            466.41,
+            436.44
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.9363,
+          "xyxy": [
+            576.21,
+            283.65,
+            640.0,
+            584.65
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.92828,
+          "xyxy": [
+            340.35,
+            297.28,
+            425.53,
+            442.79
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.82792,
+          "xyxy": [
+            0.0,
+            297.24,
+            35.97,
+            444.74
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.66559,
+          "xyxy": [
+            260.99,
+            300.92,
+            324.62,
+            444.06
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-019",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-019.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-019.jpg",
+      "expected_visible_classes": [
+        "vehicle"
+      ],
+      "detected_classes": [
+        "person",
+        "vehicle"
+      ],
+      "detection_count": 5,
+      "mean_confidence": 0.65438,
+      "detections": [
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.93187,
+          "xyxy": [
+            397.47,
+            292.99,
+            438.56,
+            321.28
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.92169,
+          "xyxy": [
+            527.44,
+            297.44,
+            640.0,
+            330.45
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.68578,
+          "xyxy": [
+            109.35,
+            283.43,
+            136.8,
+            331.43
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.38277,
+          "xyxy": [
+            346.66,
+            293.23,
+            376.85,
+            318.64
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.34977,
+          "xyxy": [
+            234.65,
+            292.13,
+            252.36,
+            322.5
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-020",
+      "source_dataset": "mendeley-vi-navigation-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-020.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-020.jpg",
+      "expected_visible_classes": [
+        "person",
+        "vehicle",
+        "bicycle_motorcycle",
+        "generic_obstacle"
+      ],
+      "detected_classes": [
+        "bicycle_motorcycle",
+        "generic_obstacle",
+        "person",
+        "vehicle"
+      ],
+      "detection_count": 12,
+      "mean_confidence": 0.66038,
+      "detections": [
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.92812,
+          "xyxy": [
+            607.65,
+            0.0,
+            640.0,
+            69.16
+          ]
+        },
+        {
+          "class_id": 2,
+          "class_name": "bicycle_motorcycle",
+          "confidence": 0.91354,
+          "xyxy": [
+            230.72,
+            37.34,
+            422.41,
+            106.53
+          ]
+        },
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.88572,
+          "xyxy": [
+            469.72,
+            0.0,
+            569.16,
+            62.59
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.85674,
+          "xyxy": [
+            186.27,
+            0.61,
+            214.41,
+            54.59
+          ]
+        },
+        {
+          "class_id": 14,
+          "class_name": "generic_obstacle",
+          "confidence": 0.67317,
+          "xyxy": [
+            66.82,
+            307.33,
+            126.52,
+            333.24
+          ]
+        },
+        {
+          "class_id": 14,
+          "class_name": "generic_obstacle",
+          "confidence": 0.65204,
+          "xyxy": [
+            19.46,
+            266.7,
+            95.9,
+            312.45
+          ]
+        },
+        {
+          "class_id": 2,
+          "class_name": "bicycle_motorcycle",
+          "confidence": 0.62923,
+          "xyxy": [
+            229.02,
+            37.33,
+            418.7,
+            107.49
+          ]
+        },
+        {
+          "class_id": 2,
+          "class_name": "bicycle_motorcycle",
+          "confidence": 0.59755,
+          "xyxy": [
+            548.4,
+            35.78,
+            601.91,
+            77.55
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.5311,
+          "xyxy": [
+            540.83,
+            0.33,
+            602.47,
+            76.61
+          ]
+        },
+        {
+          "class_id": 14,
+          "class_name": "generic_obstacle",
+          "confidence": 0.50127,
+          "xyxy": [
+            5.18,
+            114.22,
+            240.0,
+            170.75
+          ]
+        },
+        {
+          "class_id": 2,
+          "class_name": "bicycle_motorcycle",
+          "confidence": 0.40423,
+          "xyxy": [
+            540.83,
+            0.33,
+            602.47,
+            76.61
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.35179,
+          "xyxy": [
+            448.54,
+            0.92,
+            469.04,
+            39.69
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-021",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-021.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-021.jpg",
+      "expected_visible_classes": [
+        "signboard"
+      ],
+      "detected_classes": [
+        "dog",
+        "person",
+        "signboard"
+      ],
+      "detection_count": 4,
+      "mean_confidence": 0.64189,
+      "detections": [
+        {
+          "class_id": 9,
+          "class_name": "dog",
+          "confidence": 0.96097,
+          "xyxy": [
+            58.41,
+            156.52,
+            162.54,
+            274.17
+          ]
+        },
+        {
+          "class_id": 9,
+          "class_name": "dog",
+          "confidence": 0.87263,
+          "xyxy": [
+            233.59,
+            177.13,
+            345.79,
+            311.71
+          ]
+        },
+        {
+          "class_id": 10,
+          "class_name": "signboard",
+          "confidence": 0.46911,
+          "xyxy": [
+            77.33,
+            0.06,
+            123.31,
+            20.92
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.26485,
+          "xyxy": [
+            207.21,
+            115.05,
+            230.96,
+            160.57
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-022",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-022.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-022.jpg",
+      "expected_visible_classes": [
+        "generic_obstacle"
+      ],
+      "detected_classes": [
+        "generic_obstacle"
+      ],
+      "detection_count": 1,
+      "mean_confidence": 0.92901,
+      "detections": [
+        {
+          "class_id": 14,
+          "class_name": "generic_obstacle",
+          "confidence": 0.92901,
+          "xyxy": [
+            0.16,
+            271.72,
+            44.54,
+            383.95
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-023",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-023.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-023.jpg",
+      "expected_visible_classes": [
+        "vehicle"
+      ],
+      "detected_classes": [
+        "vehicle"
+      ],
+      "detection_count": 1,
+      "mean_confidence": 0.88344,
+      "detections": [
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.88344,
+          "xyxy": [
+            148.73,
+            86.29,
+            348.53,
+            318.26
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-024",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-024.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-024.jpg",
+      "expected_visible_classes": [
+        "generic_obstacle"
+      ],
+      "detected_classes": [
+        "generic_obstacle"
+      ],
+      "detection_count": 1,
+      "mean_confidence": 0.88033,
+      "detections": [
+        {
+          "class_id": 14,
+          "class_name": "generic_obstacle",
+          "confidence": 0.88033,
+          "xyxy": [
+            142.21,
+            32.12,
+            376.35,
+            316.42
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-025",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-025.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-025.jpg",
+      "expected_visible_classes": [
+        "stairs"
+      ],
+      "detected_classes": [
+        "stairs"
+      ],
+      "detection_count": 2,
+      "mean_confidence": 0.57725,
+      "detections": [
+        {
+          "class_id": 5,
+          "class_name": "stairs",
+          "confidence": 0.90395,
+          "xyxy": [
+            81.99,
+            17.02,
+            384.0,
+            342.9
+          ]
+        },
+        {
+          "class_id": 5,
+          "class_name": "stairs",
+          "confidence": 0.25055,
+          "xyxy": [
+            85.36,
+            16.04,
+            384.0,
+            327.28
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-026",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-026.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-026.jpg",
+      "expected_visible_classes": [
+        "person",
+        "dog"
+      ],
+      "detected_classes": [
+        "dog",
+        "person"
+      ],
+      "detection_count": 3,
+      "mean_confidence": 0.74307,
+      "detections": [
+        {
+          "class_id": 9,
+          "class_name": "dog",
+          "confidence": 0.86101,
+          "xyxy": [
+            157.98,
+            183.61,
+            227.09,
+            296.45
+          ]
+        },
+        {
+          "class_id": 9,
+          "class_name": "dog",
+          "confidence": 0.77452,
+          "xyxy": [
+            157.66,
+            209.52,
+            227.02,
+            294.22
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.59367,
+          "xyxy": [
+            248.26,
+            37.48,
+            345.27,
+            250.12
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-027",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-027.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-027.jpg",
+      "expected_visible_classes": [
+        "vehicle"
+      ],
+      "detected_classes": [
+        "vehicle"
+      ],
+      "detection_count": 1,
+      "mean_confidence": 0.49609,
+      "detections": [
+        {
+          "class_id": 1,
+          "class_name": "vehicle",
+          "confidence": 0.49609,
+          "xyxy": [
+            30.25,
+            74.29,
+            384.0,
+            370.1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-028",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-028.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-028.jpg",
+      "expected_visible_classes": [
+        "bicycle_motorcycle"
+      ],
+      "detected_classes": [
+        "bicycle_motorcycle"
+      ],
+      "detection_count": 1,
+      "mean_confidence": 0.8817,
+      "detections": [
+        {
+          "class_id": 2,
+          "class_name": "bicycle_motorcycle",
+          "confidence": 0.8817,
+          "xyxy": [
+            90.01,
+            108.8,
+            384.0,
+            367.9
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixture-029",
+      "source_dataset": "sod-v1",
+      "held_out_test": true,
+      "source_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/benchmarks/pi-runtime-inputs/images/fixture-029.jpg",
+      "annotated_path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/presentation/cane-v1-showcase/all-annotated/fixture-029.jpg",
+      "expected_visible_classes": [
+        "vehicle"
+      ],
+      "detected_classes": [],
+      "detection_count": 0,
+      "mean_confidence": 0.0,
+      "detections": []
+    }
+  ]
+}
