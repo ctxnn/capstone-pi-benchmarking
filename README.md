@@ -77,7 +77,8 @@ SSH, Raspberry Pi OS
 packages, uv/Picamera2 setup, checksum and
 OpenVINO gates, production registry creation, `tmux`, fixed-image runs, IMX219
 camera runs, power input, resume/retry, result inspection, evidence return, and
-common mistakes.
+common mistakes. The Linux ARM64 dependency plan uses PyTorch's official CPU
+wheel index and must never download NVIDIA CUDA packages on the Pi.
 
 `docs/completion-readiness.md` is the requirement-by-requirement audit. It
 separates completed model/software evidence from measurements that

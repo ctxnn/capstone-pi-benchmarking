@@ -254,6 +254,22 @@ uv sync --frozen \
   --extra runtime-litert
 ```
 
+On Linux ARM64, the project pins `torch` and `torchvision` to PyTorch's official
+CPU wheel index. If the progress display mentions `nvidia-cuda`, `nvidia-cudnn`,
+`nvidia-nccl`, or `triton`, press `Ctrl+C`; that is the wrong dependency plan
+for a Raspberry Pi. Pull the latest `pyproject.toml` and `uv.lock`, clean the
+partial cache, recreate `.venv`, and run the command again:
+
+```bash
+uv cache clean
+mv .venv ".venv.cuda-plan.$(date -u +%Y%m%dT%H%M%SZ)"
+uv venv --python /usr/bin/python3 --system-site-packages
+uv sync --frozen \
+  --extra pi --extra edge --extra runtime-onnx \
+  --extra runtime-openvino --extra runtime-mnn \
+  --extra runtime-litert
+```
+
 Do not use the `export` extra on the Pi. ONNX, OpenVINO, MNN, NCNN, and LiteRT
 models were already converted off-device. The Pi only needs their runtime
 packages.
@@ -696,6 +712,7 @@ files are required to audit the tables.
 | Non-zero `get_throttled` | Undervoltage or thermal history | Fix the supply/cooling, reboot, and recheck before formal timing |
 | Tables contain `NA` after a failed row | The compiler preserves missing evidence honestly | Inspect `rows/<ID>.json`, fix the cause, rerun only that row, then recompile |
 | `uv sync` tries to build export tools | The `export` extra was selected | Use `runtime-onnx` and the other runtime extras shown in this guide |
+| `uv sync` downloads CUDA, cuDNN, NCCL, or Triton | PyTorch was resolved from the GPU-enabled PyPI Linux wheel set | Stop with `Ctrl+C`, update `pyproject.toml` and `uv.lock`, run `uv cache clean`, recreate `.venv`, and sync from the CPU-bound lock |
 | `sudo uv` or system Python becomes inconsistent | Project packages were installed into the OS interpreter | Install/run uv as the normal user and keep project packages inside `.venv` |
 
 ## 19. Final evidence checklist

@@ -38,6 +38,8 @@ audit = [
 ]
 pi = [
   "psutil>=5.9",
+  "torch>=2.0",
+  "torchvision>=0.15",
   "ultralytics>=8.4.0",
 ]
 runtime-openvino = [
@@ -52,6 +54,22 @@ runtime-mnn = [
 runtime-litert = [
   "ai-edge-litert>=2.1.4",
 ]
+
+# PyPI's Linux ARM PyTorch builds currently pull CUDA packages. Raspberry Pi
+# uses the official CPU wheel index while macOS and Linux/x86_64 keep their
+# existing resolver behavior.
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", marker = "sys_platform == 'linux' and platform_machine == 'aarch64'" },
+]
+torchvision = [
+  { index = "pytorch-cpu", marker = "sys_platform == 'linux' and platform_machine == 'aarch64'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
 
 [project.scripts]
 yolo-pi = "yolo_pi.cli:main"
