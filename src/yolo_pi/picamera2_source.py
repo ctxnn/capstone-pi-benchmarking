@@ -52,13 +52,17 @@ class Picamera2LatestFrameSource:
         if self._thread is not None:
             return
         self._camera = self._new_camera()
-        configuration = self._camera.create_video_configuration(
-            main={"size": (self.width, self.height), "format": self.pixel_format},
-            controls={"FrameRate": self.fps},
-            buffer_count=3,
-        )
-        self._camera.configure(configuration)
-        self._camera.start()
+        try:
+            configuration = self._camera.create_video_configuration(
+                main={"size": (self.width, self.height), "format": self.pixel_format},
+                controls={"FrameRate": self.fps},
+                buffer_count=3,
+            )
+            self._camera.configure(configuration)
+            self._camera.start()
+        except BaseException:
+            self.close()
+            raise
         self._thread = threading.Thread(
             target=self._capture_loop,
             name="picamera2-latest-frame",
@@ -130,6 +134,11 @@ class Picamera2LatestFrameSource:
         if self._thread is not None:
             self._thread.join(timeout=3)
         self._buffer.close()
+        if self._camera is not None:
+            # stop() leaves libcamera acquired in Configured state. Release it
+            # before the next benchmark row creates another Picamera2 instance.
+            self._camera.close()
+            self._camera = None
 
     def __enter__(self) -> "Picamera2LatestFrameSource":
         self.start()

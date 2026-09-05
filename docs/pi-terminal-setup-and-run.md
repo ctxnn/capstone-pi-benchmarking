@@ -604,6 +604,14 @@ row IDs, so mixing source types would silently preserve the first source's rows.
 
 ## 15. Optional measured power
 
+If M1 completes but later camera rows fail with `Camera in Configured state`
+or `Camera __init__ sequence did not complete`, update the runner: the camera
+adapter must call Picamera2 `close()` as well as `stop()` between rows. Exit the
+old runner and resume the same camera output directory using section 14's
+resume command. Completed rows are skipped; failed rows are retried without
+`--force`. Copy the old run folder first if retaining the original failure
+reports is required.
+
 Power must come from an external meter/logger. The runner does not estimate it
 from CPU load. The logger must append newline-delimited JSON with Unix epoch
 nanoseconds:

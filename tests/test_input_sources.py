@@ -49,8 +49,45 @@ class FakeCamera:
     def stop(self) -> None:
         self.running = False
 
+    def close(self) -> None:
+        self.running = False
+
 
 class InputSourceTests(unittest.TestCase):
+    def test_camera_released_between_rows_and_after_start_failure(self) -> None:
+        class ExclusiveCamera(FakeCamera):
+            acquired = False
+            fail_start = False
+
+            def __init__(self, camera_num):
+                if type(self).acquired:
+                    raise RuntimeError("camera already acquired")
+                super().__init__(camera_num)
+                type(self).acquired = True
+
+            def start(self):
+                if self.fail_start:
+                    raise RuntimeError("start failed")
+                super().start()
+
+            def close(self):
+                super().close()
+                type(self).acquired = False
+
+        for _ in range(2):
+            source = Picamera2LatestFrameSource(_camera_factory=ExclusiveCamera)
+            source.start()
+            source.next_frame(timeout_s=1)
+            source.close()
+            source.close()
+            self.assertFalse(ExclusiveCamera.acquired)
+
+        ExclusiveCamera.fail_start = True
+        source = Picamera2LatestFrameSource(_camera_factory=ExclusiveCamera)
+        with self.assertRaisesRegex(RuntimeError, "start failed"):
+            source.start()
+        self.assertFalse(ExclusiveCamera.acquired)
+
     def test_saved_images_cycle_without_camera_timing(self) -> None:
         source = ImageSequenceSource([Path("one.jpg"), Path("two.jpg")])
         source.start()
