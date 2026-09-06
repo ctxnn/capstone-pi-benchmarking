@@ -1,0 +1,15 @@
+{
+  "profile_id": "top-handle-v1-provisional",
+  "mount_zone": "near_top_handle",
+  "distance_below_handle_mm": 40.0,
+  "max_distance_below_handle_mm": 80.0,
+  "optical_axis": "forward",
+  "nominal_pitch_down_deg": 12.0,
+  "pitch_tolerance_deg": 5.0,
+  "nominal_roll_deg": 0.0,
+  "roll_tolerance_deg": 5.0,
+  "hand_occlusion_check_required": true,
+  "intrinsic_calibration_required": true,
+  "extrinsic_calibration_required": true,
+  "hardware_verified": false
+}

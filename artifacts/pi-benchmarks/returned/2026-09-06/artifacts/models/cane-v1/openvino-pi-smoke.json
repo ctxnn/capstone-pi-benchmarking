@@ -1,0 +1,34 @@
+{
+  "artifact": {
+    "path": "/home/capstone16/capstone-pi-benchmarking/artifacts/models/cane-v1/best_openvino_model",
+    "tree_sha256": "74d50b5d6c861660589077f94f8cd9d60aab377e0e70b0551ea877b61434ad14"
+  },
+  "environment": {
+    "machine": "aarch64",
+    "platform": "Linux-6.18.39+rpt-rpi-2712-aarch64-with-glibc2.41",
+    "python": "3.13.5",
+    "torch": "2.13.0+cpu",
+    "ultralytics": "8.4.132"
+  },
+  "finished_at_epoch_ns": 1788602317543926107,
+  "format": "openvino",
+  "imgsz": 640,
+  "precision": "FP32",
+  "sample": {
+    "path": "/home/capstone16/capstone-pi-benchmarking/artifacts/models/bus.jpg",
+    "sha256": "c02019c4979c191eb739ddd944445ef408dad5679acab6fd520ef9d434bfbc63"
+  },
+  "schema_version": 1,
+  "smoke": {
+    "backend": "openvino-ultralytics",
+    "detections": 4,
+    "speed_ms": {
+      "inference": 168.5543209998741,
+      "postprocess": 93.68690499991317,
+      "preprocess": 46.02980699996806
+    },
+    "status": "complete"
+  },
+  "started_at_epoch_ns": 1788602310316644643,
+  "status": "complete"
+}

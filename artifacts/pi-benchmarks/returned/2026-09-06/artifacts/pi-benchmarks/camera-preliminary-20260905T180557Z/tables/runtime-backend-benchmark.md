@@ -1,0 +1,8 @@
+| ID | Model | Runtime | Resolution | Precision | Threads | Source | Capture mean (ms) | Frame age at model start mean (ms) | Camera to model finish mean (ms) | Preprocess mean (ms) | Inference mean (ms) | Postprocess mean (ms) | Total pipeline mean (ms) | P50 (ms) | P95 (ms) | P99 (ms) | FPS | CPU utilization mean (%) | Peak RAM (MB) | Temperature max (C) | Power mean (W) | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| R1 | YOLO26n-Cane V1 | PyTorch | 640 | FP32 | 4 | camera | 66.56 | 41.57 | 316.07 | 3.02 | 270.07 | 0.34 | 274.50 | 273.80 | 331.31 | 371.09 | 3.64 | 83.23 | 394.16 | 77.10 | NA | complete |
+| R2 | YOLO26n-Cane V1 | ONNX Runtime | 640 | FP32 | 4 | camera | 66.57 | 40.69 | 347.40 | 6.14 | 294.86 | 5.21 | 306.71 | 276.57 | 489.16 | 514.20 | 3.26 | 99.58 | 541.25 | 84.80 | NA | complete |
+| R3 | YOLO26n-Cane V1 | OpenVINO | 640 | FP32 | 4 | camera | 65.78 | 41.93 | 215.57 | 5.20 | 166.21 | 1.81 | 173.63 | 178.12 | 210.20 | 227.43 | 5.76 | 93.12 | 594.81 | 80.95 | NA | complete |
+| R4 | YOLO26n-Cane V1 | MNN | 640 | FP32 | 4 | camera | 197.82 | 149.58 | 346.68 | 4.16 | 189.96 | 2.61 | 197.10 | 192.93 | 236.42 | 272.45 | 5.07 | 97.84 | 574.16 | 82.60 | NA | complete |
+| R5 | YOLO26n-Cane V1 | NCNN | 640 | FP32 | 4 | camera | 189.22 | 142.29 | 330.12 | 4.10 | 181.53 | 1.85 | 187.83 | 159.65 | 334.46 | 341.45 | 5.32 | 85.38 | 582.98 | 76.00 | NA | complete |
+| R6 | YOLO26n-Cane V1 | LiteRT | 640 | FP32 | 4 | camera | 65.52 | 40.09 | 217.89 | 4.29 | 171.59 | 1.55 | 177.80 | 179.65 | 186.42 | 189.55 | 5.62 | 90.13 | 631.83 | 79.85 | NA | complete |

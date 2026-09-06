@@ -1407,3 +1407,37 @@ remain preliminary until repeated under stable power and controlled cooling.
 Run the preview from the Pi desktop through Screen Sharing, review detections
 from the final top-handle viewpoint, and save representative success and failure
 scenes for the report and Cane V2 data plan.
+
+## 2026-09-06 — Returned Raspberry Pi benchmark evidence
+
+### What changed
+
+- Added the complete returned fixed-image and live-IMX219 benchmark evidence,
+  including all 16 raw row files, logs, environments, generated tables, Pi-side
+  OpenVINO smoke, configuration snapshots, and the original transfer archive.
+- Added `SHA256SUMS` for the returned archive.
+- Updated the README with model-quality results, both runtime comparisons,
+  direct evidence links, the OpenVINO live-preview decision, and limitations.
+
+### Engineering rationale
+
+Generated tables alone are insufficient for audit. The raw 100-observation row
+files preserve latency distributions, resource samples, temperatures, and
+throttling state. Publishing them makes every displayed result traceable while
+retaining the original USB transfer archive as immutable return evidence.
+
+### Verification evidence
+
+- Every M1, M2, and R1–R6 row in both matrices reports `complete`, 20 excluded
+  warmups, 100 repetitions, and 100 saved observations.
+- The returned archive SHA-256 is
+  `14b50b07b44a9106c36ac179f9d1c7d4fccd0c8c497bbc2e280631cd85397c1b`.
+- The OpenVINO Linux/ARM smoke reports `complete` against the registry-bound
+  export tree.
+- The evidence contains no password, token, API-key, or private-key matches.
+
+### Next gate
+
+Repeat both matrices under stable power and controlled cooling because saved
+rows recorded nonzero throttling flags and temperatures near 85 C. Then measure
+the physical camera-to-haptic path and validate detections from the final mount.

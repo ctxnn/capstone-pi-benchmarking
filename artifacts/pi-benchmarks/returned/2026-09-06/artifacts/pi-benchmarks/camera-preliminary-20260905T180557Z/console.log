@@ -1,0 +1,120 @@
+[0:03:05.926968792] [1606]  INFO Camera camera_manager.cpp:340 libcamera v0.7.2+rpt20260817
+[0:03:05.936420158] [1624]  INFO RPI pisp.cpp:725 libpisp version v1.7.0 07-08-2026 (09:22:13)
+[0:03:05.949353686] [1624]  INFO IPAProxy ipa_proxy.cpp:184 Using tuning file /usr/share/libcamera/ipa/rpi/pisp/imx219.json
+[0:03:05.957157572] [1624]  INFO Camera camera_manager.cpp:223 Adding camera '/base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10' for pipeline handler rpi/pisp
+[0:03:05.957181636] [1624]  INFO RPI pisp.cpp:1186 Registered camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_D0
+[0:03:05.959841396] [1624]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc30
+[0:03:05.959863102] [1624]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc12
+[0:03:05.960978193] [1606]  INFO Camera camera.cpp:1216 configuring streams: (0) 640x480-RGB888/SMPTE170M/Rec709/None/Full (1) 640x480-BGGR_PISP_COMP1/RAW
+[0:03:05.961101664] [1624]  INFO RPI pisp.cpp:1502 Sensor: /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 - Selected sensor format: 640x480-SBGGR10_1X10/RAW - Selected CFE format: 640x480-PC1B/RAW
+[0:04:01.521245626] [1628] ERROR Camera camera.cpp:702 Camera in Configured state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+[0:04:06.641658779] [1628] ERROR Camera camera.cpp:702 Camera in Configured state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+[0:04:16.763357482] [1628] ERROR Camera camera.cpp:702 Camera in Configured state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+[0:04:31.877219957] [1628] ERROR Camera camera.cpp:702 Camera in Configured state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+WARNING ⚠️ Unable to automatically guess model task, assuming 'task=detect'. Explicitly define task for your model, i.e. 'task=detect', 'segment', 'classify', 'pose', 'obb' or 'semantic'.
+[0:04:31.994233793] [1628] ERROR Camera camera.cpp:702 Camera in Configured state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+[0:04:37.104588795] [1628] ERROR Camera camera.cpp:702 Camera in Configured state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+[0:04:37.225441457] [1628] ERROR Camera camera.cpp:702 Camera in Configured state trying acquire() requiring state Available
+Camera __init__ sequence did not complete.
+{
+  "M1": "complete",
+  "M2": "failed",
+  "R1": "failed",
+  "R2": "failed",
+  "R3": "failed",
+  "R4": "failed",
+  "R5": "failed",
+  "R6": "failed"
+}
+[0:15:51.185518685] [13382]  INFO Camera camera_manager.cpp:340 libcamera v0.7.2+rpt20260817
+[0:15:51.194279926] [13404]  INFO RPI pisp.cpp:725 libpisp version v1.7.0 07-08-2026 (09:22:13)
+[0:15:51.202753166] [13404]  INFO IPAProxy ipa_proxy.cpp:184 Using tuning file /usr/share/libcamera/ipa/rpi/pisp/imx219.json
+[0:15:51.209896799] [13404]  INFO Camera camera_manager.cpp:223 Adding camera '/base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10' for pipeline handler rpi/pisp
+[0:15:51.209920355] [13404]  INFO RPI pisp.cpp:1186 Registered camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_D0
+[0:15:51.212722348] [13404]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc30
+[0:15:51.212743311] [13404]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc12
+[0:15:51.213345051] [13382]  INFO Camera camera.cpp:1216 configuring streams: (0) 640x480-RGB888/SMPTE170M/Rec709/None/Full (1) 640x480-BGGR_PISP_COMP1/RAW
+[0:15:51.213478291] [13404]  INFO RPI pisp.cpp:1502 Sensor: /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 - Selected sensor format: 640x480-SBGGR10_1X10/RAW - Selected CFE format: 640x480-PC1B/RAW
+[0:25:01.039101149] [13408]  INFO Camera camera_manager.cpp:340 libcamera v0.7.2+rpt20260817
+[0:25:01.047562189] [24824]  INFO RPI pisp.cpp:725 libpisp version v1.7.0 07-08-2026 (09:22:13)
+[0:25:01.049015561] [24824]  INFO IPAProxy ipa_proxy.cpp:184 Using tuning file /usr/share/libcamera/ipa/rpi/pisp/imx219.json
+[0:25:01.055981116] [24824]  INFO Camera camera_manager.cpp:223 Adding camera '/base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10' for pipeline handler rpi/pisp
+[0:25:01.056027747] [24824]  INFO RPI pisp.cpp:1186 Registered camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_D0
+[0:25:01.058568611] [24824]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc30
+[0:25:01.058584741] [24824]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc12
+[0:25:01.059049272] [13408]  INFO Camera camera.cpp:1216 configuring streams: (0) 640x480-RGB888/SMPTE170M/Rec709/None/Full (1) 640x480-BGGR_PISP_COMP1/RAW
+[0:25:01.059142145] [24824]  INFO RPI pisp.cpp:1502 Sensor: /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 - Selected sensor format: 640x480-SBGGR10_1X10/RAW - Selected CFE format: 640x480-PC1B/RAW
+[0:35:34.936501793] [24828]  INFO Camera camera_manager.cpp:340 libcamera v0.7.2+rpt20260817
+[0:35:34.945419739] [36331]  INFO RPI pisp.cpp:725 libpisp version v1.7.0 07-08-2026 (09:22:13)
+[0:35:34.947047646] [36331]  INFO IPAProxy ipa_proxy.cpp:184 Using tuning file /usr/share/libcamera/ipa/rpi/pisp/imx219.json
+[0:35:34.954334999] [36331]  INFO Camera camera_manager.cpp:223 Adding camera '/base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10' for pipeline handler rpi/pisp
+[0:35:34.954355573] [36331]  INFO RPI pisp.cpp:1186 Registered camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_D0
+[0:35:34.956585504] [36331]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc30
+[0:35:34.956602929] [36331]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc12
+[0:35:34.957028308] [24828]  INFO Camera camera.cpp:1216 configuring streams: (0) 640x480-RGB888/SMPTE170M/Rec709/None/Full (1) 640x480-BGGR_PISP_COMP1/RAW
+[0:35:34.957132325] [36331]  INFO RPI pisp.cpp:1502 Sensor: /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 - Selected sensor format: 640x480-SBGGR10_1X10/RAW - Selected CFE format: 640x480-PC1B/RAW
+Loading /home/capstone16/capstone-pi-benchmarking/artifacts/models/cane-v1/best.onnx for ONNX Runtime inference...
+Using ONNX Runtime 1.29.0 with CPUExecutionProvider
+[0:46:16.431067523] [36335]  INFO Camera camera_manager.cpp:340 libcamera v0.7.2+rpt20260817
+[0:46:16.439798384] [36390]  INFO RPI pisp.cpp:725 libpisp version v1.7.0 07-08-2026 (09:22:13)
+[0:46:16.441367643] [36390]  INFO IPAProxy ipa_proxy.cpp:184 Using tuning file /usr/share/libcamera/ipa/rpi/pisp/imx219.json
+[0:46:16.448946443] [36390]  INFO Camera camera_manager.cpp:223 Adding camera '/base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10' for pipeline handler rpi/pisp
+[0:46:16.448974090] [36390]  INFO RPI pisp.cpp:1186 Registered camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_D0
+[0:46:16.451344581] [36390]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc30
+[0:46:16.451371710] [36390]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc12
+[0:46:16.451868649] [36335]  INFO Camera camera.cpp:1216 configuring streams: (0) 640x480-RGB888/SMPTE170M/Rec709/None/Full (1) 640x480-BGGR_PISP_COMP1/RAW
+[0:46:16.451980351] [36390]  INFO RPI pisp.cpp:1502 Sensor: /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 - Selected sensor format: 640x480-SBGGR10_1X10/RAW - Selected CFE format: 640x480-PC1B/RAW
+Loading /home/capstone16/capstone-pi-benchmarking/artifacts/models/cane-v1/best_openvino_model for OpenVINO inference...
+Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+WARNING ⚠️ Unable to automatically guess model task, assuming 'task=detect'. Explicitly define task for your model, i.e. 'task=detect', 'segment', 'classify', 'pose', 'obb' or 'semantic'.
+[0:56:39.788270706] [36394]  INFO Camera camera_manager.cpp:340 libcamera v0.7.2+rpt20260817
+[0:56:39.796973508] [36447]  INFO RPI pisp.cpp:725 libpisp version v1.7.0 07-08-2026 (09:22:13)
+[0:56:39.798436941] [36447]  INFO IPAProxy ipa_proxy.cpp:184 Using tuning file /usr/share/libcamera/ipa/rpi/pisp/imx219.json
+[0:56:39.805313539] [36447]  INFO Camera camera_manager.cpp:223 Adding camera '/base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10' for pipeline handler rpi/pisp
+[0:56:39.805333465] [36447]  INFO RPI pisp.cpp:1186 Registered camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_D0
+[0:56:39.807541530] [36447]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc30
+[0:56:39.807556863] [36447]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc12
+[0:56:39.807977280] [36394]  INFO Camera camera.cpp:1216 configuring streams: (0) 640x480-RGB888/SMPTE170M/Rec709/None/Full (1) 640x480-BGGR_PISP_COMP1/RAW
+[0:56:39.808109907] [36447]  INFO RPI pisp.cpp:1502 Sensor: /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 - Selected sensor format: 640x480-SBGGR10_1X10/RAW - Selected CFE format: 640x480-PC1B/RAW
+Loading /home/capstone16/capstone-pi-benchmarking/artifacts/models/cane-v1/best.mnn for MNN inference with precision=high threads=4...
+Can't open file:/sys/devices/system/cpu/cpufreq/ondemand/affected_cpus
+CPU Group: [ 0  1  2  3 ], 1500000 - 2400000
+The device supports: i8sdot:1, fp16:1, i8mm: 0, sve2: 0, sme2: 0
+MNN use high precision
+[1:07:04.175795499] [36451]  INFO Camera camera_manager.cpp:340 libcamera v0.7.2+rpt20260817
+[1:07:04.184414669] [36492]  INFO RPI pisp.cpp:725 libpisp version v1.7.0 07-08-2026 (09:22:13)
+[1:07:04.185863339] [36492]  INFO IPAProxy ipa_proxy.cpp:184 Using tuning file /usr/share/libcamera/ipa/rpi/pisp/imx219.json
+[1:07:04.193066226] [36492]  INFO Camera camera_manager.cpp:223 Adding camera '/base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10' for pipeline handler rpi/pisp
+[1:07:04.193084985] [36492]  INFO RPI pisp.cpp:1186 Registered camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_D0
+[1:07:04.195222658] [36492]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc30
+[1:07:04.195241046] [36492]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc12
+[1:07:04.195649074] [36451]  INFO Camera camera.cpp:1216 configuring streams: (0) 640x480-RGB888/SMPTE170M/Rec709/None/Full (1) 640x480-BGGR_PISP_COMP1/RAW
+[1:07:04.195738109] [36492]  INFO RPI pisp.cpp:1502 Sensor: /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 - Selected sensor format: 640x480-SBGGR10_1X10/RAW - Selected CFE format: 640x480-PC1B/RAW
+Loading /home/capstone16/capstone-pi-benchmarking/artifacts/models/cane-v1/best_ncnn_model for NCNN inference...
+[1:17:27.137871506] [36496]  INFO Camera camera_manager.cpp:340 libcamera v0.7.2+rpt20260817
+[1:17:27.149492801] [36514]  INFO RPI pisp.cpp:725 libpisp version v1.7.0 07-08-2026 (09:22:13)
+[1:17:27.151413421] [36514]  INFO IPAProxy ipa_proxy.cpp:184 Using tuning file /usr/share/libcamera/ipa/rpi/pisp/imx219.json
+[1:17:27.161235036] [36514]  INFO Camera camera_manager.cpp:223 Adding camera '/base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10' for pipeline handler rpi/pisp
+[1:17:27.161257758] [36514]  INFO RPI pisp.cpp:1186 Registered camera /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_D0
+[1:17:27.164038395] [36514]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc30
+[1:17:27.164055005] [36514]  WARN V4L2 v4l2_pixelformat.cpp:346 Unsupported V4L2 pixel format Nc12
+[1:17:27.164583233] [36496]  INFO Camera camera.cpp:1216 configuring streams: (0) 640x480-RGB888/SMPTE170M/Rec709/None/Full (1) 640x480-BGGR_PISP_COMP1/RAW
+[1:17:27.164700545] [36514]  INFO RPI pisp.cpp:1502 Sensor: /base/axi/pcie@1000120000/rp1/i2c@80000/imx219@10 - Selected sensor format: 640x480-SBGGR10_1X10/RAW - Selected CFE format: 640x480-PC1B/RAW
+Loading /home/capstone16/capstone-pi-benchmarking/artifacts/models/cane-v1/best.tflite for LiteRT inference...
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+{
+  "M1": "skipped-complete",
+  "M2": "complete",
+  "R1": "complete",
+  "R2": "complete",
+  "R3": "complete",
+  "R4": "complete",
+  "R5": "complete",
+  "R6": "complete"
+}

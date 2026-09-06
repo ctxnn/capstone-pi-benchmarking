@@ -1,0 +1,14 @@
+{
+  "captured_at_epoch_ns": 1788604564831920703,
+  "cpu_count_logical": 4,
+  "hostname": "capstone16",
+  "is_raspberry_pi": true,
+  "machine": "aarch64",
+  "memory_total_bytes": 2107850752,
+  "platform": "Linux-6.18.39+rpt-rpi-2712-aarch64-with-glibc2.41",
+  "psutil": "7.2.2",
+  "python": "3.13.5",
+  "raspberry_pi_model": "Raspberry Pi 5 Model B Rev 1.1",
+  "temperature_c_at_start": 47.4,
+  "throttled_at_start": "throttled=0x0"
+}

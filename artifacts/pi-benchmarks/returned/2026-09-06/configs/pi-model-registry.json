@@ -1,0 +1,56 @@
+{
+  "artifacts": {
+    "cane-v1-litert-fp32": {
+      "path": "artifacts/models/cane-v1/best.tflite",
+      "tree_sha256": "e87c2a1a656018c0c909974dbd43812fd5699cbd1f474bf4d24bb7acd9088878"
+    },
+    "cane-v1-mnn-fp32": {
+      "path": "artifacts/models/cane-v1/best.mnn",
+      "tree_sha256": "d97443e2a2a4787bbcebb1bd34dc59476857d05065e90c29bf6075b679435319"
+    },
+    "cane-v1-ncnn-fp32": {
+      "path": "artifacts/models/cane-v1/best_ncnn_model",
+      "tree_sha256": "b431fd469b4ea6d318540c0aa048629339ed6e7723e3aeaa15499c88fabf6931"
+    },
+    "cane-v1-onnx-fp32": {
+      "path": "artifacts/models/cane-v1/best.onnx",
+      "tree_sha256": "e334f2fdc412b48d84484fac10330d9531b40af50e1daba2cd2d1700a8fdfe6a"
+    },
+    "cane-v1-openvino-fp32": {
+      "path": "artifacts/models/cane-v1/best_openvino_model",
+      "tree_sha256": "74d50b5d6c861660589077f94f8cd9d60aab377e0e70b0551ea877b61434ad14"
+    },
+    "cane-v1-pytorch-fp32": {
+      "path": "artifacts/models/cane-v1/best.pt",
+      "quality_metrics": {
+        "fitness": 0.36321536875663296,
+        "fraction": 1.0,
+        "imgsz": 640,
+        "map50": 0.5272370415581985,
+        "map50_95": 0.36321536875663296,
+        "precision": 0.5991022368143236,
+        "recall": 0.509992249613865,
+        "split": "test"
+      },
+      "sha256": "85168a2bc2f8a87c6b4361f16e3e7ec7394312341ee99a766f368be6e28e0dca"
+    },
+    "v0-pytorch-fp32": {
+      "path": "artifacts/models/yolo26n.pt",
+      "quality_metrics": {
+        "fitness": 0.17491354858886066,
+        "fraction": 1.0,
+        "imgsz": 640,
+        "map50": 0.2413242708462228,
+        "map50_95": 0.17491354858886066,
+        "precision": 0.2933272264200281,
+        "recall": 0.23323970133161623,
+        "split": "test"
+      },
+      "sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef"
+    }
+  },
+  "export_manifest": "artifacts/models/cane-v1/export-manifest.json",
+  "quality_comparison": "artifacts/models/cane-v1/model-comparison-640.json",
+  "schema_version": 1,
+  "training_summary": "artifacts/training/lightning-final/training-summary.json"
+}

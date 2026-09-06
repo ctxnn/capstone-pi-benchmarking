@@ -1,0 +1,2 @@
+# Preserve returned benchmark CSV evidence byte-for-byte, including Pi-generated line endings.
+artifacts/pi-benchmarks/returned/**/*.csv binary

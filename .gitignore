@@ -20,6 +20,9 @@ artifacts/pi-benchmarks/**
 artifacts/training/**
 !artifacts/benchmarks/.gitkeep
 !artifacts/pi-benchmarks/.gitkeep
+!artifacts/pi-benchmarks/returned/
+!artifacts/pi-benchmarks/returned/**
+artifacts/pi-benchmarks/returned/**/.DS_Store
 !artifacts/training/.gitkeep
 
 # Prepared cloud handoff contains hard-linked copies of ignored large inputs.

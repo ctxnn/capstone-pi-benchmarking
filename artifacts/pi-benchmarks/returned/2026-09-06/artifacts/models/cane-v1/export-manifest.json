@@ -1,0 +1,207 @@
+{
+  "created_at_epoch_ns": 1788103163234442000,
+  "exports": {
+    "litert": {
+      "export_options": {
+        "batch": 1,
+        "device": "cpu",
+        "end2end": false,
+        "format": "litert",
+        "imgsz": 640
+      },
+      "files": [
+        {
+          "bytes": 9845498,
+          "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best.tflite",
+          "sha256": "91fdfc479f110407e6393a9184aaaf8607fd90013dfa9b735d266a39b2703ab2"
+        }
+      ],
+      "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best.tflite",
+      "smoke": {
+        "backend": "litert-ultralytics",
+        "detections": 4,
+        "runtime_precision": "FP32",
+        "runtime_threads": 4,
+        "sample": "artifacts/models/bus.jpg",
+        "speed_ms": {
+          "inference": 17.746041998179862,
+          "postprocess": 0.40670800080988556,
+          "preprocess": 1.210542002809234
+        },
+        "status": "complete"
+      },
+      "status": "complete",
+      "tree_sha256": "e87c2a1a656018c0c909974dbd43812fd5699cbd1f474bf4d24bb7acd9088878"
+    },
+    "mnn": {
+      "export_options": {
+        "batch": 1,
+        "device": "cpu",
+        "end2end": false,
+        "format": "mnn",
+        "imgsz": 640
+      },
+      "files": [
+        {
+          "bytes": 9679556,
+          "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best.mnn",
+          "sha256": "ccbe6783eaf038ffb02a45270794cde58753ae1e2f6ff127fe80cc7ed9b425f9"
+        }
+      ],
+      "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best.mnn",
+      "smoke": {
+        "backend": "mnn-high-precision-ultralytics",
+        "detections": 4,
+        "runtime_precision": "FP32",
+        "runtime_threads": 4,
+        "sample": "artifacts/models/bus.jpg",
+        "speed_ms": {
+          "inference": 16.080124998552492,
+          "postprocess": 0.48999999853549525,
+          "preprocess": 0.7683329968131147
+        },
+        "status": "complete"
+      },
+      "status": "complete",
+      "tree_sha256": "d97443e2a2a4787bbcebb1bd34dc59476857d05065e90c29bf6075b679435319"
+    },
+    "ncnn": {
+      "export_options": {
+        "batch": 1,
+        "device": "cpu",
+        "end2end": false,
+        "format": "ncnn",
+        "imgsz": 640
+      },
+      "files": [
+        {
+          "bytes": 662,
+          "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best_ncnn_model/metadata.yaml",
+          "sha256": "543af9e835faf9afc508bc8f39755af873341fe7c064d0ff064b75529336e63a"
+        },
+        {
+          "bytes": 9612252,
+          "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best_ncnn_model/model.ncnn.bin",
+          "sha256": "47f748fae1b15b63226d7646d4f5422c5358e8d2024cd6d17e5fdfa1dd09b59c"
+        },
+        {
+          "bytes": 26400,
+          "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best_ncnn_model/model.ncnn.param",
+          "sha256": "36a6523ce792360ce5386e344ebe0c4469acd2b3c63b103104f6b9f4316066b1"
+        },
+        {
+          "bytes": 719,
+          "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best_ncnn_model/model_ncnn.py",
+          "sha256": "36814527f04b80e437df2df729be00b4d1cdccaceb6e9e9e70d6d11b63094d76"
+        }
+      ],
+      "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best_ncnn_model",
+      "smoke": {
+        "backend": "ncnn-ultralytics",
+        "detections": 4,
+        "runtime_precision": "FP32",
+        "runtime_threads": 4,
+        "sample": "artifacts/models/bus.jpg",
+        "speed_ms": {
+          "inference": 18.858457999158418,
+          "postprocess": 0.5101669994473923,
+          "preprocess": 1.2992080010008067
+        },
+        "status": "complete"
+      },
+      "status": "complete",
+      "tree_sha256": "b431fd469b4ea6d318540c0aa048629339ed6e7723e3aeaa15499c88fabf6931"
+    },
+    "onnx": {
+      "export_options": {
+        "batch": 1,
+        "device": "cpu",
+        "end2end": false,
+        "format": "onnx",
+        "imgsz": 640
+      },
+      "files": [
+        {
+          "bytes": 9804671,
+          "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best.onnx",
+          "sha256": "852052852040e22591ebae2d114f0379b3abdc741929f97fe7eade974dcddf0b"
+        }
+      ],
+      "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best.onnx",
+      "smoke": {
+        "backend": "onnxruntime-ultralytics",
+        "detections": 4,
+        "runtime_precision": "FP32",
+        "runtime_threads": 4,
+        "sample": "artifacts/models/bus.jpg",
+        "speed_ms": {
+          "inference": 24.99095800158102,
+          "postprocess": 0.3495419987302739,
+          "preprocess": 0.6830839993199334
+        },
+        "status": "complete"
+      },
+      "status": "complete",
+      "tree_sha256": "e334f2fdc412b48d84484fac10330d9531b40af50e1daba2cd2d1700a8fdfe6a"
+    },
+    "openvino": {
+      "export_options": {
+        "batch": 1,
+        "device": "cpu",
+        "end2end": false,
+        "format": "openvino",
+        "imgsz": 640
+      },
+      "files": [
+        {
+          "bytes": 9612064,
+          "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best_openvino_model/best.bin",
+          "sha256": "674847235b8c7fa82c7f250d9c0902405d51c9e00407645bb98c573d3f76c2e0"
+        },
+        {
+          "bytes": 351890,
+          "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best_openvino_model/best.xml",
+          "sha256": "eba6ccbdab93e2c7cc046d4286e8ef50b7f4597083ec862e9271e5db5e8a72a9"
+        },
+        {
+          "bytes": 721,
+          "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best_openvino_model/metadata.yaml",
+          "sha256": "c668106fda5cb18d352c856f470392661e5977e98d597e47f2dda879030d9ba0"
+        }
+      ],
+      "path": "/Users/chiragtaneja/Codes/capstone-everything/yolo-pi/artifacts/models/cane-v1/best_openvino_model",
+      "smoke": {
+        "backend": "openvino-ultralytics",
+        "detections": 4,
+        "evidence_path": "artifacts/models/cane-v1/openvino-pi-smoke.json",
+        "evidence_sha256": "964a757d8ef81d686b73725d50c12a0726813d3be24fd41a2a8d92859d6064d0",
+        "speed_ms": {
+          "inference": 168.5543209998741,
+          "postprocess": 93.68690499991317,
+          "preprocess": 46.02980699996806
+        },
+        "status": "complete",
+        "validation_environment": {
+          "machine": "aarch64",
+          "platform": "Linux-6.18.39+rpt-rpi-2712-aarch64-with-glibc2.41",
+          "python": "3.13.5",
+          "torch": "2.13.0+cpu",
+          "ultralytics": "8.4.132"
+        }
+      },
+      "status": "complete",
+      "tree_sha256": "74d50b5d6c861660589077f94f8cd9d60aab377e0e70b0551ea877b61434ad14"
+    }
+  },
+  "imgsz": 640,
+  "precision": "FP32",
+  "purpose": "YOLO26n-Cane V1 Pi runtime matrix at 640/FP32",
+  "python": "3.13.12",
+  "schema_version": 1,
+  "source_model": {
+    "bytes": 5351365,
+    "path": "artifacts/models/cane-v1/best.pt",
+    "sha256": "85168a2bc2f8a87c6b4361f16e3e7ec7394312341ee99a766f368be6e28e0dca"
+  },
+  "ultralytics": "8.4.132"
+}

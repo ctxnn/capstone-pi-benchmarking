@@ -1,0 +1,46 @@
+Loading /home/capstone16/capstone-pi-benchmarking/artifacts/models/cane-v1/best.onnx for ONNX Runtime inference...
+[31m[1mrequirements:[0m Ultralytics requirement ['onnx'] not found, attempting AutoUpdate...
+Looking in indexes: https://pypi.org/simple, https://www.piwheels.org/simple
+Collecting onnx
+  Downloading onnx-1.22.0-cp312-abi3-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl.metadata (8.5 kB)
+Requirement already satisfied: numpy>=1.23.2 in ./.venv/lib/python3.13/site-packages (from onnx) (2.5.2)
+Requirement already satisfied: protobuf>=4.25.1 in ./.venv/lib/python3.13/site-packages (from onnx) (7.36.0)
+Collecting typing_extensions>=4.15.0 (from onnx)
+  Downloading https://www.piwheels.org/simple/typing-extensions/typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Requirement already satisfied: ml_dtypes>=0.5.4 in ./.venv/lib/python3.13/site-packages (from onnx) (0.6.0)
+Downloading onnx-1.22.0-cp312-abi3-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl (18.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.9/18.9 MB 98.3 kB/s eta 0:00:00
+Downloading https://www.piwheels.org/simple/typing-extensions/typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Installing collected packages: typing_extensions, onnx
+  Attempting uninstall: typing_extensions
+    Found existing installation: typing_extensions 4.12.2
+    Uninstalling typing_extensions-4.12.2:
+      Successfully uninstalled typing_extensions-4.12.2
+
+Successfully installed onnx-1.22.0 typing_extensions-4.16.0
+
+[31m[1mrequirements:[0m AutoUpdate success ✅ 101.3s
+WARNING ⚠️ [31m[1mrequirements:[0m [1mRestart runtime or rerun command for updates to take effect[0m
+
+Using ONNX Runtime 1.29.0 with CPUExecutionProvider
+Loading /home/capstone16/capstone-pi-benchmarking/artifacts/models/cane-v1/best_openvino_model for OpenVINO inference...
+Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+WARNING ⚠️ Unable to automatically guess model task, assuming 'task=detect'. Explicitly define task for your model, i.e. 'task=detect', 'segment', 'classify', 'pose', 'obb' or 'semantic'.
+Loading /home/capstone16/capstone-pi-benchmarking/artifacts/models/cane-v1/best.mnn for MNN inference with precision=high threads=4...
+Can't open file:/sys/devices/system/cpu/cpufreq/ondemand/affected_cpus
+CPU Group: [ 0  1  2  3 ], 1500000 - 2400000
+The device supports: i8sdot:1, fp16:1, i8mm: 0, sve2: 0, sme2: 0
+MNN use high precision
+Loading /home/capstone16/capstone-pi-benchmarking/artifacts/models/cane-v1/best_ncnn_model for NCNN inference...
+Loading /home/capstone16/capstone-pi-benchmarking/artifacts/models/cane-v1/best.tflite for LiteRT inference...
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+{
+  "M1": "complete",
+  "M2": "complete",
+  "R1": "complete",
+  "R2": "complete",
+  "R3": "complete",
+  "R4": "complete",
+  "R5": "complete",
+  "R6": "complete"
+}
