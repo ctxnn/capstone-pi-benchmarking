@@ -56,6 +56,22 @@ uv run python scripts/export_baseline.py \
   --imgsz 416
 ```
 
+## Live inference on the Raspberry Pi
+
+After the Raspberry Pi environment, IMX219 camera, and Cane V1 runtime artifacts
+are configured, this is the command to start the annotated live inference demo:
+
+```bash
+cd ~/capstone-pi-benchmarking
+PYTHONPATH=src .venv/bin/python scripts/live_camera_demo.py
+```
+
+Run this from the Pi desktop / Raspberry Pi Connect Screen Sharing when you want
+to view live detections. The demo is qualitative and should not run at the same
+time as a formal benchmark or another process that owns the camera. The full
+camera setup and preview procedure is also documented in
+`docs/pi-terminal-setup-and-run.md`.
+
 ## Project layout
 
 ```text
