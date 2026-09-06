@@ -1374,3 +1374,36 @@ browser terminal is not a direct `rsync` or `scp` upload channel. A private
 Tailscale address preserves the existing checksum-bound transfer workflow even
 when the access point blocks local clients from reaching each other. No router
 port forwarding or public SSH endpoint is required.
+
+## 2026-09-06 — Live camera detection preview
+
+### What changed
+
+- Added `scripts/live_camera_demo.py` for an annotated IMX219 preview through
+  Raspberry Pi Connect Screen Sharing.
+- The preview uses the fine-tuned OpenVINO export by default and displays
+  bounding boxes, class labels, confidence, inference latency, and FPS.
+- Reused the latest-frame Picamera2 adapter and guaranteed camera cleanup when
+  the user exits with `Q` or `Esc`.
+- Documented the live qualitative test in the Pi terminal runbook.
+
+### Engineering rationale
+
+OpenVINO is the default based on the completed live-camera benchmark: it had
+the lowest mean inference latency (166.21 ms), lowest mean camera pipeline
+latency (173.63 ms), and highest measured throughput (5.76 FPS). LiteRT was
+close, but OpenVINO produced the best combined camera result. These measurements
+remain preliminary until repeated under stable power and controlled cooling.
+
+### Verification evidence
+
+- `scripts/live_camera_demo.py --help` completed successfully.
+- Python bytecode compilation and `git diff --check` passed.
+- The formal fixed-image and camera benchmark matrices completed all M1, M2,
+  and R1–R6 rows before the preview was selected.
+
+### Next gate
+
+Run the preview from the Pi desktop through Screen Sharing, review detections
+from the final top-handle viewpoint, and save representative success and failure
+scenes for the report and Cane V2 data plan.

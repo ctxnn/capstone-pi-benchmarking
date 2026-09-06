@@ -604,6 +604,23 @@ row IDs, so mixing source types would silently preserve the first source's rows.
 
 ## 15. Optional measured power
 
+### Live annotated preview after benchmarking
+
+Use Raspberry Pi Connect **Screen Sharing**, open a terminal on the Pi desktop,
+and run the qualitative demo after the formal matrices finish:
+
+```bash
+cd ~/capstone-pi-benchmarking
+PYTHONPATH=src .venv/bin/python scripts/live_camera_demo.py
+```
+
+The preview uses the validated fine-tuned OpenVINO export by default and draws
+boxes, labels, confidence values, inference time, and display FPS. Press `Q` or
+`Esc` in the preview window to stop. The camera is released in a `finally`
+block. Do not run the preview alongside a benchmark or another camera process.
+This visual check is qualitative evidence and does not replace the held-out
+quality evaluation or formal benchmark tables.
+
 If M1 completes but later camera rows fail with `Camera in Configured state`
 or `Camera __init__ sequence did not complete`, update the runner: the camera
 adapter must call Picamera2 `close()` as well as `stop()` between rows. Exit the
