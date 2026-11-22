@@ -9,9 +9,24 @@ the common 1,515-image held-out test split.
 
 The accepted Cane V1 model was trained at `imgsz=416`, but every row of the
 2026-09-06 formal matrix ran it at 640. A 640 input does 2.4x the arithmetic of
-416, and because the IMX219 frames are 640x480, a square 640 input also pads
-away roughly a quarter of the tensor. Restoring the training resolution is
-therefore both faster and more accurate.
+416 and shows the model objects at a larger scale than it learned. Restoring the
+training resolution is therefore both faster and more accurate.
+
+The exports were produced from the accepted `best.pt` (SHA-256
+`85168a2b...`) with Ultralytics 8.4.132 and OpenVINO 2026.3.1:
+
+```bash
+yolo export model=best.pt format=openvino imgsz=416 batch=1 device=cpu
+yolo export model=best.pt format=openvino imgsz=320 batch=1 device=cpu
+```
+
+Only the two OpenVINO FP32 exports are kept in
+`artifacts/models/cane-v1-fast/`, together with `export-manifest.json` (source
+hash, tree hashes, quality at each export's own size) and `quality.json` (the
+complete sweep below). They are tracked in Git on purpose: the Pi pulls them
+from the repository, and the tree hashes catch a truncated copy. The rejected
+INT8, NCNN FP16 and LiteRT INT8 exports are not kept; they can be regenerated
+with `int8=True data=...` or `format=ncnn half=True`.
 
 ## Held-out quality
 
@@ -51,7 +66,14 @@ to keep the power draw inside what this Pi's supply can deliver.
 | NCNN FP16 | 416 | 446.5 | 452.4 | 479.0 | 2.21 |
 
 Under identical conditions, 416 is **2.4x** faster than the current deployment
-input and 320 is **3.9x** faster, while both remain more accurate. A separate
+input and 320 is **3.9x** faster, while both remain more accurate.
+
+These fixed-image numbers are slower than the camera numbers below (99.2 ms
+versus 61.5 ms of inference for 416). The two sessions differed: the fixed-image
+runs followed several reboots caused by the supply, and decode of saved JPEGs
+competes for the same two cores. Quote the camera table for deployment and the
+fixed-image table only for the relative ranking until the formal R3/R7/R8 rows
+measure both sources under one protocol. A separate
 single-artifact run at a 1.8 GHz cap rather than 1.5 GHz measured 416 at 73.1 ms
 (12.6 FPS), so the clock limitation below costs roughly a quarter of the speed.
 
@@ -100,6 +122,18 @@ about 126 ms smaller.
   factor in these runs; the binding limit is supply voltage.
 - These are single-artifact quick comparisons, not replacements for the formal
   resumable matrix, which also records CPU, RAM, temperature, power and P99.
+  The camera comparison is one 15-second run per artifact, pointed at a person.
+
+## Formal matrix rows
+
+The matrix now carries the exports as R7 (OpenVINO FP32, 416) and R8 (OpenVINO
+FP32, 320). Register them with
+`--input-size-manifest artifacts/models/cane-v1-fast/export-manifest.json` on
+`scripts/build_pi_model_registry.py`, then run R3, R7 and R8 together for both
+sources as described in `docs/pi-terminal-setup-and-run.md` sections 8, 10 and
+12. Running R3 in the same series keeps 640 under identical conditions. Once the
+supply is replaced, repeat the series at four threads and full clock; those rows
+supersede every number on this page.
 
 ## Pipeline prerequisites found while measuring
 

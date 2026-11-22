@@ -70,18 +70,6 @@
   "precision": 0.6886,
   "mac_inference_ms": 4.98
  },
- "ov-fp32-320x416": {
-  "options": {
-   "format": "openvino",
-   "imgsz": [
-    320,
-    416
-   ]
-  },
-  "export_sec": 1,
-  "status": "failed",
-  "error": "RuntimeError: Exception from src/inference/src/cpp/infer_request.cpp:122:\nException from src/inference/src/cpp/infer_request.cpp:67:\nCheck 'shape.compatible(ov::PartialShape(tensor->get_shape()))' failed at src/plugins/intel_cpu/src/infer_request.cpp:392:\nCan't set the input tensor with index: 0, because the model input (shape=[1,3,320,416]) and the tensor (shape=(1.3.416.416)) are incompatible\n\n\n"
- },
  "ov-int8-416": {
   "options": {
    "format": "openvino",
@@ -110,19 +98,6 @@
   "precision": 0.6769,
   "mac_inference_ms": 6.04
  },
- "ov-int8-320x416": {
-  "options": {
-   "format": "openvino",
-   "imgsz": [
-    320,
-    416
-   ],
-   "int8": true
-  },
-  "export_sec": 90,
-  "status": "failed",
-  "error": "RuntimeError: Exception from src/inference/src/cpp/infer_request.cpp:122:\nException from src/inference/src/cpp/infer_request.cpp:67:\nCheck 'shape.compatible(ov::PartialShape(tensor->get_shape()))' failed at src/plugins/intel_cpu/src/infer_request.cpp:392:\nCan't set the input tensor with index: 0, because the model input (shape=[1,3,320,416]) and the tensor (shape=(1.3.416.416)) are incompatible\n\n\n"
- },
  "ncnn-fp16-416": {
   "options": {
    "format": "ncnn",
@@ -137,23 +112,6 @@
   "precision": 0.7005,
   "mac_inference_ms": 7.62
  },
- "ncnn-fp16-320x416": {
-  "options": {
-   "format": "ncnn",
-   "imgsz": [
-    320,
-    416
-   ],
-   "half": true
-  },
-  "export_sec": 2,
-  "status": "ok",
-  "map50": 0.0045,
-  "map50_95": 0.0011,
-  "recall": 0.0163,
-  "precision": 0.0075,
-  "mac_inference_ms": 7.32
- },
  "tflite-int8-416": {
   "options": {
    "format": "tflite",
@@ -167,18 +125,5 @@
   "recall": 0.5554,
   "precision": 0.6602,
   "mac_inference_ms": 8.33
- },
- "tflite-int8-320x416": {
-  "options": {
-   "format": "tflite",
-   "imgsz": [
-    320,
-    416
-   ],
-   "int8": true
-  },
-  "export_sec": 222,
-  "status": "failed",
-  "error": "ValueError: Cannot set tensor: Dimension mismatch. Got 416 but expected 320 for dimension 2 of input 0."
  }
 }

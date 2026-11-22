@@ -74,6 +74,30 @@ def resolve_export_path(entry: Dict[str, Any], artifact_root: Path) -> Path:
     )
 
 
+def input_size_entries(manifest_path: Path, fine_tuned_sha: str, root: Path) -> Dict[str, Any]:
+    """Register reduced-input OpenVINO exports after verifying source and tree hashes."""
+
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if manifest["source_model"]["sha256"] != fine_tuned_sha:
+        raise ValueError("input-size exports were not built from the selected final best.pt")
+    entries: Dict[str, Any] = {}
+    for entry in manifest["exports"].values():
+        if entry["status"] != "complete":
+            raise ValueError(f"input-size export is incomplete: {entry['path']}")
+        quality = entry["quality_metrics"]
+        if quality.get("split") != "test" or quality.get("fraction") != 1.0:
+            raise ValueError(f"quality for {entry['path']} must cover the complete test split")
+        if quality.get("imgsz") != entry["imgsz"]:
+            raise ValueError(f"quality for {entry['path']} was not measured at its export size")
+        path = resolve_export_path(entry, manifest_path.parent)
+        entries[f"cane-v1-openvino-fp32-{entry['imgsz']}"] = {
+            "path": relative(path, root),
+            "tree_sha256": entry["tree_sha256"],
+            "quality_metrics": quality,
+        }
+    return entries
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--training-summary", type=Path, required=True)
@@ -81,6 +105,11 @@ def main() -> None:
     parser.add_argument("--export-manifest", type=Path, required=True)
     parser.add_argument("--baseline", type=Path, required=True)
     parser.add_argument("--output", type=Path, default=Path("configs/pi-model-registry.json"))
+    parser.add_argument(
+        "--input-size-manifest",
+        type=Path,
+        help="optional artifacts/models/cane-v1-fast/export-manifest.json for the R7/R8 rows",
+    )
     args = parser.parse_args()
     root = Path.cwd()
     training = json.loads(args.training_summary.read_text(encoding="utf-8"))
@@ -152,6 +181,9 @@ def main() -> None:
             "cane-v1-litert-fp32": exported("litert"),
         },
     }
+    if args.input_size_manifest:
+        registry["input_size_manifest"] = relative(args.input_size_manifest, root)
+        registry["artifacts"].update(input_size_entries(args.input_size_manifest, fine_tuned_sha, root))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temporary = args.output.with_suffix(args.output.suffix + ".tmp")
     temporary.write_text(json.dumps(registry, indent=2, sort_keys=True) + "\n")

@@ -373,6 +373,22 @@ Expected shape is normally `(480, 640, 3)`. Do not leave `rpicam-*`, another
 Picamera2 process, or a camera preview running; only one process can own the
 camera during the benchmark.
 
+Two IMX219 facts that are easy to lose an evening to:
+
+- The Arducam IMX219 is a third-party module, so `camera_auto_detect=1` never
+  finds it; that setting only covers genuine Raspberry Pi cameras and OV5647.
+  `/boot/firmware/config.txt` needs an explicit overlay. Bare
+  `dtoverlay=imx219` addresses the `cam1` connector, `dtoverlay=imx219,cam0`
+  addresses `cam0`, and a `,cam1` suffix does not exist and is silently
+  ignored. `sudo dtoverlay -h imx219` lists the valid overrides. If
+  `dmesg` shows `failed to read chip id 219` on one bus, try the other form.
+- `--list-cameras` succeeding does not prove the ribbon is good. A partially
+  seated or laterally offset ribbon can keep I2C working, so the sensor
+  enumerates, while the MIPI data lanes fail. That shows up as repeated
+  `Camera frontend has timed out!` and no frames from `rpicam-still`.
+  Power off and reseat the 22-pin end squarely with the latch closed; no
+  software change fixes it.
+
 ## 8. Complete the Pi-side OpenVINO functional gate
 
 The OpenVINO export is checksum-complete but must execute on Linux/ARM before the
@@ -406,10 +422,13 @@ Now build the production registry:
   --quality-comparison artifacts/models/cane-v1/model-comparison-640.json \
   --export-manifest artifacts/models/cane-v1/export-manifest.json \
   --baseline artifacts/models/yolo26n.pt \
+  --input-size-manifest artifacts/models/cane-v1-fast/export-manifest.json \
   --output configs/pi-model-registry.json
 ```
 
-The registry builder verifies the selected `best.pt`, baseline, quality report,
+The `--input-size-manifest` line adds the R7 (416) and R8 (320) OpenVINO
+exports. Omit it only if those exports are not on the Pi. The registry builder
+verifies the selected `best.pt`, baseline, quality report,
 all export tree hashes, 640-pixel resolution, and complete held-out test split.
 If the manifest records the Mac's old absolute path, the builder safely rebases
 it by artifact name under `artifacts/models/cane-v1/` and recomputes the tree
@@ -446,6 +465,25 @@ ps -eo pid,comm,%cpu,%mem --sort=-%cpu | head -n 15
 undervoltage, throttling, or a historical throttle condition; fix power/cooling
 and reboot before the formal series. Stop browsers, desktops, package updates,
 camera previews, and unrelated workloads.
+
+Check that nothing is spinning. On this Pi `avahi-daemon` was once found using
+97% of a core while repeatedly re-registering its hostname, which silently
+contaminates every row. Stop it for the session (it returns on reboot):
+
+```bash
+sudo systemctl stop avahi-daemon avahi-daemon.socket
+```
+
+If `EXT5V_V` from `vcgencmd pmic_read_adc EXT5V_V` is below about 4.9 V, the
+supply cannot hold four cores at full clock and the Pi may reboot mid-row. Until
+the supply is replaced, cap the clock and use two threads for every row in the
+series, and record that you did:
+
+```bash
+echo 1500000 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
+```
+
+The cap resets on reboot.
 
 The runner performs 20 excluded warmups, 100 measured repetitions, and waits for
 the CPU to cool to 55 C before every row, with a ten-minute timeout. Do not alter
@@ -498,8 +536,36 @@ This runs exactly:
 - R5: NCNN;
 - R6: LiteRT.
 
+The command also runs R7 (OpenVINO, 416) and R8 (OpenVINO, 320).
+
 The command is resumable. Every completed row is saved immediately under
 `rows/` and skipped on rerun.
+
+### Input-size comparison under a weak supply
+
+While the supply is under-voltage, run only the three OpenVINO rows so the
+comparison stays inside what the Pi can sustain. R3 is included so 640 is
+measured under exactly the same conditions as 416 and 320. Apply the clock cap
+from section 10 first, then:
+
+```bash
+SIZE_RUN_DIR="artifacts/pi-benchmarks/input-size-images-$(date -u +%Y%m%dT%H%M%SZ)"
+mkdir -p "$SIZE_RUN_DIR"
+
+PYTHONPATH=src .venv/bin/python -u scripts/run_pi_benchmarks.py \
+  --matrix configs/pi-benchmark-matrix.json \
+  --registry configs/pi-model-registry.json \
+  --output "$SIZE_RUN_DIR" \
+  --source images \
+  --threads 2 \
+  --row R3 --row R7 --row R8 \
+  2>&1 | tee "$SIZE_RUN_DIR/console.log"
+```
+
+Repeat with `--source camera --camera-width 640 --camera-height 480
+--camera-fps 30 --camera-num 0 --camera-pixel-format RGB888` and an
+`input-size-camera-...` directory for the camera version. Rows R1, R2 and
+R4 to R6 render as `pending` in these tables; that is expected.
 
 After an interruption:
 
@@ -614,8 +680,12 @@ cd ~/capstone-pi-benchmarking
 PYTHONPATH=src .venv/bin/python scripts/live_camera_demo.py
 ```
 
-The preview uses the validated fine-tuned OpenVINO export by default and draws
-boxes, labels, confidence values, inference time, and display FPS. Press `Q` or
+The preview uses the tuned 416 OpenVINO export
+(`artifacts/models/cane-v1-fast/ov-fp32-416/best_openvino_model`) by default
+and draws boxes, labels, confidence values, inference time, and pipeline time.
+Pass `--model` to compare another export. From the remote shell, add
+`--no-display --duration 30` to run headless and print inference, frame age,
+and camera-to-result latency. Press `Q` or
 `Esc` in the preview window to stop. The camera is released in a `finally`
 block. Do not run the preview alongside a benchmark or another camera process.
 This visual check is qualitative evidence and does not replace the held-out
@@ -718,7 +788,9 @@ files are required to audit the tables.
 |---|---|---|
 | `pi-model-registry.json` missing | Git clone contained only tracked scaffold | Transfer the ignored artifacts, run the Pi OpenVINO smoke, merge it, then build the production registry |
 | `Picamera2 is required` or import fails | `.venv` cannot see OS packages | Rebuild with `/usr/bin/python3` and `--system-site-packages`; keep Picamera2 installed through `apt` |
-| `No cameras available` | Pi cannot detect the sensor | Power down, reseat/orient the CSI cable, boot, and rerun `rpicam-hello --list-cameras` |
+| `No cameras available` | Pi cannot detect the sensor | Check that `config.txt` has an explicit `dtoverlay=imx219` line for the connector in use (section 7); auto-detect never finds the Arducam. Then power down, reseat/orient the CSI cable, boot, and rerun `rpicam-hello --list-cameras` |
+| `Camera frontend has timed out!` with the sensor listed | I2C works but the MIPI data lanes do not | Power down and reseat the 22-pin ribbon squarely with the latch closed; try another ribbon if it persists |
+| Pi reboots or Connect drops during a row | Under-voltage at full load | Apply the section 10 clock cap and `--threads 2`, resume the same run directory, and record the reduced setting |
 | Camera is busy | Another `rpicam-*` or Python process owns it | Stop the other process; do not run the headless test and benchmark simultaneously |
 | Trying `raspistill`, `raspivid`, or legacy `picamera` | Legacy camera stack instructions | Use Bookworm `rpicam-*` and Picamera2 |
 | Preview fails in the remote shell | Browser remote shells do not provide a normal camera preview window | Use `--nopreview`; the benchmark itself is headless |

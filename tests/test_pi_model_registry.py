@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pytest
@@ -30,3 +31,51 @@ def test_rejects_transferred_export_with_wrong_tree_hash(tmp_path):
 
     with pytest.raises(ValueError, match="tree checksum mismatch"):
         registry.resolve_export_path(entry, artifact_root)
+
+def _input_size_manifest(tmp_path, source_sha="a" * 64, quality_imgsz=416):
+    root = tmp_path / "artifacts/models/cane-v1-fast"
+    export = root / "ov-fp32-416/best_openvino_model"
+    export.mkdir(parents=True)
+    (export / "best.bin").write_bytes(b"weights")
+    manifest = root / "export-manifest.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "source_model": {"sha256": source_sha},
+                "exports": {
+                    "openvino-416": {
+                        "status": "complete",
+                        "path": "ov-fp32-416/best_openvino_model",
+                        "tree_sha256": registry.tree_sha256(export),
+                        "imgsz": 416,
+                        "quality_metrics": {"split": "test", "fraction": 1.0, "imgsz": quality_imgsz, "map50": 0.62},
+                    }
+                },
+            }
+        )
+    )
+    return manifest
+
+
+def test_registers_input_size_export_with_its_own_quality(tmp_path):
+    manifest = _input_size_manifest(tmp_path)
+
+    entries = registry.input_size_entries(manifest, "a" * 64, tmp_path)
+
+    entry = entries["cane-v1-openvino-fp32-416"]
+    assert entry["path"] == "artifacts/models/cane-v1-fast/ov-fp32-416/best_openvino_model"
+    assert entry["quality_metrics"]["imgsz"] == 416
+
+
+def test_rejects_input_size_export_from_another_checkpoint(tmp_path):
+    manifest = _input_size_manifest(tmp_path, source_sha="b" * 64)
+
+    with pytest.raises(ValueError, match="selected final best.pt"):
+        registry.input_size_entries(manifest, "a" * 64, tmp_path)
+
+
+def test_rejects_quality_measured_at_another_input_size(tmp_path):
+    manifest = _input_size_manifest(tmp_path, quality_imgsz=640)
+
+    with pytest.raises(ValueError, match="export size"):
+        registry.input_size_entries(manifest, "a" * 64, tmp_path)

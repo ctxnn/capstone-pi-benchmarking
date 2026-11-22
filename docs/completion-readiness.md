@@ -4,7 +4,7 @@ This file maps every explicit project requirement to current authoritative
 evidence. A software implementation is not treated as physical Pi evidence, and
 a prepared workflow is not treated as a finished model.
 
-Last audited: 2026-08-30.
+Last audited: 2026-11-22.
 
 | Requirement | Current state | Authoritative evidence | Remaining gate |
 |---|---|---|---|
@@ -14,7 +14,8 @@ Last audited: 2026-08-30.
 | Save finished model | Complete | `best.pt`, `last.pt`, latest resumable model, val/test metrics, hashes, accepted ZIP, and local importer receipt | None for model acceptance |
 | M1 pretrained / M2 fine-tuned architecture table generator | Complete | Full 1,515-image comparison at 640 plus exact two-row table schema | Physical Pi latency/resource measurements |
 | Architecture metrics: inference mean/P50/P95/P99, FPS, RAM, CPU, temperature, mAP50, mAP50-95, recall | Complete schema | Generated `model-architecture-benchmark.csv` contains every named column | Values stay `NA` until quality/Pi evidence exists |
-| R1–R6 PyTorch/ONNX/OpenVINO/MNN/NCNN/LiteRT at 640 FP32 | Converted and matrix-ready | Final export manifest; ONNX/MNN/NCNN/LiteRT smoke complete; generated runtime CSV has exactly six rows | Run checksum-bound OpenVINO smoke on Pi, build registry, then measure |
+| R1–R6 PyTorch/ONNX/OpenVINO/MNN/NCNN/LiteRT at 640 FP32 | Complete (preliminary) | Both 2026-09-06 matrices under `artifacts/pi-benchmarks/returned/` | Repeat under stable power and cooling |
+| R7/R8 OpenVINO FP32 at 416 and 320 | Exported, quality-bound, matrix-ready; quick Pi and live-camera measurements complete | `artifacts/models/cane-v1-fast/export-manifest.json`; `docs/pi-speed-tuning.md`: 416 measured 89.6 ms camera-to-result and 15.2 FPS versus 196.5 ms and 6.4 FPS at 640, with mAP50 62.13 versus 52.72 | Run the formal R3/R7/R8 rows for both sources; repeat at four threads and full clock after the supply is replaced |
 | Runtime metrics: preprocess/inference/postprocess/total, P50/P95/P99, FPS, CPU, RAM, temperature, power | Complete schema and collector | `src/yolo_pi/pi_benchmark.py`; generated runtime CSV | Physical Pi run; power additionally needs timestamped external-meter JSONL |
 | Save raw benchmark observations and regenerated tables | Complete | Resumable row JSON files plus CSV, Markdown, and `table-manifest.json` described in `docs/pi-benchmarking.md` | Run on Pi |
 | Preserve saved-image benchmark | Complete | Default `--source images`; 30-file checksum-verified test manifest under `artifacts/benchmarks/pi-runtime-inputs/` | Transfer unchanged pack to Pi |
@@ -28,7 +29,7 @@ Last audited: 2026-08-30.
 | Detailed singular data-preprocessing document | Complete | `docs/data-preprocessing.md` contains sources, hashes, mappings, counts, split protection, decontamination, resize, transforms, final environment, artifact hashes, and both quality protocols | Update only if dataset/model protocol changes |
 | Final backend export/quality/registry pipeline | Awaiting one Pi functional gate | Import/history/exports/full comparison complete; state is `awaiting_linux_export_smoke` | Run OpenVINO smoke and registry commands in terminal runbook on Pi |
 | Terminal-only Pi setup and run instructions | Complete | `docs/pi-terminal-setup-and-run.md` covers an already-open Raspberry Pi Connect shell, Tailscale rsync for client-isolated Wi-Fi, OS/uv/Picamera2 setup, artifact checks, OpenVINO/registry gate, tmux, images, camera, power, resume, outputs, return, and common mistakes | Execute on physical Pi |
-| Automated verification | Complete at current state | 75/75 tests; executed notebook validates with 7 code cells and 0 error outputs | Repeat after Pi evidence returns |
+| Automated verification | Complete at current state | 79/79 tests; executed notebook validates with 7 code cells and 0 error outputs | Repeat after Pi evidence returns |
 
 ## Reproducible audit commands
 
@@ -50,10 +51,10 @@ PYTHONPATH=src .venv/bin/python scripts/compile_pi_tables.py \
   --output TABLE_OUTPUT_DIRECTORY
 ```
 
-Expected current results are 75 passing tests, an accepted epoch-30 model,
+Expected current results are 79 passing tests, an accepted epoch-30 model,
 contiguous 30-epoch history, five converted backends, complete 1,515-image model
 comparison, a valid seven-code-cell notebook, 30 fixed images, a valid provisional top-handle profile with
-`hardware_verified=false`, two architecture rows, and six runtime rows.
+`hardware_verified=false`, two architecture rows, and eight runtime rows.
 
 ## Conditions that still prevent goal completion
 

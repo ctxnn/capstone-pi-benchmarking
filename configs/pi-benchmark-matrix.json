@@ -27,7 +27,9 @@
     {"id": "R3", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-openvino-fp32", "runtime": "OpenVINO", "imgsz": 640, "precision": "FP32"},
     {"id": "R4", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-mnn-fp32", "runtime": "MNN", "imgsz": 640, "precision": "FP32"},
     {"id": "R5", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-ncnn-fp32", "runtime": "NCNN", "imgsz": 640, "precision": "FP32"},
-    {"id": "R6", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-litert-fp32", "runtime": "LiteRT", "imgsz": 640, "precision": "FP32"}
+    {"id": "R6", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-litert-fp32", "runtime": "LiteRT", "imgsz": 640, "precision": "FP32"},
+    {"id": "R7", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-openvino-fp32-416", "runtime": "OpenVINO", "imgsz": 416, "precision": "FP32"},
+    {"id": "R8", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-openvino-fp32-320", "runtime": "OpenVINO", "imgsz": 320, "precision": "FP32"}
   ],
   "optimization_experiments": [
     {"id": "A4", "model": "YOLO26n-Cane V1", "model_key": "cane-v1-ncnn-fp16", "runtime": "NCNN", "imgsz": 640, "precision": "FP16"},
