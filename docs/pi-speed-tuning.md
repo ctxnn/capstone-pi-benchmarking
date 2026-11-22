@@ -61,6 +61,31 @@ OpenVINO's INT8 path is 5.3x slower than its FP32 path on this ARM CPU, and the
 NCNN build available for the Pi emulates FP16 rather than using the CPU's native
 support, making it 4.5x slower. Neither is a deployment candidate here.
 
+## Live IMX219 camera latency
+
+Both artifacts measured back to back on the same camera, same session, with
+`scripts/live_camera_demo.py --no-display --threads 2`, 15 s each. `cam->result`
+runs from the frame's sensor timestamp to a finished detection, so it includes
+capture availability, letterboxing, inference and postprocessing.
+
+| Artifact | Input | Inference mean (ms) | Frame age (ms) | cam->result mean (ms) | cam->result p95 (ms) | FPS |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| OpenVINO FP32 (current) | 640 | 149.2 | 41.0 | 196.5 | 228.2 | 6.43 |
+| OpenVINO FP32 | 416 | **61.5** | **23.8** | **89.6** | 135.3 | **15.20** |
+
+That is a 2.4x reduction in inference time and a 2.2x reduction in
+camera-to-result latency, with 2.4x the throughput. The published 2026-09-06
+figure for the same path was 215.6 ms camera-to-model-finish; the 416 artifact
+measures 89.6 ms on the same hardware.
+
+Dropped frames are expected and intentional: the camera produces 30 fps while
+the loop consumes 15.2, and the one-slot buffer discards the surplus instead of
+queueing it. Frame age stays at 24 ms, which is the proof that no backlog forms.
+
+Camera-to-haptic latency remains unmeasured. That requires the vibration
+hardware and the range sensors, but the vision portion of that budget is now
+about 126 ms smaller.
+
 ## Measurement conditions that must be stated with these numbers
 
 - Both Pi comparison runs used `--threads 2` and a 1.5 GHz maximum clock. The
@@ -75,6 +100,19 @@ support, making it 4.5x slower. Neither is a deployment candidate here.
   factor in these runs; the binding limit is supply voltage.
 - These are single-artifact quick comparisons, not replacements for the formal
   resumable matrix, which also records CPU, RAM, temperature, power and P99.
+
+## Pipeline prerequisites found while measuring
+
+- The IMX219 is a third-party module, so `camera_auto_detect=1` never finds it;
+  it auto-detects genuine Raspberry Pi cameras and OV5647 only. An explicit
+  `dtoverlay=imx219` line is required. The bare overlay addresses `cam1`; the
+  `,cam0` suffix addresses `cam0`; a `,cam1` suffix does not exist and is
+  silently ignored.
+- The ribbon must be the 22-pin type on the Pi 5 end. A partially seated or
+  laterally offset ribbon can leave I2C working (the sensor enumerates and
+  `rpicam-hello --list-cameras` succeeds) while the MIPI data lanes fail, which
+  surfaces as repeated `Camera frontend has timed out!` and no frames. Reseating
+  fixes it; no software change does.
 
 ## Deployment choice
 
