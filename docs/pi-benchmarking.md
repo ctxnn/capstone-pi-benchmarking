@@ -55,6 +55,16 @@ requires the final training summary, exact export manifest, and the shared
 640-pixel quality comparison and refuses checkpoint/hash mismatches. A directory
 export has a file-level manifest plus a deterministic tree hash.
 
+Rows R7 and R8 run the same fine-tuned model through OpenVINO FP32 at 416 (its
+training resolution) and 320. Their exports live under
+`artifacts/models/cane-v1-fast/` with their own `export-manifest.json`, which
+binds each export to the selected `best.pt` hash, a tree hash, and held-out
+quality measured at that export's own input size. Register them by adding
+`--input-size-manifest artifacts/models/cane-v1-fast/export-manifest.json` to
+the registry builder; it refuses a different source checkpoint, a changed tree,
+or quality measured at another resolution. See `docs/pi-speed-tuning.md` for why
+these rows exist.
+
 The M1/M2 accuracy cells must come from
 `scripts/evaluate_model_comparison.py` on the complete 1,515-image test split at
 640. The fine-tuned model uses the native 15-class taxonomy. The stock model's
@@ -196,7 +206,7 @@ Every run produces:
 
 ```text
 environment.json
-rows/M1.json ... rows/R6.json
+rows/M1.json ... rows/R8.json
 tables/model-architecture-benchmark.csv
 tables/model-architecture-benchmark.md
 tables/runtime-backend-benchmark.csv

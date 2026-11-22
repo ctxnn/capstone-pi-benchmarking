@@ -9,6 +9,32 @@ benchmark-harness validation. Raspberry Pi measurements remain the authority for
 latency, FPS, CPU, RAM, temperature, throttling, power, camera, physical sensors,
 and camera-to-haptic response time.
 
+## Speed tuning: running Cane V1 at its training resolution
+
+Cane V1 was trained at 416 pixels but the first-pass matrices ran it at 640.
+Running it at 416 makes it faster *and* more accurate, because 640 does 2.4x the
+arithmetic while showing the model objects at a scale it never learned. Measured
+on the live IMX219 in the same session, with the same settings
+(OpenVINO FP32, 2 threads, 1.5 GHz cap):
+
+| Model | Input | Inference (ms) | Camera to result (ms) | FPS | mAP50 (%) | mAP50-95 (%) | Recall (%) |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Cane V1 (first pass) | 640 | 149.2 | 196.5 | 6.43 | 52.72 | 36.32 | 51.00 |
+| **Cane V1 (tuned)** | **416** | **61.5** | **89.6** | **15.20** | **62.13** | **43.49** | **58.29** |
+
+Quality comes from the full 1,515-image held-out test split, scored after
+export. A 320 export trades about 3 mAP50 points for roughly 1.6x more speed and
+is kept as a documented fallback. The 416 OpenVINO export is now the live-preview
+default. INT8 and NCNN FP16 were measured and rejected: on this Pi they ran 5.3x
+and 4.5x slower than FP32. The formal matrix carries both exports as rows R7
+(416) and R8 (320).
+
+These are quick-test numbers taken under an under-voltage supply, so the Pi was
+capped at 1.5 GHz and 2 threads to stop it rebooting. They compare the models
+fairly but are not the hardware's ceiling. Full method, the fixed-image results,
+and every caveat are in [docs/pi-speed-tuning.md](docs/pi-speed-tuning.md); the
+report-grade R7/R8 run procedure is in the Pi runbook.
+
 ## Raspberry Pi 5 first-pass results
 
 Both formal matrices completed on a Raspberry Pi 5 Model B Rev 1.1 with 2 GB
@@ -49,8 +75,8 @@ points, and recall by 27.68 points under the shared held-out protocol.
 
 LiteRT was fastest on fixed images. OpenVINO produced the best live-camera
 combination: lowest mean inference time, lowest camera-to-model-finish time,
-and highest measured camera FPS. The live annotated preview therefore selects
-the fine-tuned OpenVINO export by default.
+and highest measured camera FPS. That is why OpenVINO is the deployment runtime;
+the later input-size tuning above kept OpenVINO and changed only the resolution.
 
 These are preliminary measurements. Saved row evidence records nonzero
 `get_throttled` flags after portions of both matrices, maximum temperatures
@@ -123,8 +149,11 @@ cd ~/capstone-pi-benchmarking
 PYTHONPATH=src .venv/bin/python scripts/live_camera_demo.py
 ```
 
-Run this from the Pi desktop / Raspberry Pi Connect Screen Sharing when you want
-to view live detections. The demo is qualitative and should not run at the same
+It loads the tuned 416 OpenVINO export by default and reads the input size from
+the model's own metadata. Run it from the Pi desktop / Raspberry Pi Connect
+Screen Sharing when you want to view live detections. Add `--no-display
+--duration 30` to run it headless from the remote shell; it then prints
+inference, frame age, and camera-to-result latency instead of opening a window. The demo is qualitative and should not run at the same
 time as a formal benchmark or another process that owns the camera. The full
 camera setup and preview procedure is also documented in
 `docs/pi-terminal-setup-and-run.md`.

@@ -11,6 +11,9 @@ artifacts/models/**
 data/raw/**
 data/processed/**
 !artifacts/models/.gitkeep
+!artifacts/models/cane-v1-fast/
+!artifacts/models/cane-v1-fast/**
+artifacts/models/cane-v1-fast/**/__pycache__/
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 

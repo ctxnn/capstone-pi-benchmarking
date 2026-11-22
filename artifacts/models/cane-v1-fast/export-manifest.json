@@ -1,0 +1,51 @@
+{
+  "export_options": {
+    "batch": 1,
+    "device": "cpu",
+    "end2end": false,
+    "format": "openvino"
+  },
+  "exports": {
+    "openvino-320": {
+      "imgsz": 320,
+      "path": "ov-fp32-320/best_openvino_model",
+      "precision": "FP32",
+      "quality_metrics": {
+        "fraction": 1.0,
+        "imgsz": 320,
+        "map50": 0.591,
+        "map50_95": 0.4159,
+        "precision": 0.6886,
+        "recall": 0.5404,
+        "split": "test"
+      },
+      "status": "complete",
+      "tree_sha256": "7066eef7b7d33ad0466ca74eb04d96fb68fd609b1037f571deb4bf5bc66f2774"
+    },
+    "openvino-416": {
+      "imgsz": 416,
+      "path": "ov-fp32-416/best_openvino_model",
+      "precision": "FP32",
+      "quality_metrics": {
+        "fraction": 1.0,
+        "imgsz": 416,
+        "map50": 0.6213,
+        "map50_95": 0.4349,
+        "precision": 0.696,
+        "recall": 0.5829,
+        "split": "test"
+      },
+      "status": "complete",
+      "tree_sha256": "9ca7491e59bbc4ddd104786d8182aca5649b56914b36eb45c05359ed67c0295e"
+    }
+  },
+  "openvino": "2026.3.1",
+  "purpose": "YOLO26n-Cane V1 OpenVINO FP32 exports at the training input size (416) and 320",
+  "quality_protocol": "complete 1,515-image held-out test split, scored after export at the export input size; see quality.json for the full sweep",
+  "schema_version": 1,
+  "source_model": {
+    "path": "artifacts/models/cane-v1/best.pt",
+    "sha256": "85168a2bc2f8a87c6b4361f16e3e7ec7394312341ee99a766f368be6e28e0dca"
+  },
+  "ultralytics": "8.4.132"
+}
