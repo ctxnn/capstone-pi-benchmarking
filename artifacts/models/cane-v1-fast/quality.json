@@ -1,0 +1,184 @@
+{
+ "pytorch-fp32-640": {
+  "map50": 0.5272,
+  "map50_95": 0.3632,
+  "recall": 0.51,
+  "precision": 0.5991,
+  "mac_inference_ms": 133.55,
+  "imgsz": 640,
+  "sec": 216
+ },
+ "pytorch-fp32-512": {
+  "map50": 0.6034,
+  "map50_95": 0.4322,
+  "recall": 0.556,
+  "precision": 0.6674,
+  "mac_inference_ms": 103.47,
+  "imgsz": 512,
+  "sec": 160
+ },
+ "pytorch-fp32-416": {
+  "map50": 0.608,
+  "map50_95": 0.4395,
+  "recall": 0.5589,
+  "precision": 0.6855,
+  "mac_inference_ms": 64.31,
+  "imgsz": 416,
+  "sec": 101
+ },
+ "pytorch-fp32-352": {
+  "map50": 0.5949,
+  "map50_95": 0.4285,
+  "recall": 0.5359,
+  "precision": 0.7212,
+  "mac_inference_ms": 53.24,
+  "imgsz": 352,
+  "sec": 83
+ },
+ "pytorch-fp32-320": {
+  "map50": 0.5854,
+  "map50_95": 0.4212,
+  "recall": 0.5335,
+  "precision": 0.6812,
+  "mac_inference_ms": 50.36,
+  "imgsz": 320,
+  "sec": 79
+ },
+ "ov-fp32-416": {
+  "options": {
+   "format": "openvino",
+   "imgsz": 416
+  },
+  "export_sec": 1,
+  "status": "ok",
+  "map50": 0.6213,
+  "map50_95": 0.4349,
+  "recall": 0.5829,
+  "precision": 0.696,
+  "mac_inference_ms": 7.4
+ },
+ "ov-fp32-320": {
+  "options": {
+   "format": "openvino",
+   "imgsz": 320
+  },
+  "export_sec": 1,
+  "status": "ok",
+  "map50": 0.591,
+  "map50_95": 0.4159,
+  "recall": 0.5404,
+  "precision": 0.6886,
+  "mac_inference_ms": 4.98
+ },
+ "ov-fp32-320x416": {
+  "options": {
+   "format": "openvino",
+   "imgsz": [
+    320,
+    416
+   ]
+  },
+  "export_sec": 1,
+  "status": "failed",
+  "error": "RuntimeError: Exception from src/inference/src/cpp/infer_request.cpp:122:\nException from src/inference/src/cpp/infer_request.cpp:67:\nCheck 'shape.compatible(ov::PartialShape(tensor->get_shape()))' failed at src/plugins/intel_cpu/src/infer_request.cpp:392:\nCan't set the input tensor with index: 0, because the model input (shape=[1,3,320,416]) and the tensor (shape=(1.3.416.416)) are incompatible\n\n\n"
+ },
+ "ov-int8-416": {
+  "options": {
+   "format": "openvino",
+   "imgsz": 416,
+   "int8": true
+  },
+  "export_sec": 104,
+  "status": "ok",
+  "map50": 0.6139,
+  "map50_95": 0.4237,
+  "recall": 0.5904,
+  "precision": 0.6671,
+  "mac_inference_ms": 9.32
+ },
+ "ov-int8-320": {
+  "options": {
+   "format": "openvino",
+   "imgsz": 320,
+   "int8": true
+  },
+  "export_sec": 75,
+  "status": "ok",
+  "map50": 0.5814,
+  "map50_95": 0.4058,
+  "recall": 0.5343,
+  "precision": 0.6769,
+  "mac_inference_ms": 6.04
+ },
+ "ov-int8-320x416": {
+  "options": {
+   "format": "openvino",
+   "imgsz": [
+    320,
+    416
+   ],
+   "int8": true
+  },
+  "export_sec": 90,
+  "status": "failed",
+  "error": "RuntimeError: Exception from src/inference/src/cpp/infer_request.cpp:122:\nException from src/inference/src/cpp/infer_request.cpp:67:\nCheck 'shape.compatible(ov::PartialShape(tensor->get_shape()))' failed at src/plugins/intel_cpu/src/infer_request.cpp:392:\nCan't set the input tensor with index: 0, because the model input (shape=[1,3,320,416]) and the tensor (shape=(1.3.416.416)) are incompatible\n\n\n"
+ },
+ "ncnn-fp16-416": {
+  "options": {
+   "format": "ncnn",
+   "imgsz": 416,
+   "half": true
+  },
+  "export_sec": 3,
+  "status": "ok",
+  "map50": 0.6212,
+  "map50_95": 0.4351,
+  "recall": 0.5813,
+  "precision": 0.7005,
+  "mac_inference_ms": 7.62
+ },
+ "ncnn-fp16-320x416": {
+  "options": {
+   "format": "ncnn",
+   "imgsz": [
+    320,
+    416
+   ],
+   "half": true
+  },
+  "export_sec": 2,
+  "status": "ok",
+  "map50": 0.0045,
+  "map50_95": 0.0011,
+  "recall": 0.0163,
+  "precision": 0.0075,
+  "mac_inference_ms": 7.32
+ },
+ "tflite-int8-416": {
+  "options": {
+   "format": "tflite",
+   "imgsz": 416,
+   "int8": true
+  },
+  "export_sec": 268,
+  "status": "ok",
+  "map50": 0.5557,
+  "map50_95": 0.3378,
+  "recall": 0.5554,
+  "precision": 0.6602,
+  "mac_inference_ms": 8.33
+ },
+ "tflite-int8-320x416": {
+  "options": {
+   "format": "tflite",
+   "imgsz": [
+    320,
+    416
+   ],
+   "int8": true
+  },
+  "export_sec": 222,
+  "status": "failed",
+  "error": "ValueError: Cannot set tensor: Dimension mismatch. Got 416 but expected 320 for dimension 2 of input 0."
+ }
+}
