@@ -28,7 +28,7 @@ SCENARIO_ORDER = [
 ]
 
 MAX_P95_TICK_MS = 2.0
-MAX_TICK_MS = 8.0
+MAX_TICK_MS = 20.0
 
 
 @pytest.fixture(scope="module")

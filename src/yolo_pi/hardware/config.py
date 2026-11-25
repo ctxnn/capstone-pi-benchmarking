@@ -114,6 +114,7 @@ class UltrasonicSensorSpec:
     echo_gpio: int
     min_range_m: float = 0.04
     max_range_m: float = 3.50
+    pitch_offset_deg: float = 0.0
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "sensor_id", _require_text(self.sensor_id, "ultrasonic sensor_id"))
@@ -126,6 +127,7 @@ class UltrasonicSensorSpec:
         _require_float(self.max_range_m, f"{self.sensor_id} max_range_m", 0.5, 6.0)
         if self.min_range_m >= self.max_range_m:
             raise HardwareConfigError(f"{self.sensor_id} min_range_m must be below max_range_m")
+        _require_float(self.pitch_offset_deg, f"{self.sensor_id} pitch_offset_deg", -45.0, 45.0)
 
     def as_dict(self) -> Dict[str, Any]:
         return {
@@ -135,6 +137,7 @@ class UltrasonicSensorSpec:
             "echo_gpio": self.echo_gpio,
             "min_range_m": self.min_range_m,
             "max_range_m": self.max_range_m,
+            "pitch_offset_deg": self.pitch_offset_deg,
         }
 
 
@@ -474,8 +477,8 @@ def default_pi5_config() -> SmartCaneHardwareConfig:
             ToFSensorSpec("tof-right", Sector.RIGHT, 2, 0x29, 33.0),
         ),
         ultrasonic_sensors=(
-            UltrasonicSensorSpec("us-center-1", Sector.CENTER, 23, 24, 0.04, 3.50),
-            UltrasonicSensorSpec("us-center-2", Sector.CENTER, 27, 22, 0.04, 3.50),
+            UltrasonicSensorSpec("us-center-1", Sector.CENTER, 23, 24, 0.04, 3.50, 0.0),
+            UltrasonicSensorSpec("us-center-2", Sector.CENTER, 27, 22, 0.04, 3.50, 8.0),
         ),
         imu=IMUSpec("imu", 7, 0x68, 17, 100.0),
         haptic_motors=(

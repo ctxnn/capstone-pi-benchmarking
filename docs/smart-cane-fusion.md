@@ -10,12 +10,10 @@ This document covers the architecture, expected runtime behavior, tuning knobs, 
 | ToF Left | VL53L0X (`0x29`) | Mux `CH0` | `left` (30 mm – 2.0 m, 33 ms budget) |
 | ToF Center | VL53L0X (`0x29`) | Mux `CH1` | `center` (30 mm – 2.0 m, 33 ms budget) |
 | ToF Right | VL53L0X (`0x29`) | Mux `CH2` | `right` (30 mm – 2.0 m, 33 ms budget) |
-| Ultrasonic #1 | HC-SR04 | `TRIG=GPIO23`, `ECHO=GPIO24` (3.3 V level-shifted) | `center` (alternating TDM) |
-| Ultrasonic #2 | HC-SR04 | `TRIG=GPIO27`, `ECHO=GPIO22` (3.3 V level-shifted) | `center` (alternating TDM, ≥35 ms guard) |
-| 6-Axis IMU | MPU-6050 (`0x68`) | Mux `CH7` (or `null` for main bus), optional `INT=GPIO17` | Attitude, sweep yaw, ground-echo & stationary detection |
-| Haptic Left | DRV2605L (`0x5A`) + 3 V ERM | Mux `CH4` | `left` directional vibration |
-| Haptic Center | DRV2605L (`0x5A`) + 3 V ERM | Mux `CH5` | `center` directional vibration |
-| Haptic Right | DRV2605L (`0x5A`) + 3 V ERM | Mux `CH6` | `right` directional vibration |
+| Ultrasonic #1 (`us-1`) | HC-SR04 | `TRIG=GPIO23`, `ECHO=GPIO24` (3.3 V level-shifted) | `center` forward along walking path (alternating TDM) |
+| Ultrasonic #2 (`us-2`) | HC-SR04 | `TRIG=GPIO27`, `ECHO=GPIO22` (3.3 V level-shifted) | `center` angled slightly toward the ground side (`+8°` downward offset, alternating TDM, ≥35 ms guard) |
+| 6-Axis IMU | MPU-6050 (`0x68`) | Mux `CH7` (or `null` for main bus), optional `INT=GPIO17` | Attitude, sweep yaw, ground-echo & stationary/jolt detection |
+| Haptic Driver | 1× DRV2605L (`0x5A`) → 3× 3 V ERM in parallel | Main bus (`null`) or Mux `CH4` (also supports 3× DRV2605L on `CH4–6`) | Directional tap rhythm: **Left = 1 tap, Center = 2 taps, Right = 3 taps** (`--haptic-mode tap`) |
 | Camera | Arducam IMX219 | MIPI CSI-2 | 640×480 RGB888 @ 30 FPS (`ov-fp32-416` OpenVINO) |
 
 ## Five-Stage Fusion Algorithm (`src/yolo_pi/fusion_v2.py` + `src/yolo_pi/imu.py`)
@@ -62,12 +60,17 @@ This document covers the architecture, expected runtime behavior, tuning knobs, 
 ### 0. Pull, install lean zero-torch stack, and verify I2C/camera
 
 ```bash
-cd ~/capstone-pi-benchmarking
-git fetch origin && git checkout capy/implement-live-multi-sensor
-# (or `git checkout main && git pull` after PR #2 merges)
-uv pip install -e ".[pi-hardware]"
-sudo raspi-config nonint do_i2c 0
-i2cdetect -y 1
+# Option A: Full ops CLI (I2C scan, bench selftest, fault-injection soak, live cane)
+bash deploy/install-cane-on-pi.sh
+.venv/bin/yolo-pi-cane scan
+.venv/bin/yolo-pi-cane selftest
+.venv/bin/yolo-pi-cane soak --seconds 20
+.venv/bin/yolo-pi-cane run
+
+# Option B: Direct 5-stage fusion runner (1 DRV2605L -> 3 ERMs tap mode by default)
+.venv/bin/python scripts/simulate_fusion.py
+.venv/bin/python scripts/run_smart_cane.py --mode hardware --no-camera --haptic-mode tap
+.venv/bin/python scripts/run_smart_cane.py --mode hardware --threads 2 --haptic-mode tap
 ```
 
 Expected: `0x70` (TCA9548A) appears in the `i2cdetect -y 1` grid. (If your `MPU-6050` is wired to the main bus instead of `CH7`, `0x68` will also appear here—set `"mux_channel": null` under `"imu"` in `configs/smart-cane-pi5.json`.)

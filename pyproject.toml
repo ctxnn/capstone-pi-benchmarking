@@ -82,6 +82,7 @@ explicit = true
 
 [project.scripts]
 yolo-pi = "yolo_pi.cli:main"
+yolo-pi-cane = "yolo_pi.cane.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -1,0 +1,22 @@
+# Python drivers for the cane's I2C chips (yolo-pi-cane).
+#
+# Kept out of pyproject.toml on purpose: the Pi installs from the frozen uv.lock
+# (uv sync --frozen), and adding an extra there would make the lock stale. Install
+# these into the same .venv afterwards:
+#
+#   uv pip install -r requirements-cane-hardware.txt
+#
+# Three more libraries come from apt, not pip, because the .venv is built with
+# --system-site-packages (see docs/pi-terminal-setup-and-run.md) and the apt builds
+# match the Pi 5 kernel:
+#
+#   sudo apt install -y python3-libgpiod python3-lgpio i2c-tools
+#
+# `python3-libgpiod` is needed even for I2C: Adafruit Blinka imports it when it
+# loads the Pi 5 pin table. `python3-lgpio` times the HC-SR04 echoes.
+# The detector, Picamera2 and OpenVINO come from the existing setup. Nothing here
+# is needed on a laptop.
+adafruit-blinka>=10.0
+adafruit-circuitpython-busdevice>=5.2
+adafruit-circuitpython-tca9548a>=0.8
+adafruit-circuitpython-vl53l0x>=3.6

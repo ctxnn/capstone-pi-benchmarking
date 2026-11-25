@@ -839,3 +839,23 @@ Running the full physics simulator first caught four real edge cases before touc
 
 Run the bench-to-walk verification protocol in `docs/smart-cane-fusion.md` on the physically wired Raspberry Pi 5 (`capstone16`): I2C mux channel scan, `--no-camera` directional haptic bench tests, and full live camera + fusion walk test with JSONL logging.
 
+## 2026-11-25 — Unified perception core (`fusion_v2`) + operations/deployment suite (`yolo_pi.cane`), single-DRV2605L 3-ERM tap haptics, and ground-angled `us-2`
+
+### What changed
+
+- Integrated the full `yolo_pi.cane` operations and deployment suite (`src/yolo_pi/cane/`, `configs/cane-hardware.json`, `deploy/install-cane-on-pi.sh`, `deploy/yolo-pi-cane.service`, `requirements-cane-hardware.txt`, `docs/cane-runtime.md`, and `tests/test_cane_*.py`) alongside `fusion_v2.py`, `imu.py`, `hardware/`, `openvino_detector.py`, `runtime.py`, and `simulator.py`.
+- Aligned both configs (`configs/cane-hardware.json` and `configs/smart-cane-pi5.json`) with confirmed physical wiring:
+  - **1× DRV2605L (`0x5A`) driving 3× 3 V ERM motors in parallel:** direction encoded via tap rhythm (**Left = 1 tap, Center = 2 taps, Right = 3 taps**, tempo and intensity scaled by closeness/urgency; `--haptic-mode tap` added to `DRV2605LController` and `scripts/run_smart_cane.py`).
+  - **Ground-angled `us-2` (`us-center-2`, `GPIO27/22`):** configured with `"role": "ground"` and `"pitch_offset_deg": 8.0` alongside forward `us-1` (`GPIO23/24`).
+- Tightened IMU downward-tilt floor-echo suppression (`IMUProcessor.is_likely_ground_echo`) to engage at `≥10°` effective relative pitch (accounting for per-sensor `pitch_offset_deg` while preserving the 0.35 m hard safety floor), eliminating the transient false-WARNING window during rapid downward cane probes.
+- Upgraded `PriorityFusion` (`src/yolo_pi/cane/priority.py`) and `yolo_pi.cane.vision` with 3-sample median transient ghost-spike rejection, IMU ground-echo suppression, 1D closing-velocity TTC early warnings, and zero-torch `OpenVINODetector` preference.
+- Fixed `run_until_signal` and `run_soak` duration timers in `yolo_pi.cane` to start after the 2.4 s startup haptic sweep so short duration/soak runs execute their full loop budget.
+
+### Verification evidence
+
+- Head-to-head benchmark across both engines (`SmartCaneFusionEngine` and `PriorityFusion`): `0/180` false `CRITICAL`s on periodic 0.32 m ultrasonic ghost pings, `0/150` false `WARNING`s on 12°→55° downward floor probes, and proactive TTC `WARNING` at `1.25–1.40 m` on a 1.5 m/s approach.
+- Automated test suite: `466 passed, 67 subtests passed`.
+- Physics simulator (`scripts/simulate_fusion.py`): `14/14` scenarios pass (`0.05–0.09 ms` p95 tick evaluation).
+- Fault-injection chaos soak (`yolo-pi-cane soak --seconds 10 --seed 1`): `100k` fuzz inputs, watchdog, lost-off shutdown, dead sensor thread, 500 loop iterations (0 overruns, 0.4 ms max tick), `SIGTERM`/`SIGINT` shutdown all `PASSED`.
+
+

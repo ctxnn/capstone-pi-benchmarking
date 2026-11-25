@@ -63,7 +63,7 @@ def build_parser() -> argparse.ArgumentParser:
     cane_parser.add_argument("--threads", type=int, default=2)
     cane_parser.add_argument("--no-camera", action="store_true")
     cane_parser.add_argument("--duration", type=float, default=0.0)
-    cane_parser.add_argument("--haptic-mode", choices=("rtp", "library"), default="rtp")
+    cane_parser.add_argument("--haptic-mode", choices=("tap", "rtp", "library"), default="tap")
     cane_parser.add_argument("--log-jsonl", type=Path, default=None)
     return parser
 

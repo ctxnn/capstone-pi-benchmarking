@@ -212,6 +212,7 @@ class SmartCaneFusionConfig:
     cross_modal_agreement_boost: float = 0.15
 
     expected_sensors: Dict[str, Sector] = field(default_factory=_default_expected_sensors)
+    sensor_pitch_offsets_deg: Dict[str, float] = field(default_factory=dict)
     imu_config: IMUConfig = field(default_factory=IMUConfig)
     class_priors: Dict[str, ClassVisionPrior] = field(default_factory=_default_class_priors)
     stationary_noncritical_scale: float = 0.65
@@ -1039,10 +1040,15 @@ class SmartCaneFusionEngine:
             distance = filtered[0] if filtered is not None else reading.distance_m
             if distance is None or not math.isfinite(distance) or distance <= 0.0:
                 continue
-            if self._imu.is_likely_ground_echo(distance, imu_state):
+            pitch_offset = config.sensor_pitch_offsets_deg.get(sensor_id, 0.0)
+            if self._imu.is_likely_ground_echo(
+                distance, imu_state, sensor_pitch_offset_deg=pitch_offset
+            ):
                 suppressed.append(sensor_id)
                 continue
-            projected = self._imu.project_horizontal_distance(distance, imu_state)
+            projected = self._imu.project_horizontal_distance(
+                distance, imu_state, sensor_pitch_offset_deg=pitch_offset
+            )
             if projected <= 0.0:
                 continue
             age_s = max(0.0, (now_ns - reading.timestamp_ns) / 1e9)

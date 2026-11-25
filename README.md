@@ -94,20 +94,24 @@ Detailed generated tables:
 
 ## Live Smart Cane Sensor Fusion & Runtime
 
-The full Raspberry Pi 5 runtime combines 3× VL53L0X ToF sensors, 2× alternating center HC-SR04 ultrasonics, an MPU-6050 IMU, a zero-torch direct OpenVINO runtime (`ov-fp32-416`), and 3 independent directional DRV2605L haptic motors (`configs/smart-cane-pi5.json`):
+The full Raspberry Pi 5 runtime combines 3× VL53L0X ToF sensors, 2× alternating center HC-SR04 ultrasonics (`us-1` forward, `us-2` angled slightly toward the ground side), an MPU-6050 IMU, a zero-torch direct OpenVINO runtime (`ov-fp32-416`), and 1× DRV2605L driving 3 parallel ERM motors with directional tap-rhythm coding (**Left = 1 tap, Center = 2 taps, Right = 3 taps**, tempo and intensity scaled by closeness; 3-driver mux mode also supported):
 
-- **Short range (`≤ 1.0 m`):** ToF + HC-SR04 dominate with consistency-gated inverse-variance fusion, 1D closing-velocity/TTC tracking, and asymmetric hysteresis.
-- **Longer range (`1.0–3.8 m`) & range-blind hazards:** Direct OpenVINO YOLO adds distance-scheduled, class-weighted directional `ADVISORY`/`WARNING` cues (`stairs`, `curb`, `vehicle`, etc.) with 2-frame persistence filtering.
-- **IMU compensation:** Adaptive complementary pitch/roll filter, ground-echo gating (0.35 m safety floor), cane-sweep yaw-lag vision alignment, and stationary anti-fatigue softening.
+- **Short range (`≤ 1.0 m`):** ToF + HC-SR04 dominate with consistency-gated inverse-variance fusion, 3-sample median spike filtering, 1D closing-velocity/TTC tracking, and asymmetric hysteresis.
+- **Longer range (`1.0–3.8 m`) & range-blind hazards:** Direct OpenVINO YOLO adds distance-scheduled, class-weighted directional `ADVISORY`/`WARNING` cues (`stairs`, `curb`, `vehicle`, etc.) with 2-frame persistence filtering and idle-when-still battery saving (~1 FPS when resting).
+- **IMU compensation:** Adaptive complementary pitch/roll filter, ground-echo gating (`≥10°` effective relative pitch with a 0.35 m safety floor and `+8°` ground offset for `us-2`), cane-sweep yaw-lag vision alignment, sudden-tilt jolt pulse, and stationary softening.
+- **Operations & deployment (`yolo_pi.cane` + `deploy/`):** Includes `yolo-pi-cane scan`, `selftest`, `buzz`, 60-second fault-injection `soak`, `run`, `deploy/install-cane-on-pi.sh`, and `deploy/yolo-pi-cane.service`.
 
-See [docs/smart-cane-fusion.md](docs/smart-cane-fusion.md) for wiring, algorithm details, and Raspberry Pi 5 deployment commands:
+See [docs/smart-cane-fusion.md](docs/smart-cane-fusion.md) and [docs/cane-runtime.md](docs/cane-runtime.md) for wiring, algorithm details, and Raspberry Pi 5 deployment commands:
 
 ```bash
-# Verify all 14 physics simulation scenarios
+# Verify all 14 physics scenarios + fault-injection soak test
 python3 scripts/simulate_fusion.py
+yolo-pi-cane soak --seconds 20
 
-# Run live on Raspberry Pi 5 (zero-torch OpenVINO + I2C/GPIO drivers)
-python3 scripts/run_smart_cane.py --mode hardware --threads 2
+# Bench bring-up & live run on Raspberry Pi 5
+yolo-pi-cane scan
+yolo-pi-cane selftest
+yolo-pi-cane run
 ```
 
 ## Planned model progression

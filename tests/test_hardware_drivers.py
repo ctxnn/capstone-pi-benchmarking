@@ -1567,5 +1567,36 @@ class PackageSurfaceTests(unittest.TestCase):
         )
         self.assertEqual(left_dev.registers[GO], 0x00)
 
+    def test_drv2605l_single_tap_mode_encodes_direction_as_taps(self):
+        from yolo_pi.hardware.drv2605l import RTP_INPUT
+
+        config = default_pi5_config()
+        bus = FakeSMBus()
+        for spec in config.haptic_motors:
+            bus.add_device(spec.mux_channel, spec.i2c_address, haptic_registers())
+        mux = TCA9548AMux(bus, config.mux_address)
+        controller = DRV2605LController(mux, config.haptic_motors, mode="tap")
+        controller.initialize()
+
+        primary_spec = config.haptic_motors[0]
+        primary_dev = bus.device(primary_spec.mux_channel, primary_spec.i2c_address)
+
+        # Center warning (2 taps): ON at t=0, OFF during inter-tap pause, ON for 2nd tap.
+        controller.apply_sector_states(
+            {Sector.CENTER: {"intensity": 1.0}},
+            now_ns=100 * MS,
+        )
+        self.assertEqual(primary_dev.registers[RTP_INPUT], 127)
+        controller.apply_sector_states(
+            {Sector.CENTER: {"intensity": 1.0}},
+            now_ns=175 * MS,
+        )
+        self.assertEqual(primary_dev.registers[RTP_INPUT], 0)
+        controller.apply_sector_states(
+            {Sector.CENTER: {"intensity": 1.0}},
+            now_ns=230 * MS,
+        )
+        self.assertEqual(primary_dev.registers[RTP_INPUT], 127)
+
 if __name__ == "__main__":
     unittest.main()

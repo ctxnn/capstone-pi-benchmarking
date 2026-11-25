@@ -1,0 +1,117 @@
+{
+  "comment": "Wiring and runtime settings for the final cane build. Mux channels and the second ultrasonic pin pair are PLANNED values (report Table 2.4 / 2.5): confirm every one against the real harness with 'yolo-pi-cane scan' before trusting it. us-1 points forward along the walking path; us-2 points slightly toward the ground side in the centre corridor. ONE DRV2605L drives all three ERM motors in parallel, so direction is a tap rhythm: left 1 tap, centre 2, right 3.",
+  "i2c": {
+    "mux_address": "0x70",
+    "tof_address": "0x29",
+    "haptic_address": "0x5A",
+    "imu_address": "0x68"
+  },
+  "tof": {
+    "sensors": [
+      {
+        "id": "tof-left",
+        "mux_channel": 0,
+        "sector": "left"
+      },
+      {
+        "id": "tof-center",
+        "mux_channel": 1,
+        "sector": "center"
+      },
+      {
+        "id": "tof-right",
+        "mux_channel": 2,
+        "sector": "right"
+      }
+    ],
+    "timing_budget_us": 33000,
+    "clear_distance_m": 2.0
+  },
+  "ultrasonic": {
+    "sensors": [
+      {
+        "id": "us-1",
+        "trig_gpio": 23,
+        "echo_gpio": 24,
+        "sector": "center",
+        "role": "forward"
+      },
+      {
+        "id": "us-2",
+        "trig_gpio": 27,
+        "echo_gpio": 22,
+        "sector": "center",
+        "role": "ground",
+        "pitch_offset_deg": 8.0
+      }
+    ],
+    "max_range_m": 4.0,
+    "spacing_ms": 60,
+    "gpio_chip": null
+  },
+  "haptics": {
+    "driver_mux_channel": null,
+    "motor_voltage_v": 3.0,
+    "amplitude_floor": 0.3,
+    "taps_left": 1,
+    "taps_center": 2,
+    "taps_right": 3,
+    "tap_on_ms": 90,
+    "tap_on_fast_ms": 60,
+    "tap_off_ms": 110,
+    "tap_off_fast_ms": 60,
+    "group_gap_ms": 600,
+    "group_gap_fast_ms": 150,
+    "sector_gap_ms": 250,
+    "long_pulse_ms": 250,
+    "urgent_distance_m": 0.15,
+    "startup_sweep": true
+  },
+  "imu": {
+    "enabled": true,
+    "mux_channel": null,
+    "jolt_enabled": true,
+    "jolt_angle_deg": 25,
+    "jolt_window_s": 0.25,
+    "jolt_cooldown_s": 1.0,
+    "jolt_pulse_ms": 300,
+    "jolt_intensity": 0.8
+  },
+  "vision": {
+    "enabled": true,
+    "model": "artifacts/models/cane-v1-fast/ov-fp32-416/best_openvino_model",
+    "imgsz": 0,
+    "confidence": 0.35,
+    "threads": 3,
+    "width": 640,
+    "height": 480,
+    "camera_fps": 30,
+    "idle_when_still": true,
+    "idle_interval_s": 1.0
+  },
+  "fusion": {
+    "warning_distance_m": 1.0,
+    "critical_distance_m": 0.5,
+    "sensor_stale_after_ms": 250,
+    "vision_stale_after_ms": 500,
+    "vision_confidence": 0.35
+  },
+  "runtime": {
+    "loop_hz": 50,
+    "release_hold_ms": 250,
+    "status_interval_s": 5,
+    "event_log": "logs/cane-events.jsonl"
+  },
+  "priority": {
+    "far_max_m": 4.0,
+    "vision_min_confidence": 0.5,
+    "confirm_frames": 2,
+    "far_intensity": 0.45,
+    "overhead_warning_m": 1.0,
+    "overhead_critical_m": 0.5,
+    "vertical_fov_deg": 48.8,
+    "class_heights_m": {
+      "person": 1.7
+    }
+  }
+}

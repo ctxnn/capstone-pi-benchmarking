@@ -327,7 +327,12 @@ class IMUProcessor:
             return self._neutral_state(int(now_ns), elapsed_s=age_ns / 1e9)
         return self._last_state
 
-    def project_horizontal_distance(self, raw_distance_m: float, state: IMUState) -> float:
+    def project_horizontal_distance(
+        self,
+        raw_distance_m: float,
+        state: IMUState,
+        sensor_pitch_offset_deg: float = 0.0,
+    ) -> float:
         """Project a shaft-aligned range onto the walking plane."""
 
         try:
@@ -336,7 +341,9 @@ class IMUProcessor:
             return 0.0
         if not math.isfinite(raw) or raw <= 0.0:
             return 0.0
-        relative = _clamp(state.relative_pitch_deg, -30.0, 30.0)
+        relative = _clamp(
+            state.relative_pitch_deg + float(sensor_pitch_offset_deg), -30.0, 30.0
+        )
         return raw * math.cos(relative * DEG_TO_RAD)
 
     def is_likely_ground_echo(
@@ -344,6 +351,7 @@ class IMUProcessor:
         distance_m: float,
         state: IMUState,
         min_safety_floor_m: float = 0.35,
+        sensor_pitch_offset_deg: float = 0.0,
     ) -> bool:
         """Report whether a range return matches the floor under the shaft.
 
@@ -351,9 +359,18 @@ class IMUProcessor:
         mistaken for the ground, regardless of how far the cane is tilted.
         """
 
-        if not state.fresh or not state.is_pitched_down:
+        if not state.fresh:
             return False
-        expected = state.expected_ground_distance_m
+        offset = float(sensor_pitch_offset_deg)
+        effective_rel = state.relative_pitch_deg + offset
+        effective_pitch = state.pitch_deg + offset
+        expected: Optional[float] = None
+        if abs(offset) <= 1e-6 and state.is_pitched_down:
+            expected = state.expected_ground_distance_m
+        elif (state.is_pitched_down or effective_rel >= 10.0) and 15.0 <= effective_pitch < 89.0:
+            sine = math.sin(effective_pitch * DEG_TO_RAD)
+            if sine > 1e-6:
+                expected = self.config.sensor_height_m / sine
         if expected is None or expected <= 0.0:
             return False
         try:

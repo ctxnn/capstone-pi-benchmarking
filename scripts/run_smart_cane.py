@@ -80,9 +80,9 @@ def _parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--haptic-mode",
-        choices=("rtp", "library"),
-        default="rtp",
-        help="DRV2605L drive mode (default: rtp)",
+        choices=("tap", "rtp", "library"),
+        default="tap",
+        help="DRV2605L drive mode: 'tap' for 1 chip driving 3 ERMs (1/2/3 directional taps), or 'rtp'/'library' for 3 muxed drivers (default: tap)",
     )
     parser.add_argument(
         "--log-jsonl",

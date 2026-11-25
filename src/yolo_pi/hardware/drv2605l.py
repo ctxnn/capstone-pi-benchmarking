@@ -57,7 +57,8 @@ STATUS_OVER_TEMPERATURE = 1 << 1
 
 MAX_RTP_VALUE = 127
 HAPTIC_SECTORS = (Sector.LEFT, Sector.CENTER, Sector.RIGHT)
-SUPPORTED_MODES = ("rtp", "library")
+SUPPORTED_MODES = ("rtp", "library", "tap")
+_TAP_COUNTS = {Sector.LEFT: 1, Sector.CENTER: 2, Sector.RIGHT: 3}
 
 
 class DRV2605LError(RuntimeError):
@@ -173,7 +174,7 @@ class DRV2605LController:
         self._write(spec, RATED_VOLTAGE, spec.rated_voltage)
         self._write(spec, OD_CLAMP, spec.od_clamp)
 
-        mode_value = MODE_RTP if self.mode == "rtp" else MODE_INTERNAL_TRIGGER
+        mode_value = MODE_RTP if self.mode in ("rtp", "tap") else MODE_INTERNAL_TRIGGER
         self._write(spec, MODE, mode_value)
         self._write(spec, RTP_INPUT, 0x00)
 
@@ -213,6 +214,10 @@ class DRV2605LController:
             self._last_update_ns = int(now_ns)
             self._watchdog_tripped = False
             self._last_errors.clear()
+
+            if self.mode == "tap":
+                self._apply_single_tap_pattern(commands, int(now_ns))
+                return
 
             for sector in HAPTIC_SECTORS:
                 state = self._motors[sector]
@@ -291,12 +296,64 @@ class DRV2605LController:
             state.rtp = 0
         return errors
 
+    def _apply_single_tap_pattern(
+        self, commands: Dict[Sector, Any], now_ns: int
+    ) -> None:
+        """Drive one shared DRV2605L (3 parallel ERMs) using 1/2/3 directional taps."""
+
+        active = [
+            (sector, _clamp_unit(_field(commands.get(sector), "intensity", 0.0)))
+            for sector in HAPTIC_SECTORS
+            if _clamp_unit(_field(commands.get(sector), "intensity", 0.0)) > 0.0
+        ]
+        primary = next(
+            (s for s in HAPTIC_SECTORS if s not in self._failed_sectors),
+            Sector.CENTER,
+        )
+        state = self._motors[primary]
+        if not active:
+            state.phase_origin_ns = None
+            for sector in HAPTIC_SECTORS:
+                self._drive(sector, 0, waveform_id=None)
+            return
+
+        if state.phase_origin_ns is None:
+            state.phase_origin_ns = now_ns
+        max_intensity = max(val for _, val in active)
+        urgency = min(1.0, max(0.0, (max_intensity - 0.35) / 0.65))
+        on_ms = 90.0 - 30.0 * urgency
+        off_ms = 110.0 - 50.0 * urgency
+        gap_ms = 600.0 - 450.0 * urgency
+        sector_gap_ms = 250.0
+
+        segments: List[Tuple[float, float]] = []
+        for idx, (sector, amp) in enumerate(active):
+            taps = _TAP_COUNTS.get(sector, 1)
+            for tap in range(taps):
+                segments.append((amp, on_ms))
+                if tap < taps - 1:
+                    segments.append((0.0, off_ms))
+            segments.append((0.0, sector_gap_ms if idx < len(active) - 1 else gap_ms))
+        cycle_ms = sum(dur for _, dur in segments)
+        elapsed_ms = ((now_ns - state.phase_origin_ns) / 1_000_000.0) % max(cycle_ms, 1.0)
+        amp_now = 0.0
+        for amp, dur in segments:
+            if elapsed_ms < dur:
+                amp_now = amp
+                break
+            elapsed_ms -= dur
+        target = _intensity_to_rtp(amp_now) if amp_now > 0.0 else 0
+        self._drive(primary, target, waveform_id=None)
+        for sector in HAPTIC_SECTORS:
+            if sector != primary:
+                self._drive(sector, 0, waveform_id=None)
+
     def _drive(self, sector: Sector, rtp_value: int, waveform_id: Optional[int]) -> None:
         state = self._motors[sector]
         if state.spec.sector in self._failed_sectors:
             return
         try:
-            if self.mode == "rtp":
+            if self.mode in ("rtp", "tap"):
                 if state.rtp != rtp_value:
                     self._write(state.spec, RTP_INPUT, rtp_value)
                     state.rtp = rtp_value

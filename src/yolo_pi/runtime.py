@@ -1253,10 +1253,14 @@ class SimulatedHapticSink:
 def _fusion_config_from_hardware(config: Any) -> SmartCaneFusionConfig:
     timing = config.timing
     expected: Dict[str, Sector] = {}
+    pitch_offsets: Dict[str, float] = {}
     for spec in getattr(config, "tof_sensors", ()):
         expected[spec.sensor_id] = spec.sector
     for spec in getattr(config, "ultrasonic_sensors", ()):
         expected[spec.sensor_id] = spec.sector
+        offset = float(getattr(spec, "pitch_offset_deg", 0.0) or 0.0)
+        if offset:
+            pitch_offsets[spec.sensor_id] = offset
     kwargs: Dict[str, Any] = {
         "critical_distance_m": timing.critical_distance_m,
         "warning_distance_m": timing.warning_distance_m,
@@ -1265,6 +1269,8 @@ def _fusion_config_from_hardware(config: Any) -> SmartCaneFusionConfig:
     }
     if expected:
         kwargs["expected_sensors"] = expected
+    if pitch_offsets:
+        kwargs["sensor_pitch_offsets_deg"] = pitch_offsets
     return SmartCaneFusionConfig(**kwargs)
 
 
