@@ -1,0 +1,32 @@
+# Starts the cane at boot and restarts it if it ever stops.
+#
+# Install (on the Pi, from the repository root):
+#   sudo cp deploy/yolo-pi-cane.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now yolo-pi-cane
+#   journalctl -u yolo-pi-cane -f
+#
+# Edit User, WorkingDirectory, Environment and ExecStart if the repository is not
+# at /home/pi/capstone-pi-benchmarking.
+[Unit]
+Description=Smart assistive cane (sensors, vision, haptics)
+After=multi-user.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+SupplementaryGroups=i2c gpio video
+WorkingDirectory=/home/pi/capstone-pi-benchmarking
+Environment=PYTHONPATH=/home/pi/capstone-pi-benchmarking/src
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/pi/capstone-pi-benchmarking/.venv/bin/python -m yolo_pi.cane --config configs/cane-hardware.json run
+Restart=always
+RestartSec=3
+# SIGTERM makes the runtime stop the motors and release the camera; give it time.
+TimeoutStopSec=10
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target

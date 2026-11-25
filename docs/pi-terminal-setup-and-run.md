@@ -811,8 +811,24 @@ files are required to audit the tables.
 | `uv sync` tries to build export tools | The `export` extra was selected | Use `runtime-onnx` and the other runtime extras shown in this guide |
 | `uv sync` downloads CUDA, cuDNN, NCCL, or Triton | PyTorch was resolved from the GPU-enabled PyPI Linux wheel set | Stop with `Ctrl+C`, update `pyproject.toml` and `uv.lock`, run `uv cache clean`, recreate `.venv`, and sync from the CPU-bound lock |
 | `sudo uv` or system Python becomes inconsistent | Project packages were installed into the OS interpreter | Install/run uv as the normal user and keep project packages inside `.venv` |
+| `i2cdetect -y 1` does not show `0x70` | I2C disabled or SDA/SCL wiring loose | Enable I2C (`sudo raspi-config nonint do_i2c 0`), verify GPIO2/GPIO3 and 3.3 V pull-ups, then re-scan |
+| `MPU-6050` fails to initialize on `CH7` | IMU wired directly to the main I2C bus (`0x68`) instead of mux `CH7` | Set `"mux_channel": null` under `"imu"` in `configs/smart-cane-pi5.json` |
+| `HC-SR04` always returns invalid / stuck high | Missing 5 V→3.3 V ECHO level shifter or swapped TRIG/ECHO pins | Confirm level shifter on GPIO24 (`us-center-1`) and GPIO22 (`us-center-2`) and match pins in `configs/smart-cane-pi5.json` |
+| `lgpio` fails to open GPIO chip | Kernel exposes RP1 on `gpiochip0` instead of `gpiochip4` | `LgpioBackend` falls back automatically; if needed, verify `/dev/gpiochip*` permissions (`sudo usermod -aG gpio,i2c $USER`) |
 
-## 19. Final evidence checklist
+## 19. Running the live Smart Cane fusion runtime
+
+Once the physical sensors (`3× VL53L0X`, `2× HC-SR04`, `MPU-6050`, `3× DRV2605L`, `IMX219`) are wired per `configs/smart-cane-pi5.json`, install the lean zero-torch hardware stack (no PyTorch or Ultralytics required) and follow the bench-to-walk test checklist in `docs/smart-cane-fusion.md`:
+
+```bash
+cd ~/capstone-pi-benchmarking
+uv pip install -e ".[pi-hardware]"
+.venv/bin/python scripts/simulate_fusion.py
+.venv/bin/python scripts/run_smart_cane.py --mode hardware --no-camera
+.venv/bin/python scripts/run_smart_cane.py --mode hardware --threads 2 --haptic-mode rtp
+```
+
+## 20. Final evidence checklist
 
 Before calling the Pi benchmark complete, retain and return:
 

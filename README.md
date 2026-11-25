@@ -92,6 +92,28 @@ Detailed generated tables:
 - [live-camera model comparison](artifacts/pi-benchmarks/returned/2026-09-06/artifacts/pi-benchmarks/camera-preliminary-20260905T180557Z/tables/model-architecture-benchmark.md)
 - [live-camera runtime comparison](artifacts/pi-benchmarks/returned/2026-09-06/artifacts/pi-benchmarks/camera-preliminary-20260905T180557Z/tables/runtime-backend-benchmark.md)
 
+## Live Smart Cane Sensor Fusion & Runtime
+
+The full Raspberry Pi 5 runtime combines 3× VL53L0X ToF sensors, 2× alternating center HC-SR04 ultrasonics (`us-1` forward, `us-2` angled slightly toward the ground side), an MPU-6050 IMU, a zero-torch direct OpenVINO runtime (`ov-fp32-416`), and 1× DRV2605L driving 3 parallel ERM motors with directional tap-rhythm coding (**Left = 1 tap, Center = 2 taps, Right = 3 taps**, tempo and intensity scaled by closeness; 3-driver mux mode also supported):
+
+- **Short range (`≤ 1.0 m`):** ToF + HC-SR04 dominate with consistency-gated inverse-variance fusion, 3-sample median spike filtering, 1D closing-velocity/TTC tracking, and asymmetric hysteresis.
+- **Longer range (`1.0–3.8 m`) & range-blind hazards:** Direct OpenVINO YOLO adds distance-scheduled, class-weighted directional `ADVISORY`/`WARNING` cues (`stairs`, `curb`, `vehicle`, etc.) with 2-frame persistence filtering and idle-when-still battery saving (~1 FPS when resting).
+- **IMU compensation:** Adaptive complementary pitch/roll filter, ground-echo gating (`≥10°` effective relative pitch with a 0.35 m safety floor and `+8°` ground offset for `us-2`), cane-sweep yaw-lag vision alignment, sudden-tilt jolt pulse, and stationary softening.
+- **Operations & deployment (`yolo_pi.cane` + `deploy/`):** Includes `yolo-pi-cane scan`, `selftest`, `buzz`, 60-second fault-injection `soak`, `run`, `deploy/install-cane-on-pi.sh`, and `deploy/yolo-pi-cane.service`.
+
+See [docs/smart-cane-fusion.md](docs/smart-cane-fusion.md) and [docs/cane-runtime.md](docs/cane-runtime.md) for wiring, algorithm details, and Raspberry Pi 5 deployment commands:
+
+```bash
+# Verify all 14 physics scenarios + fault-injection soak test
+python3 scripts/simulate_fusion.py
+yolo-pi-cane soak --seconds 20
+
+# Bench bring-up & live run on Raspberry Pi 5
+yolo-pi-cane scan
+yolo-pi-cane selftest
+yolo-pi-cane run
+```
+
 ## Planned model progression
 
 ```text
@@ -161,16 +183,15 @@ camera setup and preview procedure is also documented in
 ## Project layout
 
 ```text
-configs/       versioned experiment definitions
+configs/       hardware profiles (`smart-cane-pi5.json`) and experiment definitions
+docs/          runbooks, fusion guide (`smart-cane-fusion.md`), and benchmark notes
 notebooks/     Colab training/export companion
-scripts/       GPU and deployment helpers
-src/yolo_pi/   detector, benchmark, fusion, and dataset code
-tests/         deterministic unit and integration-style tests
+scripts/       live smart-cane runner (`run_smart_cane.py`), simulator (`simulate_fusion.py`), and benchmark helpers
+src/yolo_pi/   5-stage fusion (`fusion_v2.py`), IMU (`imu.py`), Pi 5 drivers (`hardware/`), zero-torch OpenVINO (`openvino_detector.py`), and runtime (`runtime.py`)
+tests/         305+ deterministic unit, register-mock, runtime, and 14-scenario physics tests
 ```
 
-See `changes.md` for the evidence log, `docs/pi-handoff.md` for the physical
-handoff, and `docs/pi-benchmarking.md` for the resumable runner and the exact
-saved architecture/runtime table outputs.
+See `docs/smart-cane-fusion.md` for the live fusion algorithm, hardware wiring, and step-by-step Pi 5 testing protocol, `changes.md` for the evidence log, `docs/pi-handoff.md` for the physical handoff, and `docs/pi-benchmarking.md` for the resumable runner and the exact saved architecture/runtime table outputs.
 
 For the actual Raspberry Pi session, use
 `docs/pi-terminal-setup-and-run.md`. It is the standalone terminal-only runbook
