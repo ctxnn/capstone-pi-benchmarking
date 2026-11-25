@@ -166,15 +166,20 @@ def run_until_signal(system: CaneSystem, duration_s: float = 0.0) -> int:
     signal.signal(signal.SIGINT, _request_stop)
     signal.signal(signal.SIGTERM, _request_stop)
     exit_code = 0
+    timer: Optional[threading.Timer] = None
     try:
         system.start()
         if duration_s > 0:
-            threading.Timer(duration_s, stop.set).start()
+            timer = threading.Timer(duration_s, stop.set)
+            timer.daemon = True
+            timer.start()
         LOGGER.info("cane running: %s", system.config.describe())
         system.run(stop)
     except Exception:
         LOGGER.exception("cane runtime stopped unexpectedly")
         exit_code = 1
     finally:
+        if timer is not None:
+            timer.cancel()
         system.close()
     return exit_code

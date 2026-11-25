@@ -64,9 +64,9 @@ class LockedFusion:
         overhead = [s.sensor_id for s in config.ultrasonic.sensors if s.role == "overhead"]
         ground = [s.sensor_id for s in config.ultrasonic.sensors if s.role == "ground"]
         offsets = {
-            s.sensor_id: s.pitch_offset_deg
+            s.sensor_id: float(getattr(s, "pitch_offset_deg", 0.0))
             for s in config.ultrasonic.sensors
-            if getattr(s, "pitch_offset_deg", 0.0)
+            if hasattr(s, "pitch_offset_deg")
         }
         return cls(
             config.fusion,

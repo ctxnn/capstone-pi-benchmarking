@@ -128,9 +128,11 @@ def _cmd_buzz(config: CaneConfig, args: argparse.Namespace) -> int:
             return 2
         if args.pattern == "jolt":
             value = amplitude_to_rtp(config.imu.jolt_intensity, config.haptics.amplitude_floor)
-            hardware.haptic.set_rtp(value)
-            time.sleep(config.imu.jolt_pulse_ms / 1000.0)
-            hardware.haptic.set_rtp(0)
+            try:
+                hardware.haptic.set_rtp(value)
+                time.sleep(config.imu.jolt_pulse_ms / 1000.0)
+            finally:
+                hardware.haptic.stop()
         else:
             sector = {"left": Sector.LEFT, "center": Sector.CENTER, "right": Sector.RIGHT,
                       "overhead": Sector.CENTER, "fault": Sector.UNKNOWN}[args.pattern]

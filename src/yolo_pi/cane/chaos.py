@@ -334,15 +334,20 @@ def run_soak(config: CaneConfig, seconds: float = 60.0, seed: int = 1, fault_rat
 
     watcher = threading.Thread(target=watch, daemon=True)
     started = time.monotonic()
+    timer: Optional[threading.Timer] = None
     try:
         system.start()
         started = time.monotonic()
-        threading.Timer(seconds, stop.set).start()
+        timer = threading.Timer(seconds, stop.set)
+        timer.daemon = True
+        timer.start()
         watcher.start()
         system.run(stop)
     except BaseException as exc:  # noqa: BLE001 - any escape from the runtime is a failure
         runtime_error.append(exc)
     finally:
+        if timer is not None:
+            timer.cancel()
         stop.set()
         chaos.enabled = False  # a bus that fails during shutdown cannot be tested away
         try:
