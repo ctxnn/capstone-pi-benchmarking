@@ -809,3 +809,33 @@ The supply reads 4.80 V and the Pi rebooted under sustained four-core load, so
 these are quick comparisons at reduced clock. Run the formal R3/R7/R8 rows for
 both sources, then repeat them at four threads and full clock once the supply is
 replaced.
+
+## 2026-11-25 — Live multi-sensor fusion, IMU compensation, Pi 5 hardware drivers, zero-torch OpenVINO runtime, and physics simulator
+
+### What changed
+
+- Implemented the 5-stage `SmartCaneFusionEngine` (`src/yolo_pi/fusion_v2.py`) and 6-axis `IMUProcessor` (`src/yolo_pi/imu.py`):
+  - **Short range (≤1.0 m):** ToF + 2× co-aligned Center HC-SR04 ultrasonics unconditionally own `CRITICAL` (≤0.50 m) and `WARNING` (≤1.00 m) with freshness-inflated inverse-variance fusion, consistency gating for narrow poles and glass doors, noise-immune 3-sample median + 2-sample fast-attack filtering, `no_target` vs hardware-fault separation, tick-rate-independent 1D α-β TTC tracking, and asymmetric hysteresis.
+  - **Longer range (1.0–3.8 m) & range-blind hazards:** Distance-scheduled YOLO fusion with monocular distance estimation, 15-class Cane V1 severity priors (`stairs`, `curb`, `vehicle`, etc.), cross-modal agreement boost, and 2-frame persistence filtering (vision-only cues cap at `WARNING`/`ADVISORY` and never suppress range hazards).
+  - **IMU compensation:** Startup gyro-bias calibration, adaptive footstep-shock complementary pitch/roll filter, horizontal range projection, floor-echo suppression (0.35 m safety floor) + downward-pitch TTC gating, vision yaw-lag compensation, stationary anti-fatigue softening, and cane-drop detection.
+  - **Directional haptics:** Independent Left / Center / Right `DirectionalHapticFrame` outputs (`CLEAR`, `ADVISORY`, `WARNING`, `CRITICAL`, `SENSOR_FAULT`).
+- Implemented the pure-Python Raspberry Pi 5 hardware driver package (`src/yolo_pi/hardware/`) and exact hardware profile (`configs/smart-cane-pi5.json`):
+  - Thread-safe `TCA9548AMux` (`0x70`, `RLock` + channel cache), `VL53L0X` (`CH0–2`), alternating TDM `HCSR04PairDriver` (`GPIO23/24` and `GPIO27/22`, `lgpio` primary for Pi 5 RP1), `MPU6050Driver` (`CH7` or main bus `0x68`), and `DRV2605LController` (`CH4–6`, 3 V ERM RTP & Library modes, 500 ms watchdog, guaranteed zero-on-close).
+- Implemented zero-torch direct `OpenVINODetector` (`src/yolo_pi/openvino_detector.py`) using `openvino.Core` + pure NumPy letterbox/NMS, dropping `torch` and `ultralytics` from the live Pi runtime.
+- Implemented the 4-thread live orchestrator (`src/yolo_pi/runtime.py`, `scripts/run_smart_cane.py`), 14-scenario physics simulator (`src/yolo_pi/simulator.py`, `scripts/simulate_fusion.py`), `pi-hardware` extra in `pyproject.toml`, `yolo-pi run-cane` and `yolo-pi simulate-fusion` CLI subcommands, and full runbook/testing guide (`docs/smart-cane-fusion.md`).
+
+### Engineering rationale
+
+Running the full physics simulator first caught four real edge cases before touching physical hardware: (1) a 2 cm median fast-attack margin and eval-tick-based outlier counting allowed single ultrasonic ghost pings to leak into false `CRITICAL` alerts; (2) tipping the cane downward triggered a false TTC warning from the approaching floor before crossing the 25° floor-echo threshold; (3) the closer-outlier window expired every 180 ms on a steady narrow pole, causing 14 chatter transitions; and (4) updating α-β velocity on unchanged sensor timestamps introduced tick-rate jitter at 50 Hz. Fixing all four dropped false `CRITICAL`s to 0 and pole/multipath chatter to 0 across every scenario.
+
+### Verification evidence
+
+- Automated test suite: `305 passed, 67 subtests passed` (`test_imu.py`, `test_fusion_v2.py`, `test_hardware_drivers.py`, `test_openvino_detector.py`, `test_runtime.py`, `test_simulation.py`, and all existing non-torch suites).
+- Physics simulator (`scripts/simulate_fusion.py`): `14/14` pass (`140/140` across seeds `0..9`), 0 false `CRITICAL`s, 1 transition on 2 s boundary-hover chatter, `0.07–0.12 ms` p95 evaluation per tick.
+- Zero-torch check: confirmed `"torch"` and `"ultralytics"` are not imported by `OpenVINODetector`; cloud warm latency measured `11.98 ms` mean (`ov-fp32-416`) and `7.85 ms` (`ov-fp32-320`).
+- Live 4-thread soak test with real `ov-fp32-416` OpenVINO: 48.7 Hz fast loop, `sensor->haptic` p50 `0.48 ms` / p95 `1.40 ms` / p99 `4.16 ms`, zero errors.
+
+### Next gate
+
+Run the bench-to-walk verification protocol in `docs/smart-cane-fusion.md` on the physically wired Raspberry Pi 5 (`capstone16`): I2C mux channel scan, `--no-camera` directional haptic bench tests, and full live camera + fusion walk test with JSONL logging.
+

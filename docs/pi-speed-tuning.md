@@ -104,9 +104,11 @@ Dropped frames are expected and intentional: the camera produces 30 fps while
 the loop consumes 15.2, and the one-slot buffer discards the surplus instead of
 queueing it. Frame age stays at 24 ms, which is the proof that no backlog forms.
 
-Camera-to-haptic latency remains unmeasured. That requires the vibration
-hardware and the range sensors, but the vision portion of that budget is now
-about 126 ms smaller.
+Camera-to-haptic latency remains unmeasured on physical hardware. The full live
+sensor-fusion and directional haptic runtime now ships in
+`src/yolo_pi/runtime.py` with a zero-torch direct OpenVINO detector
+(`src/yolo_pi/openvino_detector.py`) that drops `torch` and `ultralytics` from
+the live Pi path; see `docs/smart-cane-fusion.md` for live Pi 5 verification.
 
 ## Measurement conditions that must be stated with these numbers
 

@@ -4,11 +4,14 @@ This file maps every explicit project requirement to current authoritative
 evidence. A software implementation is not treated as physical Pi evidence, and
 a prepared workflow is not treated as a finished model.
 
-Last audited: 2026-11-22.
+Last audited: 2026-11-25.
 
 | Requirement | Current state | Authoritative evidence | Remaining gate |
 |---|---|---|---|
-| Keep a major-change/rationale log | Complete and active | `changes.md` | Continue updating after final model and Pi run |
+| Keep a major-change/rationale log | Complete and active | `changes.md` | Continue updating after live Pi hardware walk tests |
+| Live 5-stage multi-sensor fusion & IMU compensation | Complete and simulation-verified | `src/yolo_pi/fusion_v2.py`, `src/yolo_pi/imu.py`, `src/yolo_pi/simulator.py`: 14/14 physics scenarios pass (140/140 across 10 seeds), 0 false CRITICALs, `0.07–0.12 ms` p95 eval | Live bench & walk verification on wired Pi 5 (`docs/smart-cane-fusion.md`) |
+| Pi 5 I2C/GPIO hardware drivers & directional haptics | Complete in software (register-level mock verified) | `src/yolo_pi/hardware/` (`TCA9548A`, 3× `VL53L0X`, 2× TDM `HC-SR04`, `MPU-6050`, 3× `DRV2605L`), `configs/smart-cane-pi5.json`, 102 driver tests passing | Verify I2C mux scan and live actuation on wired Pi 5 |
+| Zero-torch live OpenVINO detector & 4-thread runtime | Complete and soak-tested | `src/yolo_pi/openvino_detector.py`, `src/yolo_pi/runtime.py`, `scripts/run_smart_cane.py`: verified zero `torch`/`ultralytics` imports, 48.7 Hz control loop with `sensor->haptic` p95 `1.40 ms` beside live `ov-fp32-416` | Measure live `sensor->haptic` and `camera->haptic` latency on Pi 5 |
 | Fine-tuned Cane V1 model | Complete | Accepted epoch-30 `best.pt` SHA-256 `85168a2bc2f8a87c6b4361f16e3e7ec7394312341ee99a766f368be6e28e0dca`; local import receipt | Physical Pi performance remains separate |
 | Save latest model if agent/provider time ends | Complete and verified | Epoch-30 `latest-resumable.pt` retains optimizer state and exact taxonomy; SHA-256 `e9f3548158be346d7e037416ef7b8f3160efea6d3bba13f170c1498d7c6b0b2c`; Downloads copy matches | None for training recovery |
 | Save finished model | Complete | `best.pt`, `last.pt`, latest resumable model, val/test metrics, hashes, accepted ZIP, and local importer receipt | None for model acceptance |
@@ -29,12 +32,14 @@ Last audited: 2026-11-22.
 | Detailed singular data-preprocessing document | Complete | `docs/data-preprocessing.md` contains sources, hashes, mappings, counts, split protection, decontamination, resize, transforms, final environment, artifact hashes, and both quality protocols | Update only if dataset/model protocol changes |
 | Final backend export/quality/registry pipeline | Awaiting one Pi functional gate | Import/history/exports/full comparison complete; state is `awaiting_linux_export_smoke` | Run OpenVINO smoke and registry commands in terminal runbook on Pi |
 | Terminal-only Pi setup and run instructions | Complete | `docs/pi-terminal-setup-and-run.md` covers an already-open Raspberry Pi Connect shell, Tailscale rsync for client-isolated Wi-Fi, OS/uv/Picamera2 setup, artifact checks, OpenVINO/registry gate, tmux, images, camera, power, resume, outputs, return, and common mistakes | Execute on physical Pi |
-| Automated verification | Complete at current state | 79/79 tests; executed notebook validates with 7 code cells and 0 error outputs | Repeat after Pi evidence returns |
+| Automated verification | Complete at current state | 305 non-torch tests + 67 subtests passing (including IMU, fusion v2, hardware drivers, direct OpenVINO, runtime, and 14/14 physics simulation scenarios); legacy 79-test suite and executed 7-cell notebook intact | Repeat after live Pi sensor/haptic evidence returns |
 
 ## Reproducible audit commands
 
 ```bash
 .venv/bin/python -m pytest -q
+.venv/bin/python scripts/simulate_fusion.py
+.venv/bin/python scripts/run_smart_cane.py --mode simulate --no-camera --duration 1.0
 .venv/bin/python scripts/validate_notebook.py notebooks/cane_v1_training_export_output.ipynb
 .venv/bin/python scripts/prepare_lightning_handoff.py --check
 

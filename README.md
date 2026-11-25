@@ -179,16 +179,15 @@ camera setup and preview procedure is also documented in
 ## Project layout
 
 ```text
-configs/       versioned experiment definitions
+configs/       hardware profiles (`smart-cane-pi5.json`) and experiment definitions
+docs/          runbooks, fusion guide (`smart-cane-fusion.md`), and benchmark notes
 notebooks/     Colab training/export companion
-scripts/       GPU and deployment helpers
-src/yolo_pi/   detector, benchmark, fusion, and dataset code
-tests/         deterministic unit and integration-style tests
+scripts/       live smart-cane runner (`run_smart_cane.py`), simulator (`simulate_fusion.py`), and benchmark helpers
+src/yolo_pi/   5-stage fusion (`fusion_v2.py`), IMU (`imu.py`), Pi 5 drivers (`hardware/`), zero-torch OpenVINO (`openvino_detector.py`), and runtime (`runtime.py`)
+tests/         305+ deterministic unit, register-mock, runtime, and 14-scenario physics tests
 ```
 
-See `changes.md` for the evidence log, `docs/pi-handoff.md` for the physical
-handoff, and `docs/pi-benchmarking.md` for the resumable runner and the exact
-saved architecture/runtime table outputs.
+See `docs/smart-cane-fusion.md` for the live fusion algorithm, hardware wiring, and step-by-step Pi 5 testing protocol, `changes.md` for the evidence log, `docs/pi-handoff.md` for the physical handoff, and `docs/pi-benchmarking.md` for the resumable runner and the exact saved architecture/runtime table outputs.
 
 For the actual Raspberry Pi session, use
 `docs/pi-terminal-setup-and-run.md`. It is the standalone terminal-only runbook
