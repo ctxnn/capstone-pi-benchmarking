@@ -47,6 +47,24 @@ def build_parser() -> argparse.ArgumentParser:
         "validate-mount", help="Validate and print a camera-mount profile"
     )
     mount_parser.add_argument("--profile", type=Path, required=True)
+
+    sim_parser = subparsers.add_parser(
+        "simulate-fusion", help="Run the 14-scenario physics-based fusion simulation suite"
+    )
+    sim_parser.add_argument("--seed", type=int, default=42)
+    sim_parser.add_argument("--output", type=Path, default=None)
+
+    cane_parser = subparsers.add_parser(
+        "run-cane", help="Run the live multi-threaded smart cane runtime"
+    )
+    cane_parser.add_argument("--mode", choices=("hardware", "simulate"), default="hardware")
+    cane_parser.add_argument("--config", type=Path, default=Path("configs/smart-cane-pi5.json"))
+    cane_parser.add_argument("--model", default=None)
+    cane_parser.add_argument("--threads", type=int, default=2)
+    cane_parser.add_argument("--no-camera", action="store_true")
+    cane_parser.add_argument("--duration", type=float, default=0.0)
+    cane_parser.add_argument("--haptic-mode", choices=("rtp", "library"), default="rtp")
+    cane_parser.add_argument("--log-jsonl", type=Path, default=None)
     return parser
 
 
@@ -86,6 +104,50 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     if args.command == "validate-mount":
         profile = load_mount_profile(args.profile)
         print(json.dumps(profile.as_dict(), indent=2, sort_keys=True))
+        return 0
+    if args.command == "simulate-fusion":
+        from .simulator import run_all_scenarios
+
+        results = run_all_scenarios(seed=args.seed)
+        payload = [result.as_dict() for result in results]
+        if args.output is not None:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        passed = sum(1 for result in results if result.passed)
+        print(f"simulate-fusion: {passed}/{len(results)} scenarios passed (seed={args.seed})")
+        for result in results:
+            status = "PASS" if result.passed else "FAIL"
+            print(f"  [{status}] {result.name}: {result.summary}")
+        return 0 if passed == len(results) else 1
+    if args.command == "run-cane":
+        from .hardware import load_hardware_config
+        from .runtime import _build_detector, build_hardware_runtime, build_simulated_runtime
+
+        config = load_hardware_config(args.config)
+        if args.mode == "simulate":
+            detector = (
+                _build_detector(args.model, args.threads)
+                if (not args.no_camera and args.model)
+                else None
+            )
+            runtime = build_simulated_runtime(
+                config,
+                detector=detector,
+                enable_camera=not args.no_camera,
+                log_jsonl_path=args.log_jsonl,
+            )
+        else:
+            runtime = build_hardware_runtime(
+                config,
+                enable_camera=not args.no_camera,
+                model_path=args.model,
+                num_threads=args.threads,
+                log_jsonl_path=args.log_jsonl,
+                haptic_mode=args.haptic_mode,
+            )
+        runtime.install_signal_handlers()
+        summary = runtime.run_for(args.duration if args.duration > 0 else 3600.0)
+        print(json.dumps(summary.as_dict(), indent=2, sort_keys=True))
         return 0
     raise AssertionError("unreachable")
 

@@ -1,0 +1,107 @@
+{
+  "profile_id": "smart-cane-pi5-v1",
+  "i2c_bus": 1,
+  "mux_address": 112,
+  "gpio_chip": 4,
+  "tof_sensors": [
+    {
+      "sensor_id": "tof-left",
+      "sector": "left",
+      "mux_channel": 0,
+      "i2c_address": 41,
+      "timing_budget_ms": 33.0
+    },
+    {
+      "sensor_id": "tof-center",
+      "sector": "center",
+      "mux_channel": 1,
+      "i2c_address": 41,
+      "timing_budget_ms": 33.0
+    },
+    {
+      "sensor_id": "tof-right",
+      "sector": "right",
+      "mux_channel": 2,
+      "i2c_address": 41,
+      "timing_budget_ms": 33.0
+    }
+  ],
+  "ultrasonic_sensors": [
+    {
+      "sensor_id": "us-center-1",
+      "sector": "center",
+      "trigger_gpio": 23,
+      "echo_gpio": 24,
+      "min_range_m": 0.04,
+      "max_range_m": 3.5
+    },
+    {
+      "sensor_id": "us-center-2",
+      "sector": "center",
+      "trigger_gpio": 27,
+      "echo_gpio": 22,
+      "min_range_m": 0.04,
+      "max_range_m": 3.5
+    }
+  ],
+  "imu": {
+    "sensor_id": "imu",
+    "mux_channel": 7,
+    "i2c_address": 104,
+    "interrupt_gpio": 17,
+    "sample_rate_hz": 100.0
+  },
+  "haptic_motors": [
+    {
+      "motor_id": "haptic-left",
+      "sector": "left",
+      "mux_channel": 4,
+      "i2c_address": 90,
+      "motor_type": "erm",
+      "supply_voltage_v": 3.0,
+      "rated_voltage": 127,
+      "od_clamp": 150
+    },
+    {
+      "motor_id": "haptic-center",
+      "sector": "center",
+      "mux_channel": 5,
+      "i2c_address": 90,
+      "motor_type": "erm",
+      "supply_voltage_v": 3.0,
+      "rated_voltage": 127,
+      "od_clamp": 150
+    },
+    {
+      "motor_id": "haptic-right",
+      "sector": "right",
+      "mux_channel": 6,
+      "i2c_address": 90,
+      "motor_type": "erm",
+      "supply_voltage_v": 3.0,
+      "rated_voltage": 127,
+      "od_clamp": 150
+    }
+  ],
+  "camera": {
+    "sensor": "imx219",
+    "width": 640,
+    "height": 480,
+    "pixel_format": "RGB888",
+    "fps": 30.0,
+    "model_path": "artifacts/models/cane-v1-fast/ov-fp32-416/best_openvino_model",
+    "num_threads": 2
+  },
+  "timing": {
+    "control_loop_hz": 30.0,
+    "tof_poll_interval_ms": 33.0,
+    "ultrasonic_guard_interval_ms": 35.0,
+    "ultrasonic_timeout_ms": 25.0,
+    "ambient_temp_c": 22.0,
+    "sensor_stale_after_ms": 250.0,
+    "vision_stale_after_ms": 500.0,
+    "warning_distance_m": 1.0,
+    "critical_distance_m": 0.5,
+    "haptic_watchdog_timeout_ms": 500.0
+  }
+}

@@ -92,6 +92,24 @@ Detailed generated tables:
 - [live-camera model comparison](artifacts/pi-benchmarks/returned/2026-09-06/artifacts/pi-benchmarks/camera-preliminary-20260905T180557Z/tables/model-architecture-benchmark.md)
 - [live-camera runtime comparison](artifacts/pi-benchmarks/returned/2026-09-06/artifacts/pi-benchmarks/camera-preliminary-20260905T180557Z/tables/runtime-backend-benchmark.md)
 
+## Live Smart Cane Sensor Fusion & Runtime
+
+The full Raspberry Pi 5 runtime combines 3× VL53L0X ToF sensors, 2× alternating center HC-SR04 ultrasonics, an MPU-6050 IMU, a zero-torch direct OpenVINO runtime (`ov-fp32-416`), and 3 independent directional DRV2605L haptic motors (`configs/smart-cane-pi5.json`):
+
+- **Short range (`≤ 1.0 m`):** ToF + HC-SR04 dominate with consistency-gated inverse-variance fusion, 1D closing-velocity/TTC tracking, and asymmetric hysteresis.
+- **Longer range (`1.0–3.8 m`) & range-blind hazards:** Direct OpenVINO YOLO adds distance-scheduled, class-weighted directional `ADVISORY`/`WARNING` cues (`stairs`, `curb`, `vehicle`, etc.) with 2-frame persistence filtering.
+- **IMU compensation:** Adaptive complementary pitch/roll filter, ground-echo gating (0.35 m safety floor), cane-sweep yaw-lag vision alignment, and stationary anti-fatigue softening.
+
+See [docs/smart-cane-fusion.md](docs/smart-cane-fusion.md) for wiring, algorithm details, and Raspberry Pi 5 deployment commands:
+
+```bash
+# Verify all 14 physics simulation scenarios
+python3 scripts/simulate_fusion.py
+
+# Run live on Raspberry Pi 5 (zero-torch OpenVINO + I2C/GPIO drivers)
+python3 scripts/run_smart_cane.py --mode hardware --threads 2
+```
+
 ## Planned model progression
 
 ```text
