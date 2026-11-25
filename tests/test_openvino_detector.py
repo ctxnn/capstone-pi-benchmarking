@@ -292,6 +292,28 @@ class RealModelTests(unittest.TestCase):
         self.assertGreater(len(result.detections), 0)
         self.assertTrue(all(d.class_name for d in result.detections))
 
+    def test_class_threshold_below_global_confidence_is_honored(self) -> None:
+        raw = np.zeros((1, 19, 4), dtype=np.float32)
+        # Anchor 0: stairs (class 5) at 0.33 (above 0.32 class override, below 0.35 global)
+        raw[0, 0:4, 0] = [208.0, 208.0, 80.0, 100.0]
+        raw[0, 4 + 5, 0] = 0.33
+        # Anchor 1: signboard (class 10) at 0.33 (below both 0.35 global and 0.40 override)
+        raw[0, 0:4, 1] = [100.0, 208.0, 50.0, 50.0]
+        raw[0, 4 + 10, 1] = 0.33
+        names = {5: "stairs", 10: "signboard"}
+        detections = decode_yolo_output(
+            raw,
+            class_names=names,
+            scale=1.0,
+            pad_x=0.0,
+            pad_y=0.0,
+            orig_w=416,
+            orig_h=416,
+            confidence=0.35,
+            class_thresholds={"stairs": 0.32, "signboard": 0.40},
+        )
+        self.assertEqual([d.class_name for d in detections], ["stairs"])
+
 
 if __name__ == "__main__":
     unittest.main()

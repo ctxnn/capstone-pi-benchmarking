@@ -1507,5 +1507,65 @@ class PackageSurfaceTests(unittest.TestCase):
         spec = default_pi5_config().camera
         self.assertEqual(spec, CameraSpec())
 
+    def test_vl53l0x_array_continuous_nonblocking_skips_unready_and_faults_stalled(self):
+        from yolo_pi.hardware.vl53l0x import RESULT_INTERRUPT_STATUS, VL53L0XArray
+
+        config = default_pi5_config()
+        bus = FakeSMBus()
+        for spec in config.tof_sensors:
+            bus.add_device(spec.mux_channel, spec.i2c_address, tof_registers(mm=600))
+        mux = TCA9548AMux(bus, config.mux_address)
+        array = VL53L0XArray(mux, config.tof_sensors)
+        self.assertEqual(array.initialize(), [])
+        self.assertEqual(array.start_continuous(), [])
+
+        # Simulate CH0 (left) not ready yet while CH1 and CH2 are ready.
+        left_spec = config.tof_sensors[0]
+        left_dev = bus.device(left_spec.mux_channel, left_spec.i2c_address)
+        left_dev.registers[RESULT_INTERRUPT_STATUS] = 0x00
+        for spec in config.tof_sensors[1:]:
+            bus.device(spec.mux_channel, spec.i2c_address).registers[RESULT_INTERRUPT_STATUS] = 0x04
+
+        t0 = 1_000_000_000
+        array._last_ready_ns[left_spec.sensor_id] = t0
+        first = array.read_all(now_ns=t0 + 20_000_000)
+        self.assertEqual([m.sensor_id for m in first], ["tof-center", "tof-right"])
+        self.assertTrue(all(m.valid for m in first))
+
+        # Past the 250 ms ready timeout, left emits a fault without blocking center/right.
+        for spec in config.tof_sensors[1:]:
+            bus.device(spec.mux_channel, spec.i2c_address).registers[RESULT_INTERRUPT_STATUS] = 0x04
+        second = array.read_all(now_ns=t0 + 400_000_000)
+        by_id = {m.sensor_id: m for m in second}
+        self.assertFalse(by_id["tof-left"].valid)
+        self.assertTrue(by_id["tof-center"].valid)
+        self.assertTrue(by_id["tof-right"].valid)
+
+    def test_drv2605l_library_mode_writes_go_zero_on_clear(self):
+        from yolo_pi.hardware.drv2605l import GO
+
+        config = default_pi5_config()
+        bus = FakeSMBus()
+        for spec in config.haptic_motors:
+            bus.add_device(spec.mux_channel, spec.i2c_address, haptic_registers())
+        mux = TCA9548AMux(bus, config.mux_address)
+        controller = DRV2605LController(mux, config.haptic_motors, mode="library")
+        controller.initialize()
+
+        left_spec = next(s for s in config.haptic_motors if s.sector == Sector.LEFT)
+        left_dev = bus.device(left_spec.mux_channel, left_spec.i2c_address)
+
+        controller.apply_sector_states(
+            {Sector.LEFT: {"intensity": 0.8, "waveform_id": 14}},
+            now_ns=100_000_000,
+        )
+        self.assertEqual(left_dev.registers[GO], 0x01)
+
+        controller.apply_sector_states(
+            {Sector.LEFT: {"intensity": 0.0}},
+            now_ns=150_000_000,
+        )
+        self.assertEqual(left_dev.registers[GO], 0x00)
+
 if __name__ == "__main__":
     unittest.main()

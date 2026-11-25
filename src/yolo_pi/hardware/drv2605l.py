@@ -18,6 +18,7 @@ Two safety rules matter more than the vibration pattern:
 from __future__ import annotations
 
 import logging
+import threading
 import time
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Set, Tuple
@@ -110,6 +111,7 @@ class DRV2605LController:
         self._watchdog_tripped = False
         self._last_errors: Dict[Sector, str] = {}
         self._failed_sectors: Set[Sector] = set()
+        self._lock = threading.RLock()
 
     # -- lifecycle -------------------------------------------------------
 
@@ -188,10 +190,11 @@ class DRV2605LController:
             LOGGER.warning("%s: DRV2605L reports over-temperature at startup", spec.motor_id)
 
     def close(self) -> None:
-        if self._closed:
-            return
-        self.stop_all()
-        self._closed = True
+        with self._lock:
+            if self._closed:
+                return
+            self.stop_all()
+            self._closed = True
 
     # -- actuation -------------------------------------------------------
 
@@ -204,63 +207,66 @@ class DRV2605LController:
         fusion layer owns the command type without a circular import.
         """
 
-        self._require_initialized()
-        commands = self._normalize(sector_commands)
-        self._last_update_ns = int(now_ns)
-        self._watchdog_tripped = False
-        self._last_errors.clear()
+        with self._lock:
+            self._require_initialized()
+            commands = self._normalize(sector_commands)
+            self._last_update_ns = int(now_ns)
+            self._watchdog_tripped = False
+            self._last_errors.clear()
 
-        for sector in HAPTIC_SECTORS:
-            state = self._motors[sector]
-            command = commands.get(sector)
-            intensity = _clamp_unit(_field(command, "intensity", 0.0))
-            if intensity <= 0.0:
-                state.phase_origin_ns = None
-                self._drive(sector, 0, waveform_id=None)
-                continue
-            period_ms = _optional_float(_field(command, "pulse_period_ms", None))
-            duty_cycle = _optional_float(_field(command, "duty_cycle", 1.0))
-            waveform_id = _field(command, "waveform_id", None)
-            if period_ms and period_ms > 0.0 and duty_cycle is not None and duty_cycle < 1.0:
-                if state.phase_origin_ns is None:
-                    state.phase_origin_ns = int(now_ns)
-                period_ns = int(round(period_ms * 1_000_000))
-                on_ns = int(round(_clamp_unit(duty_cycle) * period_ns))
-                elapsed_ns = max(0, int(now_ns) - state.phase_origin_ns)
-                is_on = (elapsed_ns % period_ns) < on_ns
-            else:
-                state.phase_origin_ns = None
-                is_on = True
-            target = _intensity_to_rtp(intensity) if is_on else 0
-            self._drive(sector, target, waveform_id if is_on else None)
+            for sector in HAPTIC_SECTORS:
+                state = self._motors[sector]
+                command = commands.get(sector)
+                intensity = _clamp_unit(_field(command, "intensity", 0.0))
+                if intensity <= 0.0:
+                    state.phase_origin_ns = None
+                    self._drive(sector, 0, waveform_id=None)
+                    continue
+                period_ms = _optional_float(_field(command, "pulse_period_ms", None))
+                duty_cycle = _optional_float(_field(command, "duty_cycle", 1.0))
+                waveform_id = _field(command, "waveform_id", None)
+                if period_ms and period_ms > 0.0 and duty_cycle is not None and duty_cycle < 1.0:
+                    if state.phase_origin_ns is None:
+                        state.phase_origin_ns = int(now_ns)
+                    period_ns = int(round(period_ms * 1_000_000))
+                    on_ns = int(round(_clamp_unit(duty_cycle) * period_ns))
+                    elapsed_ns = max(0, int(now_ns) - state.phase_origin_ns)
+                    is_on = (elapsed_ns % period_ns) < on_ns
+                else:
+                    state.phase_origin_ns = None
+                    is_on = True
+                target = _intensity_to_rtp(intensity) if is_on else 0
+                self._drive(sector, target, waveform_id if is_on else None)
 
     def tick_watchdog(self, now_ns: int) -> bool:
         """Zero every motor when no frame has arrived inside the timeout."""
 
-        if self._last_update_ns is None:
-            return False
-        silence_ns = int(now_ns) - self._last_update_ns
-        if silence_ns <= self._watchdog_ns:
-            return False
-        LOGGER.warning(
-            "haptic watchdog: no frame for %.1f ms, stopping all motors",
-            silence_ns / 1_000_000.0,
-        )
-        errors = self._stop_motors()
-        if errors:
-            # A channel that failed to stop keeps the watchdog armed so the
-            # next tick retries it instead of trusting a stale intensity.
+        with self._lock:
+            if self._last_update_ns is None:
+                return False
+            silence_ns = int(now_ns) - self._last_update_ns
+            if silence_ns <= self._watchdog_ns:
+                return False
+            LOGGER.warning(
+                "haptic watchdog: no frame for %.1f ms, stopping all motors",
+                silence_ns / 1_000_000.0,
+            )
+            errors = self._stop_motors()
+            if errors:
+                # A channel that failed to stop keeps the watchdog armed so the
+                # next tick retries it instead of trusting a stale intensity.
+                return True
+            self._watchdog_tripped = True
+            self._last_update_ns = None
             return True
-        self._watchdog_tripped = True
-        self._last_update_ns = None
-        return True
 
     def stop_all(self) -> None:
         """Zero all three motors, isolating each channel's failure."""
 
-        self._stop_motors()
-        self._last_update_ns = None
-        self._watchdog_tripped = False
+        with self._lock:
+            self._stop_motors()
+            self._last_update_ns = None
+            self._watchdog_tripped = False
 
     def _stop_motors(self) -> Dict[Sector, str]:
         errors: Dict[Sector, str] = {}
@@ -308,6 +314,7 @@ class DRV2605LController:
                     self._write(state.spec, GO, 0x01)
                     state.waveform_active = True
             elif state.waveform_active:
+                self._write(state.spec, GO, 0x00)
                 state.waveform_active = False
         except (OSError, ValueError, DRV2605LError) as exc:
             self._last_errors[sector] = str(exc)
@@ -324,7 +331,6 @@ class DRV2605LController:
 
         timestamp_ns, commands = self._unpack_frame(frame)
         self.apply_sector_states(commands, timestamp_ns)
-        self.tick_watchdog(timestamp_ns)
 
     def stop(self) -> None:
         self.stop_all()

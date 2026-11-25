@@ -331,6 +331,40 @@ class VL53L0XDriver:
         self._write(SYSRANGE_START, 0x00)
         self._continuous = False
 
+    def read_if_ready(self, now_ns: Optional[int] = None) -> Optional[ToFMeasurement]:
+        """Non-blocking continuous read: return a measurement only when ready.
+
+        Returns ``None`` immediately if the hardware interrupt flag is not yet
+        set, avoiding blocking the control loop during ranging budgets. I2C
+        errors degrade to a fault measurement for this sensor only.
+        """
+
+        timestamp_ns = now_ns if now_ns is not None else time.monotonic_ns()
+        if not self._initialized:
+            raise VL53L0XError(f"{self.sensor_id}: initialize() must be called before ranging")
+        try:
+            status = self._read(RESULT_INTERRUPT_STATUS)
+            if not (status & 0x07):
+                return None
+            block = self._mux.read_block(self.channel, self.address, RESULT_RANGE_STATUS, 12)
+            self._write(SYSTEM_INTERRUPT_CLEAR, 0x01)
+        except OSError:
+            return self._fault(timestamp_ns)
+
+        raw_status = (block[0] >> 3) & 0x0F
+        raw_mm = (block[10] << 8) | block[11]
+        valid, no_target, distance_m = decode_range_status(raw_status, raw_mm)
+        return ToFMeasurement(
+            sensor_id=self.sensor_id,
+            sector=self.sector,
+            timestamp_ns=timestamp_ns,
+            distance_m=distance_m,
+            raw_mm=raw_mm,
+            range_status=raw_status,
+            valid=valid,
+            no_target=no_target,
+        )
+
     def read_measurement(self, now_ns: Optional[int] = None) -> ToFMeasurement:
         """Return the next ranging result, degrading to a fault instead of raising."""
 
@@ -481,6 +515,12 @@ class VL53L0XArray:
         }
         self._faults: Dict[str, str] = {}
         self._quarantined: Set[str] = set()
+        self._continuous = False
+        self._last_ready_ns: Dict[str, int] = {}
+
+    @property
+    def continuous(self) -> bool:
+        return self._continuous
 
     @property
     def faulted_sensor_ids(self) -> List[str]:
@@ -520,9 +560,35 @@ class VL53L0XArray:
         """Re-initialize one sensor and clear its fault on success."""
 
         spec = self._spec(sensor_id)
-        self._drivers[spec.sensor_id].initialize()
+        driver = self._drivers[spec.sensor_id]
+        driver.initialize()
+        if self._continuous:
+            driver.start_continuous()
+            self._last_ready_ns[spec.sensor_id] = time.monotonic_ns()
         self._faults.pop(spec.sensor_id, None)
         self._quarantined.discard(spec.sensor_id)
+
+    def start_continuous(self, period_ms: Optional[float] = None) -> List[str]:
+        """Start continuous back-to-back ranging on every initialized sensor.
+
+        All sensors then acquire concurrently in hardware so :meth:`read_all`
+        becomes non-blocking and cannot stall the control loop.
+        """
+
+        self._continuous = True
+        now_ns = time.monotonic_ns()
+        for spec in self.specs:
+            if spec.sensor_id in self._quarantined:
+                continue
+            driver = self._drivers[spec.sensor_id]
+            try:
+                driver.start_continuous(period_ms=period_ms)
+            except (VL53L0XError, OSError) as exc:
+                self._faults[spec.sensor_id] = str(exc)
+                self._quarantined.add(spec.sensor_id)
+            else:
+                self._last_ready_ns[spec.sensor_id] = now_ns
+        return self.quarantined_sensor_ids
 
     def read_all(self, now_ns: Optional[int] = None) -> List[ToFMeasurement]:
         timestamp_ns = now_ns if now_ns is not None else time.monotonic_ns()
@@ -533,7 +599,20 @@ class VL53L0XArray:
                 measurements.append(self._fault_measurement(spec, timestamp_ns))
                 continue
             try:
-                measurement = driver.read_measurement(timestamp_ns)
+                if self._continuous:
+                    measurement = driver.read_if_ready(timestamp_ns)
+                    if measurement is None:
+                        last_ready = self._last_ready_ns.get(spec.sensor_id, timestamp_ns)
+                        timeout_ns = int(round(driver._ready_timeout_s * 1_000_000_000))
+                        if timestamp_ns - last_ready > timeout_ns:
+                            self._faults[spec.sensor_id] = (
+                                "continuous ranging stalled past ready timeout"
+                            )
+                            measurements.append(self._fault_measurement(spec, timestamp_ns))
+                        continue
+                    self._last_ready_ns[spec.sensor_id] = timestamp_ns
+                else:
+                    measurement = driver.read_measurement(timestamp_ns)
             except (VL53L0XError, OSError) as exc:
                 self._faults[spec.sensor_id] = str(exc)
                 self._quarantined.add(spec.sensor_id)

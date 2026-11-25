@@ -1444,6 +1444,59 @@ class ConfigTests(unittest.TestCase):
         with self.assertRaises(Exception):
             config.critical_distance_m = 0.40
 
+    def test_live_preassigned_sector_still_receives_imu_yaw_compensation(self) -> None:
+        engine = SmartCaneFusionEngine()
+        # Establish fresh IMU state with +1.0 rad/s yaw rate.
+        engine.update_imu(
+            IMUSample(
+                timestamp_ns=100 * MS,
+                ax_mps2=0.0,
+                ay_mps2=0.0,
+                az_mps2=9.80665,
+                gx_rps=0.0,
+                gy_rps=0.0,
+                gz_rps=1.0,
+            )
+        )
+        engine.update_imu(
+            IMUSample(
+                timestamp_ns=200 * MS,
+                ax_mps2=0.0,
+                ay_mps2=0.0,
+                az_mps2=9.80665,
+                gx_rps=0.0,
+                gy_rps=0.0,
+                gz_rps=1.0,
+            )
+        )
+        # Detection pre-assigned LEFT by live OpenVINODetector (center_x=210 in 640px frame)
+        # with 200 ms capture age shifts right into CENTER under +1.0 rad/s yaw rate.
+        for idx in range(2):
+            captured = (100 + idx * 50) * MS
+            finished = captured + 100 * MS
+            engine.update_vision(
+                FrameDetections(
+                    frame_id=idx + 1,
+                    captured_ns=captured,
+                    model_started_ns=captured + 20 * MS,
+                    model_finished_ns=finished,
+                    width=640,
+                    height=480,
+                    detections=[
+                        Detection(
+                            class_id=0,
+                            class_name="person",
+                            confidence=0.90,
+                            box=BoundingBox(180.0, 120.0, 240.0, 420.0),
+                            sector=Sector.LEFT,
+                        )
+                    ],
+                )
+            )
+            decision = engine.evaluate(captured + 200 * MS)
+        self.assertIn("person", decision.sectors[Sector.CENTER].semantic_labels)
+        self.assertEqual(decision.sectors[Sector.LEFT].semantic_labels, tuple())
+
 
 if __name__ == "__main__":
     unittest.main()

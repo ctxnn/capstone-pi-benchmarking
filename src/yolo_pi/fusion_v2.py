@@ -1490,7 +1490,7 @@ class SmartCaneFusionEngine:
             )
             if distance > config.vision_max_range_m:
                 continue
-            if detection.sector in _SECTORS:
+            if not imu_state.fresh and detection.sector in _SECTORS:
                 sector = detection.sector
             else:
                 compensated = self._imu.compensate_vision_center_x(

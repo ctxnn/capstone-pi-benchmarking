@@ -148,17 +148,18 @@ def decode_yolo_output(
 
     scores = class_scores.max(axis=0)
     class_index = class_scores.argmax(axis=0)
-    keep = scores >= confidence
-    if class_ids is not None:
-        allowed = np.asarray(list(class_ids), dtype=class_index.dtype)
-        keep &= np.isin(class_index, allowed)
     if class_thresholds:
         thresholds = np.full(scores.shape, confidence, dtype=np.float32)
         for name, value in class_thresholds.items():
             for class_id, class_name in class_names.items():
                 if class_name == name:
                     thresholds[class_index == int(class_id)] = float(value)
-        keep &= scores >= thresholds
+        keep = scores >= thresholds
+    else:
+        keep = scores >= confidence
+    if class_ids is not None:
+        allowed = np.asarray(list(class_ids), dtype=class_index.dtype)
+        keep &= np.isin(class_index, allowed)
     if not keep.any():
         return []
 

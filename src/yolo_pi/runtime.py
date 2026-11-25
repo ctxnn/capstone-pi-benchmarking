@@ -20,6 +20,7 @@ the in-memory simulation used for soak tests on a laptop.
 from __future__ import annotations
 
 import json
+import logging
 import math
 import signal
 import threading
@@ -28,6 +29,8 @@ from collections import deque
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Deque, Dict, Iterable, List, Optional, Protocol, Sequence, Tuple
+
+LOGGER = logging.getLogger(__name__)
 
 from .fusion import SensorKind
 from .fusion_v2 import (
@@ -349,6 +352,7 @@ class SmartCaneRuntime:
         self._error_lock = threading.Lock()
         self._thread_errors: List[BaseException] = []
         self._vision_errors: List[BaseException] = []
+        self._imu_errors: List[BaseException] = []
         self._threads: Dict[str, threading.Thread] = {}
         self._running = False
         self._closed = False
@@ -383,6 +387,11 @@ class SmartCaneRuntime:
     def vision_errors(self) -> Tuple[BaseException, ...]:
         with self._error_lock:
             return tuple(self._vision_errors)
+
+    @property
+    def imu_errors(self) -> Tuple[BaseException, ...]:
+        with self._error_lock:
+            return tuple(self._imu_errors)
 
     @property
     def latest_decision(self) -> Any:
@@ -425,6 +434,7 @@ class SmartCaneRuntime:
             with self._error_lock:
                 self._thread_errors.clear()
                 self._vision_errors.clear()
+                self._imu_errors.clear()
             with self._frame_condition:
                 self._pending_frame = None
                 self._pending_overwrites = 0
@@ -444,6 +454,8 @@ class SmartCaneRuntime:
                     self._spawn("vision", self._vision_loop)
                 if self.ultrasonic_driver is not None:
                     self._spawn("ultrasonic", self._ultrasonic_loop)
+                if callable(getattr(self.haptic_sink, "tick_watchdog", None)):
+                    self._spawn("watchdog", self._watchdog_loop)
                 self._spawn("control", self._control_loop)
             except BaseException:
                 self.stop()
@@ -460,7 +472,7 @@ class SmartCaneRuntime:
             with self._frame_condition:
                 self._frame_condition.notify_all()
             current = threading.current_thread()
-            for name in ("vision", "camera", "ultrasonic", "control"):
+            for name in ("vision", "camera", "ultrasonic", "watchdog", "control"):
                 thread = self._threads.get(name)
                 if thread is None or thread is current:
                     continue
@@ -537,9 +549,6 @@ class SmartCaneRuntime:
                     decision, self.fusion.config
                 )
                 self.haptic_sink.emit_frame(haptic_frame)
-                ticker = getattr(self.haptic_sink, "tick_watchdog", None)
-                if callable(ticker):
-                    ticker(loop_start_ns)
                 haptic_done_ns = time.monotonic_ns()
 
                 reference_ns = (
@@ -677,10 +686,27 @@ class SmartCaneRuntime:
             )
         return oldest
 
+    def _watchdog_loop(self) -> None:
+        ticker = getattr(self.haptic_sink, "tick_watchdog", None)
+        if not callable(ticker):
+            return
+        while not self._stop_event.is_set():
+            try:
+                ticker(time.monotonic_ns())
+            except Exception as exc:  # noqa: BLE001 - keep watchdog alive
+                LOGGER.warning("haptic watchdog tick failed: %s", exc)
+            self._stop_event.wait(0.05)
+
     def _poll_imu(self, now_ns: int) -> Optional[int]:
         if self.imu_driver is None:
             return None
-        sample = _to_imu_sample(self.imu_driver.read_raw(now_ns))
+        try:
+            sample = _to_imu_sample(self.imu_driver.read_raw(now_ns))
+        except Exception as exc:  # noqa: BLE001 - IMU faults degrade gracefully
+            with self._error_lock:
+                self._imu_errors.append(exc)
+            LOGGER.warning("IMU read failed; falling back to neutral attitude: %s", exc)
+            return None
         self.fusion.update_imu(sample)
         return sample.timestamp_ns
 
@@ -692,9 +718,10 @@ class SmartCaneRuntime:
         while time.monotonic() < deadline and not self._stop_event.is_set():
             try:
                 samples.append(_to_imu_sample(self.imu_driver.read_raw()))
-            except BaseException as exc:  # noqa: BLE001 - calibration is best effort
+            except Exception as exc:  # noqa: BLE001 - calibration is best effort
                 with self._error_lock:
-                    self._thread_errors.append(exc)
+                    self._imu_errors.append(exc)
+                LOGGER.warning("IMU startup calibration aborted: %s", exc)
                 return
             time.sleep(0.005)
         if not samples:
@@ -1295,6 +1322,7 @@ def build_hardware_runtime(
         tof_array = VL53L0XArray(mux, config.tof_sensors)
         opened.append(tof_array)
         tof_array.initialize()
+        tof_array.start_continuous()
         imu_driver = MPU6050Driver(mux, config.imu)
         opened.append(imu_driver)
         imu_driver.initialize()
