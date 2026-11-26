@@ -34,8 +34,26 @@ PYTHONPATH=src .venv/bin/python -m yolo_pi.cane run         # 4. everything
 ```
 
 Bring it up in that order. Each step isolates one layer, so a failure points at one
-thing. When step 4 behaves, install the boot service from
-`deploy/yolo-pi-cane.service`.
+thing. When step 4 behaves, install the boot service:
+
+```bash
+bash deploy/install-service.sh
+```
+
+It generates the unit for your user and this checkout, enables it at boot, and
+restarts the cane if it ever exits. Nothing in the boot path needs a network
+connection, so the cane works with Wi-Fi off and no remote shell open.
+
+```bash
+systemctl status yolo-pi-cane --no-pager   # is it up?
+journalctl -u yolo-pi-cane -f              # live log
+sudo systemctl stop yolo-pi-cane           # before running the cane by hand
+```
+
+If a board is dead (for example a failed MPU-6050), turn that device off in
+`configs/cane-hardware.json` with `"imu": {"enabled": false}` — the cane runs
+without it and keeps warning on range and vision. Use `bash deploy/install-service.sh
+--print` to see the unit without installing it.
 
 On a laptop, with no hardware, the same software runs against a scripted walk:
 

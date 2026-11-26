@@ -1,13 +1,13 @@
-# Starts the cane at boot and restarts it if it ever stops.
+# TEMPLATE ONLY. Generate and install the real unit with
 #
-# Install (on the Pi, from the repository root):
-#   sudo cp deploy/yolo-pi-cane.service /etc/systemd/system/
-#   sudo systemctl daemon-reload
-#   sudo systemctl enable --now yolo-pi-cane
-#   journalctl -u yolo-pi-cane -f
+#   bash deploy/install-service.sh
 #
-# Edit User, WorkingDirectory, Environment and ExecStart if the repository is not
-# at /home/pi/capstone-pi-benchmarking.
+# which fills in User, Group, WorkingDirectory, PYTHONPATH and ExecStart for the
+# invoking user and this checkout, then enables it at boot.
+#
+# Starts the cane at boot and restarts it if it ever stops. No network needed.
+# The values below assume /home/pi/capstone-pi-benchmarking; edit them only if
+# you install this file by hand.
 [Unit]
 Description=Smart assistive cane (sensors, vision, haptics)
 After=multi-user.target
