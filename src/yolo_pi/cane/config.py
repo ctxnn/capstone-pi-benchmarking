@@ -240,6 +240,9 @@ class PriorityConfig:
     default_height_m: float = 0.8
     edge_margin_px: int = 4
     class_heights_m: Tuple[Tuple[str, float], ...] = DEFAULT_CLASS_HEIGHTS_M
+    blind_sector_max_distance_m: float = 2.0
+    blind_sector_critical_confidence: float = 0.60
+    blind_sector_critical_frames: int = 3
 
     def height_for(self, class_name: str) -> float:
         for name, height in self.class_heights_m:
@@ -382,6 +385,12 @@ class CaneConfig:
             raise ConfigError("priority.vertical_fov_deg must be between 10 and 120")
         if pr.default_height_m <= 0 or any(height <= 0 for _, height in pr.class_heights_m):
             raise ConfigError("priority class heights must be positive")
+        if pr.blind_sector_max_distance_m <= 0.0:
+            raise ConfigError("priority.blind_sector_max_distance_m must be positive")
+        if not 0.0 <= pr.blind_sector_critical_confidence <= 1.0:
+            raise ConfigError("priority.blind_sector_critical_confidence must be in [0, 1]")
+        if pr.blind_sector_critical_frames < 1:
+            raise ConfigError("priority.blind_sector_critical_frames must be at least 1")
         im = self.imu
         if not 5.0 <= im.jolt_angle_deg <= 120.0:
             raise ConfigError("imu.jolt_angle_deg must be between 5 and 120")
@@ -619,6 +628,8 @@ def _parse_priority(data: Mapping[str, Any]) -> PriorityConfig:
         "far_max_m", "vision_min_confidence", "confirm_frames", "far_intensity",
         "overhead_warning_m", "overhead_critical_m", "vertical_fov_deg",
         "default_height_m", "edge_margin_px", "class_heights_m",
+        "blind_sector_max_distance_m", "blind_sector_critical_confidence",
+        "blind_sector_critical_frames",
     )
     _check_keys("priority", data, allowed)
     base = PriorityConfig()
@@ -639,6 +650,18 @@ def _parse_priority(data: Mapping[str, Any]) -> PriorityConfig:
         default_height_m=_as_float(data.get("default_height_m", base.default_height_m), "priority.default_height_m"),
         edge_margin_px=_as_int(data.get("edge_margin_px", base.edge_margin_px), "priority.edge_margin_px"),
         class_heights_m=tuple(sorted(heights.items())),
+        blind_sector_max_distance_m=_as_float(
+            data.get("blind_sector_max_distance_m", base.blind_sector_max_distance_m),
+            "priority.blind_sector_max_distance_m",
+        ),
+        blind_sector_critical_confidence=_as_float(
+            data.get("blind_sector_critical_confidence", base.blind_sector_critical_confidence),
+            "priority.blind_sector_critical_confidence",
+        ),
+        blind_sector_critical_frames=_as_int(
+            data.get("blind_sector_critical_frames", base.blind_sector_critical_frames),
+            "priority.blind_sector_critical_frames",
+        ),
     )
 
 

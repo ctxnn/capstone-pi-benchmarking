@@ -211,6 +211,14 @@ class SmartCaneFusionConfig:
     vision_warning_risk_threshold: float = 0.52
     cross_modal_agreement_boost: float = 0.15
 
+    vision_covers_blind_sectors: bool = True
+    blind_sector_vision_max_distance_m: float = 2.0
+    blind_sector_vision_min_confidence: float = 0.45
+    blind_sector_vision_critical: bool = True
+    blind_sector_vision_critical_max_m: float = 0.50
+    blind_sector_vision_critical_min_confidence: float = 0.60
+    blind_sector_vision_critical_frames: int = 3
+
     expected_sensors: Dict[str, Sector] = field(default_factory=_default_expected_sensors)
     sensor_pitch_offsets_deg: Dict[str, float] = field(default_factory=dict)
     imu_config: IMUConfig = field(default_factory=IMUConfig)
@@ -259,6 +267,19 @@ class SmartCaneFusionConfig:
             raise ValueError("vision persistence settings must be positive")
         if not 0.0 <= self.stationary_noncritical_scale <= 1.0:
             raise ValueError("stationary_noncritical_scale must be in [0, 1]")
+        if self.vision_covers_blind_sectors:
+            if self.blind_sector_vision_max_distance_m <= 0.0:
+                raise ValueError("blind_sector_vision_max_distance_m must be positive")
+            if not 0.0 <= self.blind_sector_vision_min_confidence <= 1.0:
+                raise ValueError("blind_sector_vision_min_confidence must be in [0, 1]")
+            if not 0.0 <= self.blind_sector_vision_critical_min_confidence <= 1.0:
+                raise ValueError(
+                    "blind_sector_vision_critical_min_confidence must be in [0, 1]"
+                )
+            if self.blind_sector_vision_critical_max_m <= 0.0:
+                raise ValueError("blind_sector_vision_critical_max_m must be positive")
+            if self.blind_sector_vision_critical_frames < 1:
+                raise ValueError("blind_sector_vision_critical_frames must be at least 1")
 
 
 def distance_weight_schedule(distance_m: Optional[float]) -> Tuple[float, float]:
@@ -573,7 +594,11 @@ def decision_to_directional_haptics(
     """
 
     settings = config or SmartCaneFusionConfig()
-    total_loss = decision.overall_level == ExtendedHazardLevel.SENSOR_FAULT
+    total_loss = (
+        decision.overall_level == ExtendedHazardLevel.SENSOR_FAULT
+        and decision.fresh_range_sensor_count == 0
+        and decision.expected_range_sensor_count > 0
+    )
     motors: Dict[Sector, SectorHapticCommand] = {}
     for sector in _SECTORS:
         state = decision.sectors[sector]
@@ -835,6 +860,10 @@ class SmartCaneFusionEngine:
         self._vision_history: Dict[Sector, List[_VisionRecord]] = {
             sector: [] for sector in _SECTORS
         }
+        self._blind_critical_streak: Dict[Sector, int] = {
+            sector: 0 for sector in _SECTORS
+        }
+        self._blind_critical_frame: Dict[Sector, int] = {}
 
     @property
     def imu(self) -> IMUProcessor:
@@ -900,6 +929,9 @@ class SmartCaneFusionEngine:
                 level_state.reset()
             for history in self._vision_history.values():
                 history.clear()
+            for sector in _SECTORS:
+                self._blind_critical_streak[sector] = 0
+            self._blind_critical_frame.clear()
             self._vision = None
             self._imu.reset()
 
@@ -933,12 +965,14 @@ class SmartCaneFusionEngine:
                 )
             )
             total_loss = expected_count > 0 and fresh_count == 0
-            if total_loss:
+            sector_level = ExtendedHazardLevel(
+                max(int(self._levels[sector].level) for sector in _SECTORS)
+            )
+            if total_loss and int(sector_level) < int(ExtendedHazardLevel.WARNING):
+                # Nothing can range and nothing covers the gap: heartbeat the fault.
                 overall = ExtendedHazardLevel.SENSOR_FAULT
             else:
-                overall = ExtendedHazardLevel(
-                    max(int(self._levels[sector].level) for sector in _SECTORS)
-                )
+                overall = sector_level
             distances = [
                 state.fused_distance_m
                 for state in sectors.values()
@@ -1111,12 +1145,48 @@ class SmartCaneFusionEngine:
         candidate = self._candidate_level(
             fused_distance, ttc, combined_risk, record, persistent_vision
         )
+        blind_level = ExtendedHazardLevel.CLEAR
+        frame = self._vision
+        if frame is not None and frame.frame_id != self._blind_critical_frame.get(sector):
+            self._blind_critical_frame[sector] = frame.frame_id
+            qualifies = (
+                health is not SectorHealth.OK
+                and fused_distance is None
+                and record is not None
+                and record.nearest_m <= config.blind_sector_vision_critical_max_m
+                and record.confidence >= config.blind_sector_vision_critical_min_confidence
+            )
+            self._blind_critical_streak[sector] = (
+                self._blind_critical_streak[sector] + 1 if qualifies else 0
+            )
+        if (
+            config.vision_covers_blind_sectors
+            and health is not SectorHealth.OK
+            and fused_distance is None
+            and record is not None
+        ):
+            blind_warning = (
+                vision_frames.get(sector, 0) >= config.vision_persist_frames
+                and record.nearest_m <= config.blind_sector_vision_max_distance_m
+                and record.confidence >= config.blind_sector_vision_min_confidence
+            )
+            if blind_warning:
+                blind_level = ExtendedHazardLevel.WARNING
+                if (
+                    config.blind_sector_vision_critical
+                    and self._blind_critical_streak.get(sector, 0)
+                    >= config.blind_sector_vision_critical_frames
+                ):
+                    blind_level = ExtendedHazardLevel.CRITICAL
+        if int(blind_level) > int(candidate):
+            candidate = blind_level
         level = self._apply_hysteresis(
             sector, candidate, fused_distance, combined_risk, ttc, now_ns
         )
         published = (
             ExtendedHazardLevel.SENSOR_FAULT
             if health is SectorHealth.FAULT
+            and int(level) < int(ExtendedHazardLevel.WARNING)
             else level
         )
 
@@ -1136,6 +1206,7 @@ class SmartCaneFusionEngine:
             not range_triggered
             and (
                 vision_warning
+                or int(blind_level) >= int(ExtendedHazardLevel.WARNING)
                 or (
                     combined_risk >= config.advisory_risk_on
                     and (persistent_vision or fused_distance is not None)

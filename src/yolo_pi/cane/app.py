@@ -149,9 +149,25 @@ def build_system(
         health=hub.health,
         imu_events=hub.pop_jolt,
         vision_stats=(vision.stats if vision is not None else (lambda: {})),
-        hardware_ok=lambda: not hub.crashed(),
+        hardware_ok=lambda: _senses_available(hub, vision),
     )
     return CaneSystem(config, hardware, fusion, haptics, hub, vision, runtime, calibration_ok)
+
+
+def _senses_available(hub: Any, vision: Optional[Any]) -> bool:
+    """Only stop the cane when no sensing path is left.
+
+    A dead sensor, a dead mux channel, a poller that hit an unexpected error, or
+    a camera failure is degradation: the rest keeps warning the user, and a fully
+    blind cane still heartbeats SENSOR_FAULT instead of going silent. Pollers
+    restart themselves and the vision worker retries, so an unready camera is a
+    starting camera, not an absent one; the cane only stops when it has neither
+    pollers nor a camera worker at all.
+    """
+
+    if vision is not None:
+        return True
+    return bool(hub.pollers())
 
 
 def run_until_signal(system: CaneSystem, duration_s: float = 0.0) -> int:

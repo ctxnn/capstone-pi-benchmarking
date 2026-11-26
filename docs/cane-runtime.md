@@ -143,7 +143,7 @@ that produces no vibration, and `vision.idle_when_still: false` turns it off.
 | `patterns.py` | The vibration language: direction to tap count, distance to tempo and strength |
 | `haptics.py` | DRV2605L ERM driver and the thread that plays the pattern |
 | `chaos.py` | The soak / fuzz / fault-injection harness behind `yolo-pi-cane soak` |
-| `sensors.py` | Poller threads: errors never propagate, a dead sensor just goes stale |
+| `sensors.py` | Poller threads that restart after an unexpected error; a dead sensor just goes stale |
 | `vision.py` | Camera + detector thread; every failure is caught and retried |
 | `runtime.py` | Fuse, smooth, vibrate loop; JSON event log; status every 5 s |
 | `app.py`, `cli.py` | Assembly, signal handling, the `yolo-pi-cane` command |
@@ -177,6 +177,22 @@ parks the driver, and `systemd` restarts the program if it dies.
 **The camera decides only where the range sensors cannot.** Close in, detections
 only add labels to a range alert. A camera, model or OpenVINO failure is logged and
 retried; the cane keeps working on range sensors.
+
+**One failure never takes the cane down.** A dead ToF chip, a quiet mux
+channel, a failing ultrasonic ping, an IMU dropout, a detector error, or a lost
+haptic write is counted in the runtime summary (`source_errors`) and in the
+status health report (`poller_errors`) while the cane keeps warning on whatever
+is left. Faulted VL53L0X chips are re-initialized every 2 s (`reinit_attempts`,
+`reinit_recovered`) on a dedicated recovery thread, so a chip that hangs for its
+250 ms calibration can never stall the control loop. Sensor pollers restart
+themselves after an unexpected error instead of dying, and the fuse loop falls
+back to its last safe decision for 500 ms before publishing `SENSOR_FAULT`. When
+a sector's range sensors are all blind, the camera covers that sector: `WARNING`
+up to 2.0 m, `CRITICAL` at 0.5 m only after three consecutive close, confident
+frames. Those vision-backed levels reach the motors even when every range sensor
+is dead; only sectors nobody covers keep the fault heartbeat. The program only
+stops when it has neither sensor pollers nor a camera worker; a fully blind cane
+keeps heartbeating `SENSOR_FAULT` rather than exiting silently.
 
 **The detector idles when the cane rests.** After 3 s without movement the detector
 drops to about one frame per second (the report's battery suggestion). Range sensors
@@ -213,6 +229,7 @@ final battery and buck converter).
 | `priority.class_heights_m`, `vertical_fov_deg` | Set the camera's distance estimate. Calibrate with a walk-up test. |
 | `priority.far_intensity` | How gentle the far camera pattern is (0.45; it also plays at the slowest tempo). |
 | `priority.vision_min_confidence`, `confirm_frames` | Raise either if far pulses fire on false detections. |
+| `priority.blind_sector_max_distance_m` (2.0), `blind_sector_critical_confidence` (0.60), `blind_sector_critical_frames` (3) | How much the camera is trusted in a sector whose range sensors are all dead. Raise the confidence or frames if a blind sector buzzes at shadows; raise the distance if the camera should cover a dead ToF earlier. |
 | `imu.jolt_angle_deg`, `jolt_window_s` | Raise the angle or shorten the window if ordinary cane sweeping triggers the pulse; lower it if a real knock does not. |
 | `vision.threads` (3) | Leaves one core for the sensor and haptic threads. The benchmark used 2 to 4. |
 | `runtime.release_hold_ms` (250) | Longer is calmer, shorter is more responsive. |

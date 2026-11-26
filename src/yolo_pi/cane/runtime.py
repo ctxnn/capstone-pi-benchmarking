@@ -20,7 +20,7 @@ import threading
 import time
 from dataclasses import dataclass, replace
 from pathlib import Path
-from typing import Any, Callable, Dict, Iterable, Optional
+from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Sequence
 
 from ..fusion import (
     FusionConfig,
@@ -30,6 +30,7 @@ from ..fusion import (
     HazardLevel,
     SensorReading,
 )
+from ..types import Sector
 from ..types import FrameDetections
 from .config import CaneConfig, PriorityConfig, RuntimeConfig
 from .imu import JoltEvent
@@ -49,6 +50,7 @@ class LockedFusion:
         *,
         ground_ids: Iterable[str] = (),
         sensor_pitch_offsets_deg: Optional[Dict[str, float]] = None,
+        expected_by_sector: Optional[Mapping[Sector, Sequence[str]]] = None,
     ) -> None:
         self._engine = PriorityFusion(
             config,
@@ -56,6 +58,7 @@ class LockedFusion:
             overhead_ids,
             ground_ids=ground_ids,
             sensor_pitch_offsets_deg=sensor_pitch_offsets_deg,
+            expected_by_sector=expected_by_sector,
         )
         self._lock = threading.Lock()
 
@@ -68,12 +71,19 @@ class LockedFusion:
             for s in config.ultrasonic.sensors
             if hasattr(s, "pitch_offset_deg")
         }
+        expected: Dict[Sector, List[str]] = {}
+        for spec in config.tof.sensors:
+            expected.setdefault(spec.sector, []).append(spec.sensor_id)
+        for spec in config.ultrasonic.sensors:
+            if spec.role in ("forward", "ground"):
+                expected.setdefault(spec.sector, []).append(spec.sensor_id)
         return cls(
             config.fusion,
             config.priority,
             overhead,
             ground_ids=ground,
             sensor_pitch_offsets_deg=offsets,
+            expected_by_sector=expected,
         )
 
     def update_imu(self, sample: Any, now_ns: Optional[int] = None) -> Any:

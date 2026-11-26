@@ -68,26 +68,49 @@ class SensorHealth:
 
 
 class _Poller(threading.Thread):
-    """Runs ``step()`` in a loop until stopped; ``step`` returns seconds to wait."""
+    """Runs ``step()`` in a loop until stopped; ``step`` returns seconds to wait.
+
+    A poller never dies of an unexpected exception: it records the failure,
+    waits briefly, and keeps polling. One broken sensor thread must not take the
+    cane's remaining senses away, so the runtime treats these as degradation.
+    """
 
     def __init__(self, name: str, clock_ns: Callable[[], int] = time.perf_counter_ns) -> None:
         super().__init__(name=name, daemon=True)
         self._halt = threading.Event()
         self._clock_ns = clock_ns
-        self.crashed: Optional[BaseException] = None
+        self.crashes = 0
+        self.last_error: Optional[str] = None
 
     def step(self) -> float:  # pragma: no cover - overridden
         raise NotImplementedError
 
     def run(self) -> None:
-        try:
-            while not self._halt.is_set():
+        while not self._halt.is_set():
+            try:
                 delay = self.step()
-                if delay > 0:
-                    self._halt.wait(delay)
-        except BaseException as exc:  # a poller bug must be visible, not silent
-            self.crashed = exc
-            LOGGER.exception("%s poller crashed", self.name)
+            except BaseException as exc:  # noqa: BLE001 - restart instead of dying
+                self.crashes += 1
+                self.last_error = f"{type(exc).__name__}: {exc}"
+                if self.crashes == 1:
+                    LOGGER.exception("%s poller hit an unexpected error; restarting it", self.name)
+                else:
+                    LOGGER.debug("%s poller error %d: %s", self.name, self.crashes, self.last_error)
+                try:
+                    self.on_crash()
+                except BaseException:  # noqa: BLE001
+                    LOGGER.exception("%s poller recovery hook failed", self.name)
+                self._halt.wait(0.25)
+                continue
+            if delay > 0:
+                self._halt.wait(delay)
+
+    def on_crash(self) -> None:
+        """Best-effort recovery hook run after an unexpected poller error."""
+
+    @property
+    def stop_requested(self) -> bool:
+        return self._halt.is_set()
 
     def stop(self) -> None:
         self._halt.set()
@@ -290,7 +313,21 @@ class SensorHub:
                 poller.join(timeout=2.0)
 
     def crashed(self) -> List[str]:
-        return [poller.name for poller in self._pollers if poller.crashed is not None]
+        """Pollers whose thread has actually died (a restart loop is not a crash)."""
+
+        return [
+            poller.name
+            for poller in self._pollers
+            if poller.ident is not None
+            and not poller.is_alive()
+            and not poller.stop_requested
+        ]
+
+    def pollers(self) -> List[_Poller]:
+        return list(self._pollers)
+
+    def error_count(self) -> int:
+        return sum(poller.crashes for poller in self._pollers)
 
     def health(self, now_ns: Optional[int] = None) -> Dict[str, Dict[str, object]]:
         now_ns = time.perf_counter_ns() if now_ns is None else now_ns
@@ -302,4 +339,7 @@ class SensorHub:
         if self.imu is not None:
             report["imu"] = self.imu.health.as_dict(now_ns)
             report["imu"]["still"] = self.imu.monitor.is_still
+        for poller in self._pollers:
+            if poller.crashes:
+                report.setdefault(poller.name, {})["poller_errors"] = poller.crashes
         return report
