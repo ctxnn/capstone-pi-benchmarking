@@ -496,6 +496,8 @@ class SmartCaneRuntime:
                         starter()
                     self._spawn("camera", self._camera_loop)
                     self._spawn("vision", self._vision_loop)
+                if self.tof_array is not None:
+                    self._spawn("tof-repair", self._tof_repair_loop)
                 if self.ultrasonic_driver is not None:
                     self._spawn("ultrasonic", self._ultrasonic_loop)
                 if callable(getattr(self.haptic_sink, "tick_watchdog", None)):
@@ -516,7 +518,7 @@ class SmartCaneRuntime:
             with self._frame_condition:
                 self._frame_condition.notify_all()
             current = threading.current_thread()
-            for name in ("vision", "camera", "ultrasonic", "watchdog", "control"):
+            for name in ("vision", "camera", "tof-repair", "ultrasonic", "watchdog", "control"):
                 thread = self._threads.get(name)
                 if thread is None or thread is current:
                     continue
@@ -765,7 +767,6 @@ class SmartCaneRuntime:
     def _poll_range_sensors(self, now_ns: int) -> Optional[int]:
         if self.tof_array is None:
             return None
-        self._repair_tof_sensors(time.monotonic())
         try:
             measurements = self.tof_array.read_all(now_ns)
         except BaseException as exc:  # noqa: BLE001 - a dead bus must not stop the cane
@@ -779,7 +780,6 @@ class SmartCaneRuntime:
                     exc,
                 )
             self._tof_error_streak += 1
-            self._repair_tof_sensors(now)
             return None
         self._tof_error_streak = 0
         oldest: Optional[int] = None
@@ -792,6 +792,12 @@ class SmartCaneRuntime:
                 else min(oldest, reading.timestamp_ns)
             )
         return oldest
+
+    def _tof_repair_loop(self) -> None:
+        """Recover faulted ToF chips off the control thread; a slow chip must not stall warnings."""
+
+        while not self._stop_event.wait(0.25):
+            self._repair_tof_sensors(time.monotonic())
 
     def _repair_tof_sensors(self, now_monotonic: float) -> None:
         """Re-initialize faulted ToF chips on a slow backoff, leaving healthy chips alone."""

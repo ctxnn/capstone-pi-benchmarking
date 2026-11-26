@@ -134,6 +134,8 @@ class PriorityFusion:
         self._vision: Optional[FrameDetections] = None
         self._estimates: List[Tuple[Detection, float]] = []
         self._streak: Dict[Sector, int] = {sector: 0 for sector in _REAL_SECTORS}
+        self._critical_streak: Dict[Sector, int] = {sector: 0 for sector in _REAL_SECTORS}
+        self._last_vision_ns: Optional[int] = None
 
     # -- inputs ------------------------------------------------------------------
 
@@ -243,8 +245,28 @@ class PriorityFusion:
             if distance is not None and distance <= self.priority.far_max_m:
                 self._estimates.append((detection, distance))
         seen = {detection.sector for detection, _ in self._estimates}
+        blind = set(self.blind_sectors(detections.model_finished_ns))
+        nearest_by_sector: Dict[Sector, Tuple[Detection, float]] = {}
+        for detection, distance in self._estimates:
+            current = nearest_by_sector.get(detection.sector)
+            if current is None or distance < current[1]:
+                nearest_by_sector[detection.sector] = (detection, distance)
+        new_frame = detections.model_finished_ns != self._last_vision_ns
         for sector in _REAL_SECTORS:
             self._streak[sector] = self._streak[sector] + 1 if sector in seen else 0
+            if not new_frame:
+                continue
+            item = nearest_by_sector.get(sector)
+            qualifies = (
+                sector in blind
+                and item is not None
+                and item[1] <= self.fusion.critical_distance_m
+                and item[0].confidence >= self.priority.blind_sector_critical_confidence
+            )
+            self._critical_streak[sector] = (
+                self._critical_streak[sector] + 1 if qualifies else 0
+            )
+        self._last_vision_ns = detections.model_finished_ns
 
     # -- decision ----------------------------------------------------------------
 
@@ -388,12 +410,14 @@ class PriorityFusion:
             streak = self._streak[sector]
             if streak < self.priority.confirm_frames:
                 continue
-            if sector in blind_set:
-                if distance <= self.priority.blind_sector_max_distance_m:
-                    candidates.append((distance, detection))
-                continue
             # With working range sensors the camera only speaks beyond their band.
             lower = self.fusion.warning_distance_m if ranges_ok else 0.0
+            if sector in blind_set:
+                # Coverage adds the near band a dead sensor cannot see; it must
+                # not remove the camera's ordinary far-range alerts.
+                if distance <= self.priority.blind_sector_max_distance_m or distance > lower:
+                    candidates.append((distance, detection))
+                continue
             if distance > lower:
                 candidates.append((distance, detection))
         if not candidates:
@@ -404,7 +428,8 @@ class PriorityFusion:
             best.sector in blind_set
             and distance <= self.fusion.critical_distance_m
             and best.confidence >= self.priority.blind_sector_critical_confidence
-            and self._streak[best.sector] >= self.priority.blind_sector_critical_frames
+            and self._critical_streak[best.sector]
+            >= self.priority.blind_sector_critical_frames
         ):
             level = HazardLevel.CRITICAL
         reason = (

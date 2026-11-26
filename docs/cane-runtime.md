@@ -183,13 +183,16 @@ channel, a failing ultrasonic ping, an IMU dropout, a detector error, or a lost
 haptic write is counted in the runtime summary (`source_errors`) and in the
 status health report (`poller_errors`) while the cane keeps warning on whatever
 is left. Faulted VL53L0X chips are re-initialized every 2 s (`reinit_attempts`,
-`reinit_recovered`), sensor pollers restart themselves after an unexpected
-error instead of dying, and the fuse loop falls back to its last safe decision
-for 500 ms before publishing `SENSOR_FAULT`. When a sector's range sensors are
-all blind, the camera covers that sector: `WARNING` up to 2.0 m, `CRITICAL` at
-0.5 m only with confidence and persistence. The program only stops when it has
-neither sensor pollers nor a ready camera; a fully blind cane keeps
-heartbeating `SENSOR_FAULT` rather than exiting silently.
+`reinit_recovered`) on a dedicated recovery thread, so a chip that hangs for its
+250 ms calibration can never stall the control loop. Sensor pollers restart
+themselves after an unexpected error instead of dying, and the fuse loop falls
+back to its last safe decision for 500 ms before publishing `SENSOR_FAULT`. When
+a sector's range sensors are all blind, the camera covers that sector: `WARNING`
+up to 2.0 m, `CRITICAL` at 0.5 m only after three consecutive close, confident
+frames. Those vision-backed levels reach the motors even when every range sensor
+is dead; only sectors nobody covers keep the fault heartbeat. The program only
+stops when it has neither sensor pollers nor a camera worker; a fully blind cane
+keeps heartbeating `SENSOR_FAULT` rather than exiting silently.
 
 **The detector idles when the cane rests.** After 3 s without movement the detector
 drops to about one frame per second (the report's battery suggestion). Range sensors

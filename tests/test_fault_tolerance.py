@@ -10,6 +10,7 @@ import time
 
 import pytest
 
+from yolo_pi.cane.app import _senses_available
 from yolo_pi.cane.config import PriorityConfig
 from yolo_pi.cane.priority import PriorityFusion
 from yolo_pi.fusion import FusionConfig, HazardLevel, SensorKind, SensorReading
@@ -20,6 +21,7 @@ from yolo_pi.fusion_v2 import (
     SectorHealth,
     SmartCaneFusionConfig,
     SmartCaneFusionEngine,
+    decision_to_directional_haptics,
 )
 from yolo_pi.runtime import build_simulated_runtime
 from yolo_pi.types import BoundingBox, Detection, FrameDetections, Sector
@@ -262,6 +264,48 @@ def test_blind_sector_needs_persistent_frames_before_critical() -> None:
     assert decided.level is ExtendedHazardLevel.CRITICAL
 
 
+def test_vision_backed_levels_survive_total_range_loss() -> None:
+    engine = healthy_engine()
+    ts = 100 * MS
+    for index in range(4):
+        now = ts + index * 33 * MS
+        engine.update_sensors(
+            [
+                tof("tof-left", None, now, valid=False),
+                tof("tof-center", None, now, valid=False),
+                tof("tof-right", None, now, valid=False),
+                us("us-center-1", None, now, valid=False),
+                us("us-center-2", None, now, valid=False),
+            ]
+        )
+        engine.update_vision(vision_frame(Sector.LEFT, 0.45, now, confidence=0.85, frame_id=index + 1))
+        decision = engine.evaluate(now + 10 * MS)
+    assert decision.fresh_range_sensor_count == 0
+    assert decision.overall_level is ExtendedHazardLevel.CRITICAL
+    frame = decision_to_directional_haptics(decision, engine.config)
+    assert frame.overall_level is ExtendedHazardLevel.CRITICAL
+    assert frame.motors[Sector.LEFT].level is ExtendedHazardLevel.CRITICAL
+    for uncovered in (Sector.CENTER, Sector.RIGHT):
+        assert frame.motors[uncovered].reason != "total range sensor loss"
+
+
+def test_a_medium_frame_resets_the_blind_critical_streak() -> None:
+    engine = healthy_engine()
+    ts = 100 * MS
+    close = [0.45, 0.45, 1.5, 0.45]
+    decision = None
+    for index, distance in enumerate(close):
+        now = ts + index * 33 * MS
+        engine.update_vision(
+            vision_frame(
+                Sector.LEFT, distance, now, confidence=0.85, frame_id=index + 1
+            )
+        )
+        engine.update_sensors(snapshot(now + 5 * MS, left_valid=False))
+        decision = engine.evaluate(now + 10 * MS)
+    assert decision.sectors[Sector.LEFT].level is ExtendedHazardLevel.WARNING
+
+
 def test_blind_sector_vision_coverage_can_be_disabled() -> None:
     config = SmartCaneFusionConfig(vision_covers_blind_sectors=False)
     engine = healthy_engine(config)
@@ -410,6 +454,30 @@ def test_fusion_exception_falls_back_to_the_last_safe_decision() -> None:
         runtime.stop()
 
 
+class _SlowRepairToFArray:
+    """A wedged mux whose repair blocks for longer than the motor watchdog."""
+
+    def __init__(self, repair_s: float = 0.4):
+        self.faulted_sensor_ids = ["tof-left"]
+        self.repair_s = repair_s
+
+    def read_all(self, now_ns=None):
+        raise OSError("simulated wedged mux")
+
+    def initialize_sensor(self, sensor_id):
+        time.sleep(self.repair_s)
+        self.faulted_sensor_ids = []
+
+
+def test_a_slow_tof_repair_does_not_stall_the_control_loop() -> None:
+    runtime = build_simulated_runtime(enable_camera=False)
+    runtime.tof_array = _SlowRepairToFArray(repair_s=0.4)
+    summary = runtime.run_for(1.2)
+    assert runtime.thread_errors == ()
+    assert summary.reinit_recovered == 1
+    assert summary.ticks > 40, "the control loop must keep running during a repair"
+
+
 class _WedgedToFArray:
     """A wedged mux whose faulted chip comes back after a per-sensor re-init."""
 
@@ -458,6 +526,27 @@ def test_tof_repair_falls_back_to_the_array_wide_initialize() -> None:
     assert array.repaired == ["all"]
     assert summary.reinit_attempts == 1
     assert summary.reinit_recovered == 1
+
+
+# ---------------------------------------------------------------------------
+# cane: startup and escalation policy
+# ---------------------------------------------------------------------------
+
+
+def test_a_starting_camera_counts_as_a_sensing_path() -> None:
+    class _Ready:
+        def is_set(self) -> bool:
+            return False
+
+    class _Worker:
+        ready = _Ready()
+
+    class _Hub:
+        def pollers(self):
+            return []
+
+    assert _senses_available(_Hub(), _Worker()) is True, "a retrying camera is not absent"
+    assert _senses_available(_Hub(), None) is False
 
 
 # ---------------------------------------------------------------------------
@@ -546,6 +635,60 @@ def test_cane_blind_sector_critical_needs_confidence_and_persistence() -> None:
 
     assert run(0.85, 4).level is HazardLevel.CRITICAL
     assert run(0.50, 4).level is HazardLevel.WARNING
+
+
+def test_cane_a_blind_sector_keeps_its_far_range_camera_alerts() -> None:
+    priority = PriorityConfig()
+    fusion = _cane_fusion(priority)
+    ts = 100 * MS
+    for step in range(4):
+        now = ts + step * 33 * MS
+        _cane_ranges(fusion, now)
+        fusion.update_vision(
+            vision_frame(
+                Sector.LEFT,
+                3.0,
+                now,
+                frame_id=step,
+                name="vehicle",
+                box_builder=lambda sector, distance: _cane_box_for(
+                    sector, distance, "vehicle", priority
+                ),
+            )
+        )
+    decision = fusion.evaluate(ts + 200 * MS)
+    assert decision.source == "vision"
+    assert decision.sectors == (Sector.LEFT,)
+    assert decision.level is HazardLevel.WARNING
+    assert decision.nearest_distance_m == pytest.approx(3.0, abs=0.1)
+
+
+def test_cane_a_medium_frame_resets_the_blind_critical_streak() -> None:
+    priority = PriorityConfig()
+    fusion = _cane_fusion(priority)
+    ts = 100 * MS
+    decision = None
+    for step, (name, distance) in enumerate(
+        (("curb", 0.45), ("curb", 0.45), ("stairs", 1.5), ("curb", 0.45))
+    ):
+        now = ts + step * 33 * MS
+        _cane_ranges(fusion, now)
+        fusion.update_vision(
+            vision_frame(
+                Sector.LEFT,
+                distance,
+                now,
+                frame_id=step,
+                name=name,
+                confidence=0.85,
+                box_builder=lambda sector, metres, _name=name: _cane_box_for(
+                    sector, metres, _name, priority
+                ),
+            )
+        )
+        decision = fusion.evaluate(now + 5 * MS)
+    assert decision.source == "vision"
+    assert decision.level is HazardLevel.WARNING
 
 
 def test_cane_a_live_range_critical_outranks_blind_sector_vision() -> None:
