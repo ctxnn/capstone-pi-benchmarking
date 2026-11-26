@@ -31,7 +31,8 @@ This document covers the architecture, expected runtime behavior, tuning knobs, 
 4. **Distance-scheduled range + YOLO vision fusion:**
    - **Short range (`≤ 1.0 m`):** Physical ToF + HC-SR04 unconditionally own `CRITICAL` (`≤ 0.50 m`) and `WARNING` (`≤ 1.00 m`). Vision attaches semantic labels and can never suppress, delay, or downgrade a range hazard.
    - **Transition (`1.0–2.0 m`):** Smooth cosine handoff from range to YOLO with a cross-modal agreement boost when both detect the same sector.
-   - **Longer range (`> 2.0 m` up to `3.8 m`) & range-blind hazards (`stairs`, `curb`, `vehicle`, `bicycle_motorcycle`, `overhead_obstacle`):** Monocular distance estimation + 15-class Cane V1 severity weights + 2-frame persistence filtering produce early directional `ADVISORY` (or `WARNING` for close high-severity hazards; never vision-only `CRITICAL`).
+   - **Longer range (`> 2.0 m` up to `3.8 m`) & range-blind hazards (`stairs`, `curb`, `vehicle`, `bicycle_motorcycle`, `overhead_obstacle`):** Monocular distance estimation + 15-class Cane V1 severity weights + 2-frame persistence filtering produce early directional `ADVISORY` (or `WARNING` for close high-severity hazards). Vision alone stays out of `CRITICAL` unless the sector's range sensors are blind and the detection is close, confident, and persistent (see fault tolerance below).
+   - **Blind-sector coverage:** when every expected range sensor in a sector is stale or invalid, the camera keeps watching that sector on its own: `WARNING` up to `2.0 m` (`blind_sector_max_distance_m`) and `CRITICAL` at `≤ 0.50 m` only with `≥ 0.60` confidence across `3` consecutive frames. A blind sector is reported as `FAULT` health with a hazard level, instead of `SENSOR_FAULT` masking the danger. Set `vision_covers_blind_sectors: false` to disable.
 5. **Per-sector asymmetric hysteresis & directional 3-motor haptics:**
    - Instant escalation on range danger; deadband + dwell on de-escalation (`0.58 m / 150 ms` for CRITICAL, `1.12 m / 200 ms` for WARNING) eliminates boundary chatter.
    - Left (`CH4`), Center (`CH5`), and Right (`CH6`) DRV2605L motors actuate independently.
@@ -51,7 +52,7 @@ This document covers the architecture, expected runtime behavior, tuning knobs, 
 | `ADVISORY` | Longer-range YOLO (`~1.2–3.8 m`) or `1.0–1.6 m` range | `28–48%` | `520 ms` (25% duty) | Soft slow directional tap |
 | `WARNING` | `0.50–1.00 m` range, TTC `< 0.85 s`, or range-blind `stairs`/`curb`/`vehicle` | `60–88%` (scales with proximity) | `250 → 160 ms` (45% duty) | Firm rhythmic pulse |
 | `CRITICAL` | `≤ 0.50 m` range or TTC `< 0.40 s` | `100%` | `100 ms` (70% duty) | Urgent rapid buzz |
-| `SENSOR_FAULT` | All range sensors stale/dead (>250 ms) | `35%` (all 3 motors) | `1000 ms` (20% duty) | Slow fault heartbeat |
+| `SENSOR_FAULT` | Every range sensor in a sector stale/dead (>250 ms) and no camera covering it; overall level when no sector can measure | `35%` (all 3 motors) | `1000 ms` (20% duty) | Slow fault heartbeat |
 
 4. **Console output & safe shutdown:** Prints a 1 Hz status line (`L/C/R` distances and levels, per-motor `%`, top YOLO detection, vision age, and `sensor→haptic` p95 latency). Pressing `Ctrl-C` (or any unhandled error / 500 ms watchdog stall) immediately zeroes all 3 DRV2605L motors before closing I2C/GPIO and prints a full latency summary.
 

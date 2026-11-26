@@ -101,6 +101,27 @@ class CaneConfigTests(unittest.TestCase):
         with self.assertRaises(ConfigError):
             config_from_dict({"fusion": {"warning_distance_m": 0.4, "critical_distance_m": 0.5}})
 
+    def test_the_blind_sector_vision_knobs_are_parsed_and_validated(self) -> None:
+        config = config_from_dict(
+            {
+                "priority": {
+                    "blind_sector_max_distance_m": 1.8,
+                    "blind_sector_critical_confidence": 0.7,
+                    "blind_sector_critical_frames": 4,
+                }
+            }
+        )
+        self.assertEqual(config.priority.blind_sector_max_distance_m, 1.8)
+        self.assertEqual(config.priority.blind_sector_critical_confidence, 0.7)
+        self.assertEqual(config.priority.blind_sector_critical_frames, 4)
+        for bad in (
+            {"blind_sector_max_distance_m": 0.0},
+            {"blind_sector_critical_confidence": 1.5},
+            {"blind_sector_critical_frames": 0},
+        ):
+            with self.assertRaises(ConfigError):
+                config_from_dict({"priority": bad})
+
     def test_invalid_json_is_reported(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "bad.json"

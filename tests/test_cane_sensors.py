@@ -1,3 +1,4 @@
+import time
 import unittest
 
 from yolo_pi.cane.config import ImuConfig, TofConfig, UltrasonicConfig, UltrasonicSensorSpec
@@ -217,18 +218,23 @@ class HubTests(unittest.TestCase):
         self.assertEqual(report["tof-left"]["ok"], 1)
         self.assertEqual(report["tof-left"]["age_ms"], 20.0)
         self.assertEqual(hub.crashed(), [])
-        poller.crashed = RuntimeError("bug")
-        self.assertEqual(hub.crashed(), ["tof-poller"])
 
-    def test_a_poller_bug_is_captured_not_swallowed(self) -> None:
+    def test_a_poller_bug_is_restarted_not_fatal(self) -> None:
         class Boom(ToFPoller):
             def step(self):
                 raise ValueError("boom")
 
         poller = Boom({}, {}, Sink(), TofConfig())
         poller.start()
+        self.assertTrue(poller.is_alive(), "a poller error must not kill the thread")
+        deadline = time.monotonic() + 2.0
+        while poller.crashes < 2 and time.monotonic() < deadline:
+            time.sleep(0.02)
+        self.assertGreaterEqual(poller.crashes, 2, "the poller should keep retrying")
+        self.assertIn("boom", poller.last_error or "")
+        self.assertEqual(SensorHub([poller], tof=poller).crashed(), [])
+        poller.stop()
         poller.join(timeout=2)
-        self.assertIsInstance(poller.crashed, ValueError)
 
 
 if __name__ == "__main__":

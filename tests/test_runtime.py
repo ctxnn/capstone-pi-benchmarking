@@ -88,16 +88,19 @@ def test_slow_ultrasonic_thread_never_stalls_fast_loop() -> None:
 
 
 class _ExplodingToFArray:
-    """Wraps the simulation and raises on the third poll."""
+    """Wraps the simulation and raises on the third poll, then recovers."""
 
-    def __init__(self, inner: SimulatedToFArray, fail_after: int = 3) -> None:
+    def __init__(
+        self, inner: SimulatedToFArray, fail_after: int = 3, recover_after: int = 10**9
+    ) -> None:
         self._inner = inner
         self._fail_after = fail_after
+        self._recover_after = recover_after
         self._calls = 0
 
     def read_all(self, now_ns=None):
         self._calls += 1
-        if self._calls >= self._fail_after:
+        if self._fail_after <= self._calls < self._recover_after:
             raise RuntimeError("simulated I2C wedge")
         return self._inner.read_all(now_ns)
 
@@ -105,19 +108,35 @@ class _ExplodingToFArray:
         self._inner.close()
 
 
-def test_loop_exception_still_stops_haptics() -> None:
+def test_a_wedged_tof_bus_degrades_instead_of_stopping_the_cane() -> None:
     runtime = build_simulated_runtime(enable_camera=False)
     runtime.tof_array = _ExplodingToFArray(runtime.tof_array)
     sink = runtime.haptic_sink
 
-    with pytest.raises(RuntimeError, match="runtime thread failed"):
-        runtime.run_for(0.5)
+    summary = runtime.run_for(0.6)
 
-    assert runtime.thread_errors
-    assert isinstance(runtime.thread_errors[0], RuntimeError)
+    assert runtime.thread_errors == (), "a sensor failure must not kill the runtime"
+    assert runtime.running is False
+    assert summary.ticks > 20
+    assert summary.source_errors.get("tof", 0) > 0
     assert sink.stopped
     assert sink.all_motors_zeroed
-    assert not runtime.running
+
+
+def test_tof_bus_recovers_and_detection_resumes() -> None:
+    runtime = build_simulated_runtime(enable_camera=False)
+    runtime.tof_array = _ExplodingToFArray(
+        runtime.tof_array, fail_after=3, recover_after=12
+    )
+    sink = runtime.haptic_sink
+
+    summary = runtime.run_for(0.6)
+
+    assert runtime.thread_errors == ()
+    assert summary.ticks > 20
+    assert summary.source_errors.get("tof", 0) > 0
+    assert summary.sector_hazard_counts["center"] > 0
+    assert sink.all_motors_zeroed
 
 
 def test_cli_simulate_mode_exits_cleanly() -> None:

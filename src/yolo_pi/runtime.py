@@ -26,7 +26,7 @@ import signal
 import threading
 import time
 from collections import deque
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Deque, Dict, Iterable, List, Optional, Protocol, Sequence, Tuple
 
@@ -36,8 +36,11 @@ from .fusion import SensorKind
 from .fusion_v2 import (
     DirectionalHapticFrame,
     DirectionalHapticSink,
+    DirectionalHazardDecision,
     ExtendedHazardLevel,
     RangeReading,
+    SectorFusionState,
+    SectorHealth,
     SmartCaneFusionConfig,
     SmartCaneFusionEngine,
     decision_to_directional_haptics,
@@ -134,6 +137,9 @@ class RuntimeSummary:
     vision_call_ms: LatencyStats
     loop_jitter_ms: LatencyStats
     vision_age_ms: float
+    source_errors: Dict[str, int] = field(default_factory=dict)
+    reinit_attempts: int = 0
+    reinit_recovered: int = 0
 
     @property
     def tick_rate_hz(self) -> float:
@@ -153,6 +159,9 @@ class RuntimeSummary:
             "fusion_eval_ms": self.fusion_eval_ms.as_dict(),
             "vision_call_ms": self.vision_call_ms.as_dict(),
             "loop_jitter_ms": self.loop_jitter_ms.as_dict(),
+            "source_errors": dict(self.source_errors),
+            "reinit_attempts": self.reinit_attempts,
+            "reinit_recovered": self.reinit_recovered,
         }
 
 
@@ -201,6 +210,9 @@ class RuntimeMetrics:
         self._degraded_latched = False
         self._vision_age_ms = 0.0
         self._sector_counts: Dict[str, int] = {sector.value: 0 for sector in _SECTORS}
+        self._source_errors: Dict[str, int] = {}
+        self._reinit_attempts = 0
+        self._reinit_recovered = 0
 
     def begin(self, now_ns: Optional[int] = None) -> None:
         """Reset every window and counter for a fresh session."""
@@ -222,6 +234,9 @@ class RuntimeMetrics:
             self._vision_age_ms = 0.0
             for sector in _SECTORS:
                 self._sector_counts[sector.value] = 0
+            self._source_errors.clear()
+            self._reinit_attempts = 0
+            self._reinit_recovered = 0
 
     def record_tick(
         self,
@@ -258,6 +273,23 @@ class RuntimeMetrics:
     def record_vision_drop(self, count: int = 1) -> None:
         with self._lock:
             self._frame_drops += max(0, int(count))
+
+    def record_source_error(self, source: str) -> None:
+        """Count one recoverable failure from a sensor, fusion, or haptic source."""
+
+        with self._lock:
+            key = str(source)
+            self._source_errors[key] = self._source_errors.get(key, 0) + 1
+
+    def record_reinit(self, attempted: int, recovered: int) -> None:
+        with self._lock:
+            self._reinit_attempts += max(0, int(attempted))
+            self._reinit_recovered += max(0, int(recovered))
+
+    @property
+    def source_errors(self) -> Dict[str, int]:
+        with self._lock:
+            return dict(self._source_errors)
 
     @property
     def ticks(self) -> int:
@@ -298,6 +330,9 @@ class RuntimeMetrics:
                 vision_call_ms=_stats(self._vision_call),
                 loop_jitter_ms=_stats(self._loop_jitter),
                 vision_age_ms=self._vision_age_ms,
+                source_errors=dict(self._source_errors),
+                reinit_attempts=self._reinit_attempts,
+                reinit_recovered=self._reinit_recovered,
             )
 
 
@@ -365,6 +400,15 @@ class SmartCaneRuntime:
         self._latest_decision: Any = None
         self._latest_haptic_frame: Optional[DirectionalHapticFrame] = None
         self._latest_detections: Optional[FrameDetections] = None
+
+        self._tof_error_streak = 0
+        self._last_tof_error_log_s = 0.0
+        self._next_tof_repair_s = 0.0
+        self._us_error_streak = 0
+        self._last_us_error_log_s = 0.0
+        self._fusion_error_streak = 0
+        self._last_fusion_error_log_s = 0.0
+        self._last_haptic_error_log_s = 0.0
 
         self._name = name
 
@@ -542,13 +586,41 @@ class SmartCaneRuntime:
                     )
 
                 fusion_started_ns = time.monotonic_ns()
-                decision = self.fusion.evaluate(loop_start_ns)
+                try:
+                    decision = self.fusion.evaluate(loop_start_ns)
+                except BaseException as exc:  # noqa: BLE001 - never lose open hazards to a bug
+                    self.metrics.record_source_error("fusion")
+                    self._fusion_error_streak += 1
+                    now = time.monotonic()
+                    if now - self._last_fusion_error_log_s >= 1.0:
+                        self._last_fusion_error_log_s = now
+                        LOGGER.error(
+                            "fusion evaluation failed (%d in a row); holding the last safe output: %s",
+                            self._fusion_error_streak,
+                            exc,
+                        )
+                    decision = self._fallback_decision(loop_start_ns)
+                else:
+                    self._fusion_error_streak = 0
                 fusion_ms = (time.monotonic_ns() - fusion_started_ns) / 1e6
 
-                haptic_frame = decision_to_directional_haptics(
-                    decision, self.fusion.config
-                )
-                self.haptic_sink.emit_frame(haptic_frame)
+                try:
+                    haptic_frame = decision_to_directional_haptics(
+                        decision, self.fusion.config
+                    )
+                    self.haptic_sink.emit_frame(haptic_frame)
+                except BaseException as exc:  # noqa: BLE001 - haptics must never stop sensing
+                    self.metrics.record_source_error("haptic")
+                    now = time.monotonic()
+                    if now - self._last_haptic_error_log_s >= 2.0:
+                        self._last_haptic_error_log_s = now
+                        LOGGER.error("haptic output failed; cane keeps sensing: %s", exc)
+                    haptic_frame = self.latest_haptic_frame
+                    if haptic_frame is None:
+                        haptic_frame = decision_to_directional_haptics(
+                            self._fallback_decision(loop_start_ns),
+                            self.fusion.config,
+                        )
                 haptic_done_ns = time.monotonic_ns()
 
                 reference_ns = (
@@ -590,17 +662,35 @@ class SmartCaneRuntime:
         driver = self.ultrasonic_driver
         if driver is None:
             return
-        try:
-            while not self._stop_event.is_set():
+        while not self._stop_event.is_set():
+            try:
                 measurement = driver.read_next()
+            except BaseException as exc:  # noqa: BLE001 - one bad ping must not stop the cane
+                self.metrics.record_source_error("ultrasonic")
+                self._us_error_streak += 1
+                now = time.monotonic()
+                if now - self._last_us_error_log_s >= 2.0:
+                    self._last_us_error_log_s = now
+                    LOGGER.warning(
+                        "ultrasonic read failed (%d in a row); continuing with ToF and vision: %s",
+                        self._us_error_streak,
+                        exc,
+                    )
+                self._stop_event.wait(0.05)
+                continue
+            self._us_error_streak = 0
+            try:
                 self.fusion.update_sensor(
                     self._range_reading(
                         measurement, SensorKind.ULTRASONIC, _ULTRASONIC_MAX_RANGE_M
                     )
                 )
-        except BaseException as exc:  # noqa: BLE001
-            self._record_error(exc)
-            self._stop_event.set()
+            except BaseException as exc:  # noqa: BLE001
+                self.metrics.record_source_error("ultrasonic_fusion")
+                now = time.monotonic()
+                if now - self._last_us_error_log_s >= 2.0:
+                    self._last_us_error_log_s = now
+                    LOGGER.warning("ultrasonic reading rejected by fusion: %s", exc)
 
     def _camera_loop(self) -> None:
         source = self.frame_source
@@ -675,8 +765,25 @@ class SmartCaneRuntime:
     def _poll_range_sensors(self, now_ns: int) -> Optional[int]:
         if self.tof_array is None:
             return None
+        self._repair_tof_sensors(time.monotonic())
+        try:
+            measurements = self.tof_array.read_all(now_ns)
+        except BaseException as exc:  # noqa: BLE001 - a dead bus must not stop the cane
+            self.metrics.record_source_error("tof")
+            now = time.monotonic()
+            if now - self._last_tof_error_log_s >= 2.0:
+                self._last_tof_error_log_s = now
+                LOGGER.warning(
+                    "ToF read failed (%d in a row); continuing on the other sensors: %s",
+                    self._tof_error_streak + 1,
+                    exc,
+                )
+            self._tof_error_streak += 1
+            self._repair_tof_sensors(now)
+            return None
+        self._tof_error_streak = 0
         oldest: Optional[int] = None
-        for measurement in self.tof_array.read_all(now_ns):
+        for measurement in measurements:
             reading = self._range_reading(measurement, SensorKind.TOF, _HARDWARE_MAX_RANGE_M)
             self.fusion.update_sensor(reading)
             oldest = (
@@ -685,6 +792,42 @@ class SmartCaneRuntime:
                 else min(oldest, reading.timestamp_ns)
             )
         return oldest
+
+    def _repair_tof_sensors(self, now_monotonic: float) -> None:
+        """Re-initialize faulted ToF chips on a slow backoff, leaving healthy chips alone."""
+
+        array = self.tof_array
+        if array is None or now_monotonic < self._next_tof_repair_s:
+            return
+        self._next_tof_repair_s = now_monotonic + 2.0
+        getter = getattr(array, "faulted_sensor_ids", None)
+        if getter is None:
+            return
+        try:
+            broken = list(getter() if callable(getter) else getter)
+        except Exception:  # noqa: BLE001
+            return
+        if not broken:
+            return
+        repair_one = getattr(array, "initialize_sensor", None)
+        recovered: List[str] = []
+        try:
+            if callable(repair_one):
+                for sensor_id in broken:
+                    try:
+                        repair_one(sensor_id)
+                    except Exception:  # noqa: BLE001 - still down; retried next window
+                        continue
+                    recovered.append(sensor_id)
+            else:
+                failed = set(array.initialize() or ())
+                recovered = [sensor_id for sensor_id in broken if sensor_id not in failed]
+        except BaseException as exc:  # noqa: BLE001
+            LOGGER.warning("ToF re-initialization failed: %s", exc)
+            return
+        self.metrics.record_reinit(attempted=len(broken), recovered=len(recovered))
+        if recovered:
+            LOGGER.info("ToF sensors recovered: %s", ", ".join(sorted(recovered)))
 
     def _watchdog_loop(self) -> None:
         ticker = getattr(self.haptic_sink, "tick_watchdog", None)
@@ -696,6 +839,49 @@ class SmartCaneRuntime:
             except Exception as exc:  # noqa: BLE001 - keep watchdog alive
                 LOGGER.warning("haptic watchdog tick failed: %s", exc)
             self._stop_event.wait(0.05)
+
+    def _fallback_decision(self, now_ns: int) -> DirectionalHazardDecision:
+        """Reuse the last decision briefly, then fall back to a safe fault state."""
+
+        with self._state_lock:
+            previous = self._latest_decision
+        if previous is not None and 0 <= now_ns - int(previous.timestamp_ns) <= 500_000_000:
+            return previous
+        sectors: Dict[Sector, SectorFusionState] = {}
+        for sector in _SECTORS:
+            sectors[sector] = SectorFusionState(
+                sector=sector,
+                level=ExtendedHazardLevel.SENSOR_FAULT,
+                health=SectorHealth.FAULT,
+                fused_distance_m=None,
+                distance_sigma_m=None,
+                closing_velocity_mps=0.0,
+                ttc_s=None,
+                range_risk=0.0,
+                vision_risk=0.0,
+                combined_risk=0.0,
+                range_weight=0.0,
+                vision_weight=0.0,
+                range_triggered=False,
+                vision_triggered=False,
+                ttc_triggered=False,
+                fresh_sensor_ids=(),
+                missing_sensor_ids=(),
+                semantic_labels=(),
+                vision_nearest_m=None,
+                reason="fusion fallback: last decision expired",
+            )
+        return DirectionalHazardDecision(
+            timestamp_ns=int(now_ns),
+            overall_level=ExtendedHazardLevel.SENSOR_FAULT,
+            sectors=sectors,
+            nearest_distance_m=None,
+            imu_state=self.fusion.imu.state(now_ns),
+            fresh_range_sensor_count=0,
+            expected_range_sensor_count=len(getattr(self.fusion.config, "expected_sensors", {})),
+            degraded_sensors=(),
+            reason="fusion failure fallback",
+        )
 
     def _poll_imu(self, now_ns: int) -> Optional[int]:
         if self.imu_driver is None:

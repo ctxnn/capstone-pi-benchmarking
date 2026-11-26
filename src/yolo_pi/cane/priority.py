@@ -106,6 +106,7 @@ class PriorityFusion:
         *,
         ground_ids: Iterable[str] = (),
         sensor_pitch_offsets_deg: Optional[Mapping[str, float]] = None,
+        expected_by_sector: Optional[Mapping[Sector, Sequence[str]]] = None,
     ) -> None:
         self.fusion = fusion or FusionConfig()
         self.priority = priority or PriorityConfig()
@@ -117,6 +118,12 @@ class PriorityFusion:
             for sid, val in sensor_pitch_offsets_deg.items():
                 offsets[str(sid)] = float(val)
         self._pitch_offsets = offsets
+        self._expected: Dict[Sector, Tuple[str, ...]] = {
+            sector: tuple(ids)
+            for sector, ids in (expected_by_sector or {}).items()
+            if ids
+        }
+        self._last_seen_ns: Dict[str, int] = {}
         self._imu = IMUProcessor()
         self._imu.set_bias(0.0, 0.0, 0.0, baseline_pitch_deg=self._imu.config.nominal_pitch_deg)
         self._overhead: Dict[str, SensorReading] = {}
@@ -192,12 +199,30 @@ class PriorityFusion:
         return reading
 
     def update_sensor(self, reading: SensorReading) -> None:
+        if reading.valid:
+            previous_ns = self._last_seen_ns.get(reading.sensor_id, -1)
+            if reading.timestamp_ns >= previous_ns:
+                self._last_seen_ns[reading.sensor_id] = reading.timestamp_ns
         if reading.sensor_id in self._overhead_ids:
             previous = self._overhead.get(reading.sensor_id)
             if previous is None or reading.timestamp_ns >= previous.timestamp_ns:
                 self._overhead[reading.sensor_id] = reading
         else:
             self._engine.update_sensor(self._filter_forward_reading(reading))
+
+    def blind_sectors(self, now_ns: int) -> Tuple[Sector, ...]:
+        """Sectors whose every expected range sensor is stale or invalid."""
+
+        stale_ns = int(self.fusion.sensor_stale_after_ms * 1_000_000)
+        blind: List[Sector] = []
+        for sector, sensor_ids in self._expected.items():
+            alive = any(
+                0 <= now_ns - self._last_seen_ns.get(sensor_id, -10**18) <= stale_ns
+                for sensor_id in sensor_ids
+            )
+            if not alive:
+                blind.append(sector)
+        return tuple(sorted(blind, key=lambda item: item.value))
 
     def update_sensors(self, readings: Iterable[SensorReading]) -> None:
         for reading in readings:
@@ -288,7 +313,7 @@ class PriorityFusion:
             return self._merge_near(forward, near)
 
         ranges_ok = forward.level != HazardLevel.SENSOR_FAULT
-        far = self._vision_alert(now_ns, ranges_ok, forward)
+        far = self._vision_alert(now_ns, ranges_ok, forward, self.blind_sectors(now_ns))
         if far is not None:
             return far
         return _tag(forward, SOURCE_FAULT if not ranges_ok else SOURCE_RANGE)
@@ -344,7 +369,11 @@ class PriorityFusion:
         )
 
     def _vision_alert(
-        self, now_ns: int, ranges_ok: bool, forward: HazardDecision
+        self,
+        now_ns: int,
+        ranges_ok: bool,
+        forward: HazardDecision,
+        blind: Sequence[Sector] = (),
     ) -> Optional[CaneDecision]:
         vision = self._vision
         if vision is None:
@@ -352,25 +381,46 @@ class PriorityFusion:
         stale_ns = int(self.fusion.vision_stale_after_ms * 1_000_000)
         if not 0 <= now_ns - vision.model_finished_ns <= stale_ns:
             return None
-        # With working range sensors the camera only speaks beyond their band.
-        lower = self.fusion.warning_distance_m if ranges_ok else 0.0
-        candidates = [
-            (distance, detection)
-            for detection, distance in self._estimates
-            if distance > lower and self._streak[detection.sector] >= self.priority.confirm_frames
-        ]
+        blind_set = set(blind)
+        candidates: List[Tuple[float, Detection]] = []
+        for detection, distance in self._estimates:
+            sector = detection.sector
+            streak = self._streak[sector]
+            if streak < self.priority.confirm_frames:
+                continue
+            if sector in blind_set:
+                if distance <= self.priority.blind_sector_max_distance_m:
+                    candidates.append((distance, detection))
+                continue
+            # With working range sensors the camera only speaks beyond their band.
+            lower = self.fusion.warning_distance_m if ranges_ok else 0.0
+            if distance > lower:
+                candidates.append((distance, detection))
         if not candidates:
             return None
         distance, best = min(candidates, key=lambda item: item[0])
+        level = HazardLevel.WARNING
+        if (
+            best.sector in blind_set
+            and distance <= self.fusion.critical_distance_m
+            and best.confidence >= self.priority.blind_sector_critical_confidence
+            and self._streak[best.sector] >= self.priority.blind_sector_critical_frames
+        ):
+            level = HazardLevel.CRITICAL
+        reason = (
+            f"vision covers blind {best.sector.value} range: {best.class_name} ~{distance:.1f} m"
+            if best.sector in blind_set
+            else f"vision: {best.class_name} ~{distance:.1f} m {best.sector.value}"
+        )
         return CaneDecision(
             timestamp_ns=now_ns,
-            level=HazardLevel.WARNING,
+            level=level,
             sectors=(best.sector,),
             nearest_distance_m=distance,
             semantic_labels=(best.class_name,),
             range_triggered=False,
             fresh_range_sensor_count=forward.fresh_range_sensor_count,
-            reason=f"vision: {best.class_name} ~{distance:.1f} m {best.sector.value}",
+            reason=reason,
             source=SOURCE_VISION,
         )
 

@@ -477,11 +477,11 @@ def run_shutdown_check(config: CaneConfig) -> List[str]:
     return [] if motor.value == 0 else [f"shutdown check: the motors were left at {motor.value}"]
 
 
-# -- scenario: a sensor thread dies outright --------------------------------------------
+# -- scenario: a sensor thread keeps raising -------------------------------------------
 
 
-def run_crash_check(config: CaneConfig) -> List[str]:
-    """If a sensor thread dies for good, the cane must stop cleanly (motors off) so systemd restarts it."""
+def run_poller_error_check(config: CaneConfig) -> List[str]:
+    """A sensor thread that keeps raising must restart in place; the cane must keep running."""
 
     from .app import run_until_signal
 
@@ -507,15 +507,21 @@ def run_crash_check(config: CaneConfig) -> List[str]:
 
     poller.step = doomed  # type: ignore[method-assign]
     started = time.monotonic()
-    code = run_until_signal(system, duration_s=10.0)
+    code = run_until_signal(system, duration_s=2.5)
     took = time.monotonic() - started
-    if code == 0:
-        problems.append("crash check: a dead sensor thread went unnoticed (exit code 0)")
-    if took > 5.0:
-        problems.append(f"crash check: took {took:.1f} s to notice the dead thread")
+    if code != 0:
+        problems.append(f"poller check: the cane exited with code {code} instead of carrying on")
+    if took < 2.0:
+        problems.append(f"poller check: the cane stopped after {took:.1f} s")
+    if poller.crashes < 2:
+        problems.append("poller check: the thread died on its first error instead of restarting")
+    if system.runtime.stats.iterations < 10:
+        problems.append(
+            f"poller check: the control loop only ran {system.runtime.stats.iterations} times"
+        )
     for name, motor in sim_motors.items():
         if motor.events and motor.events[-1][1] != 0:  # type: ignore[attr-defined]
-            problems.append(f"crash check: {name} left running")
+            problems.append(f"poller check: {name} left running")
     return problems
 
 
@@ -639,7 +645,7 @@ def run_everything(config: CaneConfig, seconds: float, seed: int, config_path: O
     ok &= not problems
 
     for title, check in (("shutdown (lost 'off' write)", run_shutdown_check),
-                         ("dead sensor thread", run_crash_check)):
+                         ("poller errors survived", run_poller_error_check)):
         problems = check(config)
         sections.append(f"{title}: " + ("PASSED" if not problems else "FAILED\n  - " + "\n  - ".join(problems)))
         ok &= not problems
